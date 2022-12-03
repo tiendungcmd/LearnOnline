@@ -15,10 +15,10 @@ namespace LearnOnline.API.Controllers
         private readonly IAuthService _authService;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IConfiguration configuration)
         {
             _authService = authService;
-          // _configuration = configuration;
+           _configuration = configuration;
         }
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)

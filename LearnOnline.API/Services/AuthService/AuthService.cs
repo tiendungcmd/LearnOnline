@@ -76,7 +76,7 @@ namespace LearnOnline.API.Services.AuthService
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<int> { Data = int.Parse(user.Id.ToString()), Message = "Registration successful!" };
+            return new ServiceResponse<int> { Data = user.Id, Message = "Registration successful!" };
         }
 
         public async Task<bool> UserExists(string email)
@@ -115,7 +115,7 @@ namespace LearnOnline.API.Services.AuthService
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Email),
-               // new Claim(ClaimTypes.Role, user.Role)
+                //new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8

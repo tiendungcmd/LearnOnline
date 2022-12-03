@@ -1,14 +1,16 @@
-﻿@*<div class="dropdown">
-    <button @onclick="ToggleUserMenu" 
+﻿<div class="dropdown">
+    <button @onclick="ToggleUserMenu"
             @onfocusout="HideUserMenu"
-             class="btn btn-secondary dropdown-toggle user-button">
-            <i class="oi oi-person"></i>
+            class="btn btn-secondary dropdown-toggle user-button">
+        <i class="oi oi-person"></i>
     </button>
-    <div class = "dropdown-menu dropdown-menu-right show-menu" >
-      <a href="register" class="dropdown-item">Register</a>
-    </div>
-</div>*@
- <a href="register" class="dropdown-item">Register</a>
+    <div class="dropdown-menu dropdown-menu-right @UserMenuCssClass">
+    <a href="register" class="dropdown-item">Register</a>
+    <a href="login" class="dropdown-item">Login</a>
+</div>
+</div>
+
+
 @code {
     private bool showUserMenu = false;
 
