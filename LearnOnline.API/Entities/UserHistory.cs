@@ -4,9 +4,11 @@ namespace LearnOnline.API.Entities
 {
     public class UserHistory
     {
+        public User User { get; set; }
         [Key]
-        public int IdUser { get; set; }
+        public int UserId { get; set; }
+        public History History { get; set; }
         [Key]
-        public int IdHistory { get; set; }
+        public int HistoryId { get; set; }
     }
 }

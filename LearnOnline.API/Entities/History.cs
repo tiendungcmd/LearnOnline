@@ -8,7 +8,8 @@ namespace LearnOnline.API.Entities
         [Key]
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public int IdPart { get; set; }
+        public Part Part { get; set; }
+        public int PartId { get; set; }
         public int TotalScore { get; set; }
     }
 }

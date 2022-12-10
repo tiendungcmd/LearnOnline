@@ -1,8 +1,14 @@
-﻿namespace LearnOnline.API.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LearnOnline.API.Entities
 {
     public class UserInformation
     {
-        public int IdUser { get; set; }
-        public int IdInformation { get; set; }
+        public User User { get; set; }  
+        [Key]
+        public int UserId { get; set; }
+        public Information Information { get; set; }
+        [Key]
+        public int InformationId { get; set; }
     }
 }

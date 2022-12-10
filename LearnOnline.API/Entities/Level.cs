@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LearnOnline.API.Entities
 {
@@ -10,5 +11,6 @@ namespace LearnOnline.API.Entities
         public string LevelName { get; set; }
         public string Description { get; set; }
         public string Note { get; set; }
+        public ICollection<Part> Parts { get; set; }
     }
 }

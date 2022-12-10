@@ -36,6 +36,13 @@ namespace LearnOnline.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryName = "acb"
+                        });
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.History", b =>
@@ -48,13 +55,15 @@ namespace LearnOnline.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdPart")
+                    b.Property<int>("PartId")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalScore")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PartId");
 
                     b.ToTable("Histories");
 
@@ -63,7 +72,7 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdPart = 0,
+                            PartId = 1,
                             TotalScore = 100
                         });
                 });
@@ -117,6 +126,13 @@ namespace LearnOnline.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Levels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LevelName = "450"
+                        });
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.New", b =>
@@ -129,9 +145,6 @@ namespace LearnOnline.API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,7 +152,12 @@ namespace LearnOnline.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("News");
                 });
@@ -154,20 +172,17 @@ namespace LearnOnline.API.Migrations
                     b.Property<string>("Answer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdCategory")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdLevel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdSkill")
-                        .HasColumnType("int");
-
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -176,6 +191,9 @@ namespace LearnOnline.API.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
                         .HasColumnType("int");
 
                     b.Property<string>("Style")
@@ -188,7 +206,24 @@ namespace LearnOnline.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("SkillId");
+
                     b.ToTable("Parts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            LevelId = 1,
+                            Record = (byte)0,
+                            Score = 0,
+                            SkillId = 1
+                        });
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.Role", b =>
@@ -234,6 +269,13 @@ namespace LearnOnline.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            SkillName = "Reading"
+                        });
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.User", b =>
@@ -263,61 +305,199 @@ namespace LearnOnline.API.Migrations
                         new
                         {
                             Id = 8342,
+                            Email = "admin@gmail.com",
                             UserName = "admin"
                         });
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.UserHistory", b =>
                 {
-                    b.Property<int>("IdUser")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdHistory")
+                    b.Property<int>("HistoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdUser", "IdHistory");
+                    b.HasKey("UserId", "HistoryId");
+
+                    b.HasIndex("HistoryId");
 
                     b.ToTable("UserHistories");
 
                     b.HasData(
                         new
                         {
-                            IdUser = 8342,
-                            IdHistory = 1
+                            UserId = 8342,
+                            HistoryId = 1
                         });
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.UserInformation", b =>
                 {
-                    b.Property<int>("IdUser")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdInformation")
+                    b.Property<int>("InformationId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdUser", "IdInformation");
+                    b.HasKey("UserId", "InformationId");
+
+                    b.HasIndex("InformationId");
 
                     b.ToTable("UserInformations");
                 });
 
             modelBuilder.Entity("LearnOnline.API.Entities.UserRole", b =>
                 {
-                    b.Property<int>("IdUser")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdRole")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdUser", "IdRole");
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles");
 
                     b.HasData(
                         new
                         {
-                            IdUser = 8342,
-                            IdRole = 4421
+                            UserId = 8342,
+                            RoleId = 4421
                         });
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.History", b =>
+                {
+                    b.HasOne("LearnOnline.API.Entities.Part", "Part")
+                        .WithMany("Historys")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.New", b =>
+                {
+                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                        .WithMany("News")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.Part", b =>
+                {
+                    b.HasOne("LearnOnline.API.Entities.Category", "Category")
+                        .WithMany("Parts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearnOnline.API.Entities.Level", "Level")
+                        .WithMany("Parts")
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearnOnline.API.Entities.Skill", "Skill")
+                        .WithMany("Parts")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Level");
+
+                    b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.UserHistory", b =>
+                {
+                    b.HasOne("LearnOnline.API.Entities.History", "History")
+                        .WithMany()
+                        .HasForeignKey("HistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("History");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.UserInformation", b =>
+                {
+                    b.HasOne("LearnOnline.API.Entities.Information", "Information")
+                        .WithMany()
+                        .HasForeignKey("InformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Information");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.UserRole", b =>
+                {
+                    b.HasOne("LearnOnline.API.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.Category", b =>
+                {
+                    b.Navigation("Parts");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.Level", b =>
+                {
+                    b.Navigation("Parts");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.Part", b =>
+                {
+                    b.Navigation("Historys");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.Skill", b =>
+                {
+                    b.Navigation("Parts");
+                });
+
+            modelBuilder.Entity("LearnOnline.API.Entities.User", b =>
+                {
+                    b.Navigation("News");
                 });
 #pragma warning restore 612, 618
         }

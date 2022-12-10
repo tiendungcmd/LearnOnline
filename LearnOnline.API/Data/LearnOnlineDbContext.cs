@@ -37,8 +37,8 @@ namespace LearnOnline.API.Data
                 );
             modelBuilder.Entity<UserRole>().HasData(new UserRole
             {
-                IdUser = 8342,
-                IdRole = 4421
+                UserId = 8342,
+                RoleId = 4421
             });
 
             modelBuilder.Entity<Role>().HasData(new Role
@@ -49,21 +49,43 @@ namespace LearnOnline.API.Data
             modelBuilder.Entity<UserHistory>()
            .HasData(new UserHistory
            {
-               IdUser = 8342,
-               IdHistory = 1
+               UserId = 8342,
+               HistoryId = 1
            });
-           
+
             modelBuilder.Entity<History>().HasData(new History
             {
                 Id = 1,
                 Date = new System.DateTime(),
-                //IdPart = ,
+                PartId = 1,
                 TotalScore = 100,
             });
+            modelBuilder.Entity<Part>().HasData(new Part
+            {
+                Id = 1,
+                CategoryId = 1,
+                SkillId = 1,
+                LevelId =1
+            });
+            modelBuilder.Entity<Category>().HasData(new Category
+            {
+                Id = 1,
+                CategoryName = "acb"
+            });
+            modelBuilder.Entity<Skill>().HasData(new Skill
+            {
+                Id = 1,
+                SkillName = "Reading"
+            });
+            modelBuilder.Entity<Level>().HasData(new Level
+            {
+                Id = 1,
+                LevelName = "450"
+            });
             // fluent
-            modelBuilder.Entity<UserHistory>().HasKey(t => new { t.IdUser, t.IdHistory });
-            modelBuilder.Entity<UserInformation>().HasKey(t => new {t.IdUser,t.IdInformation});
-            modelBuilder.Entity<UserRole>().HasKey(t => new { t.IdUser, t.IdRole });
+            modelBuilder.Entity<UserHistory>().HasKey(t => new { t.UserId, t.HistoryId });
+            modelBuilder.Entity<UserInformation>().HasKey(t => new {t.UserId,t.InformationId});
+            modelBuilder.Entity<UserRole>().HasKey(t => new { t.UserId, t.RoleId });
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

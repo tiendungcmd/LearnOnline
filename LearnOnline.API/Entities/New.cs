@@ -10,6 +10,8 @@ namespace LearnOnline.API.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Note { get; set; }
-        public int IdUser { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
+
     }
 }
