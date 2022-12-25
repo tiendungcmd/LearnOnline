@@ -1,5 +1,6 @@
 using LearnOnline.API.Data;
 using LearnOnline.API.Services.AuthService;
+using LearnOnline.API.Services.NewsService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace LearnOnline.API
             options.UseSqlServer(Configuration.GetConnectionString("LearnOnlineConnection"))
             );
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<INewService, NewService>();
             services.AddHttpContextAccessor();
         }
 

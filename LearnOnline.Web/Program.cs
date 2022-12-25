@@ -1,5 +1,6 @@
 using LearnOnline.Web.Service;
 using LearnOnline.Web.Services.AuthService;
+using LearnOnline.Web.Services.NewService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ namespace LearnOnline.Web
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44330/") });
             builder.Services.AddScoped<IAuthService, AuthService>();
-
+            builder.Services.AddScoped<INewService, NewService>();
             await builder.Build().RunAsync();
         }
     }

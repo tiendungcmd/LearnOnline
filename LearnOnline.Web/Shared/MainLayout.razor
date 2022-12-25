@@ -1,21 +1,70 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-
-  @*  <div class="sidebar">
-        <NavMenu />
-    </div>*@
-
-    <div class="main">
-        <div class="top-row px-4">
-            
-            <a href="http://blazor.net" target="_blank" class="ml-md">About</a>
-            <UserButton />
+<link rel="stylesheet" href="../css/style.css">
+<script suppress-error="BL9992" src="https://kit.fontawesome.com/a076d05399.js"></script>
+ <div id="header">
+            <a href="" class="logo">
+                <img src="assets/logo.png" alt="">
+            </a>
+            <div id="menu">
+                <div class="item">
+                    <a href="">Home</a>
+                </div>
+                <div class="item">
+                    <a href="">News</a>
+                </div>
+                <div class="item">
+                    <a href="">Learning</a>
+                </div>
+                <div class="item">
+                    <a href="">Audit</a>
+                </div>
+            </div>
+           <UserButton />
         </div>
+@Body
+<style>
+    #header {
+    width: 100%;
+    padding:0px 30px;
+    margin-top:33px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    }
+    
+    #menu {
+        list-style:none;
+        display: flex;
+    }
 
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+    #menu .item {
+        margin:0px 25px;
+    }
 
+    #menu .item a {
+        color:#626A67;
+        text-decoration: none;
+    }
+    #footer .box .quick-menu {
+    margin-top:40px;
+    }
+
+    #footer .box .quick-menu .item{
+        margin-bottom:12px;
+
+    }
+    #footer .box .quick-menu ,.item a{
+        color:#fff;
+        text-decoration: none;
+    }
+    #actions {
+        display: flex;
+    }
+
+    #actions .item {
+        margin-left:22px;
+    }
+
+
+</style>
