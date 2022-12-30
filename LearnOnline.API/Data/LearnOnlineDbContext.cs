@@ -1,4 +1,4 @@
-﻿using LearnOnline.API.Entities;
+﻿using LearnOnline.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,7 @@ namespace LearnOnline.API.Data
             //news
             modelBuilder.Entity<New>().HasData(new New
             {
-                Id =1,
+                Id = 1,
                 Title = "IELTS Tranning đồng hành cùng Career Explore Program 2022",
                 Description = "Ngày 23/7 vừa qua, sự kiện đã chính thức diễn ra với sự tham gia đông đảo của hơn 100 bạn sinh viên và những " +
                 "diễn giả đến từ các doanh nghiệp nổi tiếng trên cả nước. IELTS Fighter hân hạnh được mời làm Nhà tài trợ vàng cho chương trình, " +
@@ -50,7 +50,7 @@ namespace LearnOnline.API.Data
                 "Đứng ở cương vị là nhà tài trợ vàng, IELTS Fighter cảm thấy vô cùng vui mừng khi thấy tinh thần nhiệt huyết và sự nghiêm túc," +
                 " nhanh nhạy của các bạn trẻ hiện nay, khi sớm theo đuổi sự phát triển toàn diện cho bản thân, đến với sự kiện với lòng ham học hỏi " +
                 "và tinh thần cầu tiến, muốn trở nên xuất sắc hơn mỗi ngày.",
-                Image ="../image/new1.jgp",
+                Image = "new1.jpg",
                 UserId = 8342
             });
 
@@ -63,7 +63,7 @@ namespace LearnOnline.API.Data
                 "Workshop “Học IELTS Listening hiệu quả” tại cơ sở 44 Trần Quốc Hoàn và 22 Nguyễn Hoàng. " +
                 "Ngoài các buổi học bổ trợ chuyên sâu về Listening thì những buổi chia sẻ kinh nghiệm của thầy cô giỏi, các học viên điểm cao đi trước " +
                 "là bí kíp giúp học viên tại IELTS Fighter luôn dành được điểm Listening cao trong bài thi IELTS.",
-                Image = "../image/new2.jgp",
+                Image = "new2.jpg",
                 UserId = 8342
             });
 
@@ -78,7 +78,7 @@ namespace LearnOnline.API.Data
                 " lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, " +
                 "Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại," +
                 " Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                Image = "../image/new3.jgp",
+                Image = "new3.jpg",
                 UserId = 8342
             });
 
@@ -93,7 +93,7 @@ namespace LearnOnline.API.Data
                " lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, " +
                "Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại," +
                " Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                Image = "../image/new3.jgp",
+                Image = "new3.jpg",
                 UserId = 8342
             });
 
@@ -108,7 +108,7 @@ namespace LearnOnline.API.Data
                " lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, " +
                "Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại," +
                " Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                Image = "../image/new3.jgp",
+                Image = "new3.jpg",
                 UserId = 8342
             });
 
@@ -142,7 +142,7 @@ namespace LearnOnline.API.Data
                 Id = 1,
                 CategoryId = 1,
                 SkillId = 1,
-                LevelId =1
+                LevelId = 1
             });
             modelBuilder.Entity<Category>().HasData(new Category
             {
@@ -161,7 +161,7 @@ namespace LearnOnline.API.Data
             });
             // fluent
             modelBuilder.Entity<UserHistory>().HasKey(t => new { t.UserId, t.HistoryId });
-            modelBuilder.Entity<UserInformation>().HasKey(t => new {t.UserId,t.InformationId});
+            modelBuilder.Entity<UserInformation>().HasKey(t => new { t.UserId, t.InformationId });
             modelBuilder.Entity<UserRole>().HasKey(t => new { t.UserId, t.RoleId });
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

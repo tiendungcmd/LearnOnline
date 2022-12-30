@@ -1,4 +1,4 @@
-﻿namespace LearnOnline.API.Entities
+﻿namespace LearnOnline.Models
 {
     public class UserRole
     {

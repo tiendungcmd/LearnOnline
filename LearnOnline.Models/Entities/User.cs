@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LearnOnline.API.Entities
+namespace LearnOnline.Models
 {
     public class User
     {

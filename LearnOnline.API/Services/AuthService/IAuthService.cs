@@ -1,5 +1,4 @@
-﻿using LearnOnline.API.Entities;
-using LearnOnline.Models;
+﻿using LearnOnline.Models;
 using System.Threading.Tasks;
 
 namespace LearnOnline.API.Services.AuthService

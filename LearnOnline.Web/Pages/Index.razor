@@ -1,37 +1,19 @@
 ﻿@page "/"
 @using LearnOnline.Web.Services.NewService
 @using LearnOnline.Models
-@inject INewService NewService
- <div id="banner">
-            <div class="box-left">
-                <h2>
-                    <span style="color:black" >TIẾNG ANH</span>
-                    <br>
-                    <span style="color:black"> DỄ DÀNG HƠN</span>
-                </h2>
-                <p  style="color:black">Chia sẻ hành trình chi tiết, tài liệu học, 
-                    yêu cầu và kỹ năng cần đạt được trong mỗi giai đoạn học
-                    IELTS từ con số 0 tới khi đạt mục tiêu 7.0.</p>
-            </div>
-            <div class="box-right">
-                <img src="assets/img_1.png" alt="">
-                <img src="assets/img_2.png" alt="">
-                <img src="assets/img_3.png" alt="">
-            </div>
-            <div class="to-bottom">
-                <a href="">
-                    <img src="assets/to_bottom.png" alt="">
-                </a>
-            </div>
-        </div>
+@inject INewService NewService;
+@inject HttpClient _httpClient;
+
 <div id="wp-products">
     <h2>TIN TỨC NỔI BẬT</h2>
-    
+
     <ul id="list-products">
-           @foreach (var item in NewService.News)
-            {
-                <div class="item">
-                <img src="../image/@item.Image" alt="">
+        @foreach (var item in News)
+        {
+            <div class="item">
+                 <a href="/new/@item.Id">
+             <img class="media-img" src="../image/@item.Image" style="height:100px;width:200px" alt="">
+            </a>>
                 <div class="stars">
                     <span>
                         <img src="assets/star.png" alt="">
@@ -51,10 +33,10 @@
                 </div>
 
                 <div class="name">@item.Title</div>
-                <div class="desc">@item.Description</div>
-                <div class="price">500.000 VNĐ</div>
+               
+                <div class="price">Đọc tiếp</div>
             </div>
-            }
+        }
         <div class="item">
             <img src="../image/new2.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
@@ -81,7 +63,7 @@
         </div>
 
         <div class="item">
-             <img src="../image/new1.jpg" style="height:100px;width:200px" alt="">
+            <img src="../image/new1.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
                 <span>
                     <img src="assets/star.png" alt="">
@@ -105,7 +87,7 @@
             <div class="price">Đọc tiếp</div>
         </div>
         <div class="item">
-             <img src="../image/new1.jpg" style="height:100px;width:200px" alt="">
+            <img src="../image/new1.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
                 <span>
                     <img src="assets/star.png" alt="">
@@ -129,7 +111,7 @@
             <div class="price">Đọc tiếp</div>
         </div>
         <div class="item">
-             <img src="../image/new3.jpg" style="height:100px;width:200px" alt="">
+            <img src="../image/new3.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
                 <span>
                     <img src="assets/star.png" alt="">
@@ -152,7 +134,7 @@
             <div class="desc">Mô Tả Ngắn....</div>
             <div class="price">Đọc tiếp</div>
         </div>
-       
+
 
     </ul>
 </div>
@@ -206,7 +188,7 @@
             <div class="name">Cấu trúc Suggest - Cách dùng, ví dụ chi tiết</div>
             <div class="price">Xem</div>
         </div>
-        
+
         <div class="item">
             <img src="../image/tuhoc2.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
@@ -230,7 +212,7 @@
             <div class="name">Cấu trúc Suggest - Cách dùng, ví dụ chi tiết</div>
             <div class="price">Xem</div>
         </div>
-        
+
         <div class="item">
             <img src="../image/tuhoc3.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
@@ -254,7 +236,7 @@
             <div class="name">Cấu trúc Before - Cách dùng trong tiếng Anh</div>
             <div class="price">Xem</div>
         </div>
-        
+
         <div class="item">
             <img src="../image/tuhoc4.jpg" style="height:100px;width:200px" alt="">
             <div class="stars">
@@ -278,7 +260,7 @@
             <div class="name">By the time - Cấu trúc, cách dùng chi tiết</div>
             <div class="price">Xem</div>
         </div>
-       
+
 
     </ul>
 </div>
@@ -361,7 +343,7 @@
         </div>
 
         <div class="item">
-            <img src="../image/writing.png"style="height:100px;width:200px" alt="">
+            <img src="../image/writing.png" style="height:100px;width:200px" alt="">
             <div class="stars">
                 <span>
                     <img src="assets/star.png" alt="">
@@ -384,87 +366,87 @@
             <div class="price">Làm bài</div>
         </div>
 
-       
+
     </ul>
 </div>
 <style>
-    
+
     #banner {
         width: 100%;
-        background-image :url("../image/banner.jpg");
+        background-image: url("../image/banner.jpg");
         height: 463px;
-        margin-top:40px;
+        margin-top: 40px;
         display: flex;
-        padding:0px 133px;
-        position:relative;
+        padding: 0px 133px;
+        position: relative;
     }
 
-    #banner .box-left ,#banner .box-right {
-        width: 50%;
-    }
+        #banner .box-left, #banner .box-right {
+            width: 50%;
+        }
 
-    #banner  .box-left h2 {
-        font-size:48px;
-        margin-top:75px;
-        color:#fff;
-    }
+            #banner .box-left h2 {
+                font-size: 48px;
+                margin-top: 75px;
+                color: #fff;
+            }
 
-    #banner .box-left p {
-        color:#D0D0D0;
-    }
+            #banner .box-left p {
+                color: #D0D0D0;
+            }
 
-    #banner .box-left button {
-        width: 191px;
-        height: 40px;
-        margin-top:41px;
-        background:#1d1a1a;
-        border:none;
-        outline:none;
-        color:#fff;
-        font-weight: bold;
-        border-radius: 20px;
-        transition:0.4s;
-    }
+            #banner .box-left button {
+                width: 191px;
+                height: 40px;
+                margin-top: 41px;
+                background: #1d1a1a;
+                border: none;
+                outline: none;
+                color: #fff;
+                font-weight: bold;
+                border-radius: 20px;
+                transition: 0.4s;
+            }
 
-    #banner .box-left button:hover {
-        background:orange;
-    }
+                #banner .box-left button:hover {
+                    background: orange;
+                }
 
-    #banner .box-right {
-        padding-left:200px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        #banner .box-right {
+            padding-left: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    #banner .box-right img {
-        margin:0px 10px;
-        animation :animation 3s infinite linear; 
-    }
+            #banner .box-right img {
+                margin: 0px 10px;
+                animation: animation 3s infinite linear;
+            }
 
 
-    #banner .box-right img:nth-child(1)
-    {
-        animation-delay: 0.5s;
-    }
-    #banner .box-right img:nth-child(2)
-    {
-    
-        animation-delay: 1s;
-    }
+                #banner .box-right img:nth-child(1) {
+                    animation-delay: 0.5s;
+                }
+
+                #banner .box-right img:nth-child(2) {
+                    animation-delay: 1s;
+                }
+
     #wp-products {
-    padding-top:116px;
-    padding-bottom: 78px;
-    padding-left:134px;
-    padding-right:134px;
+        padding-top: 116px;
+        padding-bottom: 78px;
+        padding-left: 134px;
+        padding-right: 134px;
     }
 
-    #wp-products h2 {
-    text-align: center;
-    margin-bottom: 76px;
-    font-size:32px;
-    color:#626a67;
-    }
+        #wp-products h2 {
+            text-align: center;
+            margin-bottom: 76px;
+            font-size: 32px;
+            color: #626a67;
+        }
+
     #list-products {
         display: flex;
         list-style: none;
@@ -473,157 +455,161 @@
         flex-wrap: wrap;
     }
 
-    #list-products .item {
-        width: 290px;
-        height: 374px;
-        background:#362f2f;
-        border-radius: 10px;
-        margin-bottom: 50px;
-    }
+        #list-products .item {
+            width: 290px;
+            height: 374px;
+            background: #362f2f;
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
 
-    #list-products .item img {
-        display: block;
-        margin:0px auto;
-        margin-top:17px;
-    }
+            #list-products .item img {
+                display: block;
+                margin: 0px auto;
+                margin-top: 17px;
+            }
 
-    #list-products .item .stars {
+            #list-products .item .stars {
+                display: flex;
+                margin: 0px auto;
+                width: 50%;
+            }
 
-        display: flex;
-        margin:0px auto;
-        width: 50%;
-    }
+            #list-products .item .name {
+                text-align: center;
+                color: #fff;
+                font-weight: bold;
+                margin-top: 21px;
+            }
 
-    #list-products .item .name {
-        text-align: center;
-        color:#fff;
-        font-weight: bold;
-        margin-top:21px;
-    }
+            #list-products .item .desc {
+                text-align: center;
+                color: #626a67;
+            }
 
-    #list-products .item .desc {
-        text-align: center;
-        color:#626a67;
-    }
+            #list-products .item .price {
+                text-align: center;
+                color: #f42424;
+                font-weight: bold;
+                margin-top: 20px;
+            }
 
-    #list-products .item .price {
-        text-align: center;
-        color:#f42424;
-        font-weight: bold;
-        margin-top:20px;
-    }
     #menu .item {
-        margin:0px 25px;
+        margin: 0px 25px;
     }
 
-    #menu .item a {
-        color:#626A67;
-        text-decoration: none;
-    }
+        #menu .item a {
+            color: #626A67;
+            text-decoration: none;
+        }
+
     #actions .item {
-        margin-left:22px;
+        margin-left: 22px;
     }
 
     #list-products .item {
         width: 290px;
         height: 374px;
-        background:#362f2f;
+        background: #362f2f;
         border-radius: 10px;
         margin-bottom: 50px;
     }
 
-    #list-products .item img {
-        display: block;
-        margin:0px auto;
-        margin-top:17px;
-    }
+        #list-products .item img {
+            display: block;
+            margin: 0px auto;
+            margin-top: 17px;
+        }
 
-    #list-products .item .stars {
+        #list-products .item .stars {
+            display: flex;
+            margin: 0px auto;
+            width: 50%;
+        }
 
-        display: flex;
-        margin:0px auto;
-        width: 50%;
-    }
+        #list-products .item .name {
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 21px;
+        }
 
-    #list-products .item .name {
-        text-align: center;
-        color:#fff;
-        font-weight: bold;
-        margin-top:21px;
-    }
+        #list-products .item .desc {
+            text-align: center;
+            color: #626a67;
+        }
 
-    #list-products .item .desc {
-        text-align: center;
-        color:#626a67;
-    }
+        #list-products .item .price {
+            text-align: center;
+            color: #f42424;
+            font-weight: bold;
+            margin-top: 20px;
+        }
 
-    #list-products .item .price {
-        text-align: center;
-        color:#f42424;
-        font-weight: bold;
-        margin-top:20px;
-    }
     .list-page .item {
-        margin:0px 15px;
+        margin: 0px 15px;
         width: 37px;
         height: 37px;
-        background:#362f2f;
+        background: #362f2f;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .list-page .item a {
-        color:#fff;
-        text-decoration: none;
-    }
+
+        .list-page .item a {
+            color: #fff;
+            text-decoration: none;
+        }
+
     #list-comment .item {
         width: 100%;
         height: 100%;
-        background:#362f2f;
+        background: #362f2f;
         border-radius: 20px;
-        padding-top:50px;
+        padding-top: 50px;
     }
 
-    #list-comment .item .avatar {
-        text-align: center;
-        margin-top:13px;
+        #list-comment .item .avatar {
+            text-align: center;
+            margin-top: 13px;
+        }
+
+        #list-comment .item .stars {
+            display: flex;
+            margin: 0px auto;
+            width: 50%;
+            margin-top: 32px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #list-comment .item .name {
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        #list-comment .item .text {
+            padding: 20px 50px;
+            color: #fff;
+        }
+
+    #footer .box .quick-menu .item {
+        margin-bottom: 12px;
     }
 
-    #list-comment .item .stars {
-        display: flex;
-        margin:0px auto;
-        width: 50%;
-        margin-top:32px;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #list-comment .item .name {
-        text-align: center;
-        font-weight: bold;
-        color:#fff;
-    }
-
-    #list-comment .item .text {
-        padding:20px 50px;
-        color:#fff;
-   
-    }
-
-    #footer .box .quick-menu .item{
-        margin-bottom:12px;
-
-    }
-    #footer .box .quick-menu ,.item a{
-        color:#fff;
+    #footer .box .quick-menu, .item a {
+        color: #fff;
         text-decoration: none;
     }
 </style>
-@code{
-   // List<NewDTo> News = new List<NewDTo>();
+@code {
+    private static List<New> News = new List<New>();
     protected override async Task OnInitializedAsync()
     {
-         await NewService.GetNews();
+        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<New>>>("api/New");
+        if (response != null && response.Data != null)
+            News = response.Data;
     }
 }

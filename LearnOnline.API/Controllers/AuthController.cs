@@ -1,7 +1,5 @@
-﻿using LearnOnline.API.Entities;
-using LearnOnline.API.Services.AuthService;
+﻿using LearnOnline.API.Services.AuthService;
 using LearnOnline.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
@@ -18,7 +16,7 @@ namespace LearnOnline.API.Controllers
         public AuthController(IAuthService authService, IConfiguration configuration)
         {
             _authService = authService;
-           _configuration = configuration;
+            _configuration = configuration;
         }
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)

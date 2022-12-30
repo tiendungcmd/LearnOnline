@@ -1,6 +1,6 @@
 ﻿namespace LearnOnline.Models
 {
-    public class New
+    public class NewDTo
     {
 
         public int Id { get; set; }

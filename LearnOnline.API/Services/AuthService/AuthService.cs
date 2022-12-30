@@ -1,5 +1,4 @@
 ﻿using LearnOnline.API.Data;
-using LearnOnline.API.Entities;
 using LearnOnline.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

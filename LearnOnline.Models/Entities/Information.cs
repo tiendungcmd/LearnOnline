@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LearnOnline.API.Entities
+namespace LearnOnline.Models
 {
     public class Information
     {

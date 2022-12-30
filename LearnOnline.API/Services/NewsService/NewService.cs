@@ -1,12 +1,11 @@
 ﻿using LearnOnline.API.Data;
-using LearnOnline.API.Entities;
-using Microsoft.EntityFrameworkCore;
+using LearnOnline.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace LearnOnline.API.Services.NewsService
 {
-   
+
     public class NewService : INewService
     {
         private readonly LearnOnlineDbContext _learnOnlineDbContext;
@@ -14,15 +13,23 @@ namespace LearnOnline.API.Services.NewsService
         {
             _learnOnlineDbContext = learnOnlineDbContext;
         }
-        public async Task<New> GetNew(int id)
+
+        public ServiceResponse<New> GetNew(int id)
         {
-            return await _learnOnlineDbContext.News.FirstAsync(x => x.Id == id);  
+            var response = new ServiceResponse<New>
+            {
+                Data = _learnOnlineDbContext.News.FirstOrDefault(x => x.Id == id)
+            };
+            return response;
         }
 
-
-        public async Task<IEnumerable<New>> GetNews()
+        public ServiceResponse<List<New>> GetNews()
         {
-            return await _learnOnlineDbContext.News.ToListAsync();
+            var response = new ServiceResponse<List<New>>
+            {
+                Data = _learnOnlineDbContext.News.ToList()
+            };
+            return response;
         }
     }
 }

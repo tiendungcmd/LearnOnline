@@ -1,9 +1,4 @@
-﻿using LearnOnline.API.Entities;
-using LearnOnline.Models;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace LearnOnline.API.Extension
+﻿namespace LearnOnline.API.Extension
 {
     public static class DtoConversions
     {

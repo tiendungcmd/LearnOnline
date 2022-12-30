@@ -1,26 +1,28 @@
 ﻿
+using LearnOnline.API.Data;
 using LearnOnline.API.Services.NewsService;
 using LearnOnline.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LearnOnline.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NewController : Controller
+    public class NewController : ControllerBase
     {
         private readonly INewService _newService;
+        private readonly LearnOnlineDbContext _dbContext;
 
-        public NewController(INewService newService)
+        public NewController(INewService newService, LearnOnlineDbContext dbContext)
         {
             _newService = newService;
+            _dbContext = dbContext;
         }
         [HttpGet]
-        public async Task<ActionResult<List<New>>> GetNews()
+        public ActionResult<ServiceResponse<List<New>>> GetNews()
         {
-            var result = await _newService.GetNews();
+            var result = _newService.GetNews();
             return Ok(result);
         }
     }
