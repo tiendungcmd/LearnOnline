@@ -1,4 +1,5 @@
 ﻿using LearnOnline.Models;
+using LearnOnline.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ namespace LearnOnline.API.Data
         public DbSet<UserHistory> UserHistories { get; set; }
         public DbSet<UserInformation> UserInformations { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Answer> Answer { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var hasher = new PasswordHasher<User>();
@@ -111,6 +113,8 @@ namespace LearnOnline.API.Data
                 Image = "new3.jpg",
                 UserId = 8342
             });
+
+            //Categories
 
             modelBuilder.Entity<UserRole>().HasData(new UserRole
             {

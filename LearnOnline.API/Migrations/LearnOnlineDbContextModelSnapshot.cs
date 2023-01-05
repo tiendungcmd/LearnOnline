@@ -19,7 +19,7 @@ namespace LearnOnline.API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Category", b =>
+            modelBuilder.Entity("LearnOnline.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,28 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.History", b =>
+            modelBuilder.Entity("LearnOnline.Models.Entities.Answer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CorrectAnswer")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartId");
+
+                    b.ToTable("Answer");
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.History", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +98,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Information", b =>
+            modelBuilder.Entity("LearnOnline.Models.Information", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +127,7 @@ namespace LearnOnline.API.Migrations
                     b.ToTable("Informations");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Level", b =>
+            modelBuilder.Entity("LearnOnline.Models.Level", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +156,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.New", b =>
+            modelBuilder.Entity("LearnOnline.Models.New", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -175,7 +196,7 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 1,
                             Description = "Ngày 23/7 vừa qua, sự kiện đã chính thức diễn ra với sự tham gia đông đảo của hơn 100 bạn sinh viên và những diễn giả đến từ các doanh nghiệp nổi tiếng trên cả nước. IELTS Fighter hân hạnh được mời làm Nhà tài trợ vàng cho chương trình, đem những giá trị cả về hiện kim và tinh thần đến cho các bạn sinh viên.1. Career Explore Program FTU “Career Explore Program: Roadmap to dream university” là sự kiện do câu lạc bộ FBA Elite kết hợp với khoa Quản trị kinh doanh Đại học Ngoại Thương tổ chức, với mục đích giúp các bạn sinh viên có thể định hướng được nghề nào phù hợp với bản thân mình, với xu hướng và yêu cầu của thị trường lao động hiện tại. Đứng ở cương vị là nhà tài trợ vàng, IELTS Fighter cảm thấy vô cùng vui mừng khi thấy tinh thần nhiệt huyết và sự nghiêm túc, nhanh nhạy của các bạn trẻ hiện nay, khi sớm theo đuổi sự phát triển toàn diện cho bản thân, đến với sự kiện với lòng ham học hỏi và tinh thần cầu tiến, muốn trở nên xuất sắc hơn mỗi ngày.",
-                            Image = "../image/new1.jgp",
+                            Image = "new1.jpg",
                             Title = "IELTS Tranning đồng hành cùng Career Explore Program 2022",
                             UserId = 8342
                         },
@@ -183,7 +204,7 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 2,
                             Description = "Trong lúc các học sinh khác đang thong thả nghỉ hè thì tại IELTS Fighter những Chiến binh chăm chỉ đang “đắm mình” trong loạt Workshop Định hướng học IELTS hiệu quả, chuẩn bị sẵn sàng cho một năm học mới rực rỡ hơn.Workshop “Học IELTS Listening hiệu quả” tại cơ sở 44 Trần Quốc Hoàn và 22 Nguyễn Hoàng. Ngoài các buổi học bổ trợ chuyên sâu về Listening thì những buổi chia sẻ kinh nghiệm của thầy cô giỏi, các học viên điểm cao đi trước là bí kíp giúp học viên tại IELTS Fighter luôn dành được điểm Listening cao trong bài thi IELTS.",
-                            Image = "../image/new2.jgp",
+                            Image = "new2.jpg",
                             Title = "Tháng 7 “cháy” hết mình cùng các Workshop học IELTS",
                             UserId = 8342
                         },
@@ -191,7 +212,7 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 3,
                             Description = "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                            Image = "../image/new3.jgp",
+                            Image = "new3.jpg",
                             Title = "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học",
                             UserId = 8342
                         },
@@ -199,7 +220,7 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 4,
                             Description = "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                            Image = "../image/new3.jgp",
+                            Image = "new3.jpg",
                             Title = "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học",
                             UserId = 8342
                         },
@@ -207,21 +228,18 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 5,
                             Description = "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                            Image = "../image/new3.jgp",
+                            Image = "new3.jpg",
                             Title = "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học",
                             UserId = 8342
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Part", b =>
+            modelBuilder.Entity("LearnOnline.Models.Part", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -277,7 +295,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Role", b =>
+            modelBuilder.Entity("LearnOnline.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +318,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Skill", b =>
+            modelBuilder.Entity("LearnOnline.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,7 +347,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.User", b =>
+            modelBuilder.Entity("LearnOnline.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -361,7 +379,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.UserHistory", b =>
+            modelBuilder.Entity("LearnOnline.Models.UserHistory", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -383,7 +401,7 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.UserInformation", b =>
+            modelBuilder.Entity("LearnOnline.Models.UserInformation", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -398,7 +416,7 @@ namespace LearnOnline.API.Migrations
                     b.ToTable("UserInformations");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.UserRole", b =>
+            modelBuilder.Entity("LearnOnline.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -420,9 +438,20 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.History", b =>
+            modelBuilder.Entity("LearnOnline.Models.Entities.Answer", b =>
                 {
-                    b.HasOne("LearnOnline.API.Entities.Part", "Part")
+                    b.HasOne("LearnOnline.Models.Part", "Part")
+                        .WithMany("Answers")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.History", b =>
+                {
+                    b.HasOne("LearnOnline.Models.Part", "Part")
                         .WithMany("Historys")
                         .HasForeignKey("PartId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -431,9 +460,9 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Part");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.New", b =>
+            modelBuilder.Entity("LearnOnline.Models.New", b =>
                 {
-                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                    b.HasOne("LearnOnline.Models.User", "User")
                         .WithMany("News")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -442,21 +471,21 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Part", b =>
+            modelBuilder.Entity("LearnOnline.Models.Part", b =>
                 {
-                    b.HasOne("LearnOnline.API.Entities.Category", "Category")
+                    b.HasOne("LearnOnline.Models.Category", "Category")
                         .WithMany("Parts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LearnOnline.API.Entities.Level", "Level")
+                    b.HasOne("LearnOnline.Models.Level", "Level")
                         .WithMany("Parts")
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LearnOnline.API.Entities.Skill", "Skill")
+                    b.HasOne("LearnOnline.Models.Skill", "Skill")
                         .WithMany("Parts")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -469,15 +498,15 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Skill");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.UserHistory", b =>
+            modelBuilder.Entity("LearnOnline.Models.UserHistory", b =>
                 {
-                    b.HasOne("LearnOnline.API.Entities.History", "History")
+                    b.HasOne("LearnOnline.Models.History", "History")
                         .WithMany()
                         .HasForeignKey("HistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                    b.HasOne("LearnOnline.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -488,15 +517,15 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.UserInformation", b =>
+            modelBuilder.Entity("LearnOnline.Models.UserInformation", b =>
                 {
-                    b.HasOne("LearnOnline.API.Entities.Information", "Information")
+                    b.HasOne("LearnOnline.Models.Information", "Information")
                         .WithMany()
                         .HasForeignKey("InformationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                    b.HasOne("LearnOnline.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -507,15 +536,15 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.UserRole", b =>
+            modelBuilder.Entity("LearnOnline.Models.UserRole", b =>
                 {
-                    b.HasOne("LearnOnline.API.Entities.Role", "Role")
+                    b.HasOne("LearnOnline.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LearnOnline.API.Entities.User", "User")
+                    b.HasOne("LearnOnline.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,27 +555,29 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Category", b =>
+            modelBuilder.Entity("LearnOnline.Models.Category", b =>
                 {
                     b.Navigation("Parts");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Level", b =>
+            modelBuilder.Entity("LearnOnline.Models.Level", b =>
                 {
                     b.Navigation("Parts");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Part", b =>
+            modelBuilder.Entity("LearnOnline.Models.Part", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("Historys");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.Skill", b =>
+            modelBuilder.Entity("LearnOnline.Models.Skill", b =>
                 {
                     b.Navigation("Parts");
                 });
 
-            modelBuilder.Entity("LearnOnline.API.Entities.User", b =>
+            modelBuilder.Entity("LearnOnline.Models.User", b =>
                 {
                     b.Navigation("News");
                 });

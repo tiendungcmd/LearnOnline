@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LearnOnline.Models.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LearnOnline.Models
@@ -15,7 +16,7 @@ namespace LearnOnline.Models
         public byte Record { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
-        public string Answer { get; set; }
+        public ICollection<Answer> Answers { get; set; }
         [StringLength(255)]
         public string Style { get; set; }
         public int Score { get; set; }

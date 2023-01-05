@@ -110,7 +110,6 @@ namespace LearnOnline.API.Migrations
                     Record = table.Column<byte>(type: "tinyint", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Style = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -212,6 +211,26 @@ namespace LearnOnline.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Answer",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PartId = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CorrectAnswer = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answer_Parts_PartId",
+                        column: x => x.PartId,
+                        principalTable: "Parts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Histories",
                 columns: table => new
                 {
@@ -286,17 +305,17 @@ namespace LearnOnline.API.Migrations
                 columns: new[] { "Id", "Description", "Image", "Note", "Spelling", "Title", "Topic", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Ngày 23/7 vừa qua, sự kiện đã chính thức diễn ra với sự tham gia đông đảo của hơn 100 bạn sinh viên và những diễn giả đến từ các doanh nghiệp nổi tiếng trên cả nước. IELTS Fighter hân hạnh được mời làm Nhà tài trợ vàng cho chương trình, đem những giá trị cả về hiện kim và tinh thần đến cho các bạn sinh viên.1. Career Explore Program FTU “Career Explore Program: Roadmap to dream university” là sự kiện do câu lạc bộ FBA Elite kết hợp với khoa Quản trị kinh doanh Đại học Ngoại Thương tổ chức, với mục đích giúp các bạn sinh viên có thể định hướng được nghề nào phù hợp với bản thân mình, với xu hướng và yêu cầu của thị trường lao động hiện tại. Đứng ở cương vị là nhà tài trợ vàng, IELTS Fighter cảm thấy vô cùng vui mừng khi thấy tinh thần nhiệt huyết và sự nghiêm túc, nhanh nhạy của các bạn trẻ hiện nay, khi sớm theo đuổi sự phát triển toàn diện cho bản thân, đến với sự kiện với lòng ham học hỏi và tinh thần cầu tiến, muốn trở nên xuất sắc hơn mỗi ngày.", "../image/new1.jgp", null, null, "IELTS Tranning đồng hành cùng Career Explore Program 2022", null, 8342 },
-                    { 2, "Trong lúc các học sinh khác đang thong thả nghỉ hè thì tại IELTS Fighter những Chiến binh chăm chỉ đang “đắm mình” trong loạt Workshop Định hướng học IELTS hiệu quả, chuẩn bị sẵn sàng cho một năm học mới rực rỡ hơn.Workshop “Học IELTS Listening hiệu quả” tại cơ sở 44 Trần Quốc Hoàn và 22 Nguyễn Hoàng. Ngoài các buổi học bổ trợ chuyên sâu về Listening thì những buổi chia sẻ kinh nghiệm của thầy cô giỏi, các học viên điểm cao đi trước là bí kíp giúp học viên tại IELTS Fighter luôn dành được điểm Listening cao trong bài thi IELTS.", "../image/new2.jgp", null, null, "Tháng 7 “cháy” hết mình cùng các Workshop học IELTS", null, 8342 },
-                    { 3, "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.", "../image/new3.jgp", null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 },
-                    { 4, "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.", "../image/new3.jgp", null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 },
-                    { 5, "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.", "../image/new3.jgp", null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 }
+                    { 1, "Ngày 23/7 vừa qua, sự kiện đã chính thức diễn ra với sự tham gia đông đảo của hơn 100 bạn sinh viên và những diễn giả đến từ các doanh nghiệp nổi tiếng trên cả nước. IELTS Fighter hân hạnh được mời làm Nhà tài trợ vàng cho chương trình, đem những giá trị cả về hiện kim và tinh thần đến cho các bạn sinh viên.1. Career Explore Program FTU “Career Explore Program: Roadmap to dream university” là sự kiện do câu lạc bộ FBA Elite kết hợp với khoa Quản trị kinh doanh Đại học Ngoại Thương tổ chức, với mục đích giúp các bạn sinh viên có thể định hướng được nghề nào phù hợp với bản thân mình, với xu hướng và yêu cầu của thị trường lao động hiện tại. Đứng ở cương vị là nhà tài trợ vàng, IELTS Fighter cảm thấy vô cùng vui mừng khi thấy tinh thần nhiệt huyết và sự nghiêm túc, nhanh nhạy của các bạn trẻ hiện nay, khi sớm theo đuổi sự phát triển toàn diện cho bản thân, đến với sự kiện với lòng ham học hỏi và tinh thần cầu tiến, muốn trở nên xuất sắc hơn mỗi ngày.", "new1.jpg", null, null, "IELTS Tranning đồng hành cùng Career Explore Program 2022", null, 8342 },
+                    { 2, "Trong lúc các học sinh khác đang thong thả nghỉ hè thì tại IELTS Fighter những Chiến binh chăm chỉ đang “đắm mình” trong loạt Workshop Định hướng học IELTS hiệu quả, chuẩn bị sẵn sàng cho một năm học mới rực rỡ hơn.Workshop “Học IELTS Listening hiệu quả” tại cơ sở 44 Trần Quốc Hoàn và 22 Nguyễn Hoàng. Ngoài các buổi học bổ trợ chuyên sâu về Listening thì những buổi chia sẻ kinh nghiệm của thầy cô giỏi, các học viên điểm cao đi trước là bí kíp giúp học viên tại IELTS Fighter luôn dành được điểm Listening cao trong bài thi IELTS.", "new2.jpg", null, null, "Tháng 7 “cháy” hết mình cùng các Workshop học IELTS", null, 8342 },
+                    { 3, "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.", "new3.jpg", null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 },
+                    { 4, "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.", "new3.jpg", null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 },
+                    { 5, "Dự án IELTS Fighter Here and There là một hoạt động vì cộng đồng của IELTS Fighter, triển khai tại các trường THCS, THPT và đại học khắp VN nhằm giúp các em học sinh, sinh viên có cái nhìn gần gũi, thân thiện hơn với tiếng Anh. Thông qua dự án giao lưu và chia sẻ những phương pháp, kinh nghiệm học và trao tặng nhiều phần quà giá trị giúp các bạn học sinh chinh phục ngôn ngữ dễ dàng và nhanh chóng hơn, IELTS Fighter cổ vũ và truyền lửa tình yêu, lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại, Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.", "new3.jpg", null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Parts",
-                columns: new[] { "Id", "Answer", "CategoryId", "Description", "Image", "LevelId", "Note", "Record", "Score", "SkillId", "Style", "Title" },
-                values: new object[] { 1, null, 1, null, null, 1, null, (byte)0, 0, 1, null, null });
+                columns: new[] { "Id", "CategoryId", "Description", "Image", "LevelId", "Note", "Record", "Score", "SkillId", "Style", "Title" },
+                values: new object[] { 1, 1, null, null, 1, null, (byte)0, 0, 1, null, null });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
@@ -312,6 +331,11 @@ namespace LearnOnline.API.Migrations
                 table: "UserHistories",
                 columns: new[] { "HistoryId", "UserId" },
                 values: new object[] { 1, 8342 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_PartId",
+                table: "Answer",
+                column: "PartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Histories_PartId",
@@ -356,6 +380,9 @@ namespace LearnOnline.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Answer");
+
             migrationBuilder.DropTable(
                 name: "News");
 
