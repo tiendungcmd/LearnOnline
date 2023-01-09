@@ -14,6 +14,14 @@ namespace LearnOnline.API.Services.QuestionService
         {
             _learnOnlineDbContext = learnOnlineDbContext;
         }
+
+        public ServiceResponse<Question> CreateQuestion(Question question)
+        {
+            _learnOnlineDbContext.Question.Add(question);
+            _learnOnlineDbContext.SaveChanges();
+            return new ServiceResponse<Question>{ Data = question};
+        }
+
         public ServiceResponse<List<Question>> GetQuestionByPartId(int partId)
         {
             return new ServiceResponse<List<Question>>()

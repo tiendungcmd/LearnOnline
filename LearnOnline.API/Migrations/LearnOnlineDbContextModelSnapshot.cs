@@ -254,6 +254,26 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LearnOnline.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("LearnOnline.Models.Information", b =>
                 {
                     b.Property<int>("Id")
@@ -608,6 +628,13 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Part");
                 });
 
+            modelBuilder.Entity("LearnOnline.Models.Image", b =>
+                {
+                    b.HasOne("LearnOnline.Models.Entities.Part", null)
+                        .WithMany("Images")
+                        .HasForeignKey("PartId");
+                });
+
             modelBuilder.Entity("LearnOnline.Models.New", b =>
                 {
                     b.HasOne("LearnOnline.Models.User", "User")
@@ -684,6 +711,8 @@ namespace LearnOnline.API.Migrations
             modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
                 {
                     b.Navigation("Historys");
+
+                    b.Navigation("Images");
 
                     b.Navigation("Questions");
                 });

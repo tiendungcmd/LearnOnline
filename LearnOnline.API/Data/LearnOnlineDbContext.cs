@@ -25,6 +25,7 @@ namespace LearnOnline.API.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Answer> Answer { get; set; }
         public DbSet<Question> Question { get; set; }
+        public DbSet<Image> Images { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var hasher = new PasswordHasher<User>();

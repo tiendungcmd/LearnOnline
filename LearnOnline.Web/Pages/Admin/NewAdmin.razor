@@ -1,25 +1,24 @@
 ﻿@layout AdminLayout
-@page "/admin"
+@page "/admin/new"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
-@inject IPartService partService
+@inject INewService newService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+<h3>NewAdmin</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
-    <i class="oi oi-plus"></i> Create Question
+    <i class="oi oi-plus"></i> Create new 
 </button>
 <table class="table">
     <thead>
         <tr>
             <th>Question</th>
             <th>Category</th>
-            <th>Answer</th>
-            <th>Visible</th>
-            <th></th>
+            <th>Description</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Parts)
+        @foreach (var item in News)
         {
             <tr>
                 <td>
@@ -28,7 +27,7 @@
                 <td>@item.Title</td>
                 <td>
                 </td>
-                <td>@item.Score </td>
+                <td>@item.Description </td>
                
                 <td></td>
                 <td>
@@ -41,11 +40,11 @@
     </tbody>
 </table>
 @code {
-    private static List<Part> Parts = new List<Part>();
+    private static List<New> News = new List<New>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await partService.GetParts();
-        Parts = response.Data;
+        await newService.GetNews();
+        News = newService.News;
         var partId = 1;
     }
     void CreatePart()
@@ -57,4 +56,3 @@
          NavigationManager.NavigateTo("admin/CreatePart");
     }
  }
-

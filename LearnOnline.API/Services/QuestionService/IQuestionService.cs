@@ -7,5 +7,6 @@ namespace LearnOnline.API.Services.QuestionService
     public interface IQuestionService
     {
         ServiceResponse<List<Question>> GetQuestionByPartId(int partId);
+        ServiceResponse<Question> CreateQuestion(Question question);
     }
 }

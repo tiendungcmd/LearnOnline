@@ -2,6 +2,7 @@ using LearnOnline.Web.Service;
 using LearnOnline.Web.Services.AuthService;
 using LearnOnline.Web.Services.NewService;
 using LearnOnline.Web.Services.PartService;
+using LearnOnline.Web.Services.Upload;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -21,6 +22,7 @@ namespace LearnOnline.Web
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<INewService, NewService>();
             builder.Services.AddScoped<IPartService, PartService>();
+            builder.Services.AddScoped<IFileUpload, FileUpload>();
             await builder.Build().RunAsync();
         }
     }

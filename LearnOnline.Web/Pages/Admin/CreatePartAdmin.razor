@@ -1,7 +1,7 @@
 ﻿@page "/admin/CreatePart"
 @layout AdminLayout
 @using LearnOnline.Models
-@using System.IO
+@using LearnOnline.Web.Services.Upload
 @inject HttpClient client
 
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
@@ -12,7 +12,7 @@
     </div>
     <div class="mb-0">
         <label for="record">Image</label>
-        <InputFile OnChange="HandleSelection" multiple  class="form-control"/>
+        <InputFile OnChange="HandleSelection" multiple class="form-control" />
     </div>
     <div class="mb-0">
         <label for="imageUrl">Score</label>
@@ -20,7 +20,7 @@
     </div>
     <div class="mb-0">
         <label for="record">Record</label>
-        <InputFile OnChange="HandleSelection" multiple  class="form-control"/>
+        <InputFile OnChange="HandleSelection" multiple class="form-control" />
     </div>
     <hr />
     <p>Đáp Án</p>
@@ -62,10 +62,13 @@
 @code {
     string btnText = "Add";
     private static PartDto partDto = new PartDto();
-   
-    async Task HandleSelection()
-    {
 
+    async Task HandleSelection(InputFileChangeEventArgs e)
+    {
+        foreach (var item in e.GetMultipleFiles(int.MaxValue))
+        {
+
+        }
     }
     async void AddOrUpdatePart()
     {

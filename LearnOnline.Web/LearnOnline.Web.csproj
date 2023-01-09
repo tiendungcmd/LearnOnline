@@ -1,44 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>a93825a4-a95e-4043-8aac-70406103c89c</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>a93825a4-a95e-4043-8aac-70406103c89c</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Pages\Login.razor.css" />
-    <None Remove="Pages\Register.razor.css" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Pages\Login.razor.css" />
+		<None Remove="Pages\Register.razor.css" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Pages\Login.razor.css" />
-    <Content Include="Pages\Register.razor.css" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Pages\Login.razor.css" />
+		<Content Include="Pages\Register.razor.css" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="2.2.0" />
-    <PackageReference Include="BlazorInputFile" Version="0.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.13" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Syncfusion.Blazor.Inputs" Version="20.4.0.42" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="2.2.0" />
+		<PackageReference Include="BlazorInputFile" Version="0.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.13" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+		<PackageReference Include="Syncfusion.Blazor.Inputs" Version="20.4.0.42" />
+		<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Controller\" />
+		<Folder Include="Services\HistoryService\" />
+		<Folder Include="Services\AnswerService\" />
+		<Folder Include="wwwroot\js\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controller\" />
-    <Folder Include="Services\HistoryService\" />
-    <Folder Include="Services\AnswerService\" />
-    <Folder Include="wwwroot\js\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\LearnOnline.Models\LearnOnline.Models.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\LearnOnline.Models\LearnOnline.Models.csproj" />
+	</ItemGroup>
 
 </Project>

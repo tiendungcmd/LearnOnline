@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnOnline.API.Migrations
 {
     [DbContext(typeof(LearnOnlineDbContext))]
-    [Migration("20230108114019_CreateDB")]
-    partial class CreateDB
+    [Migration("20230109073628_CreateDb")]
+    partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,6 +254,26 @@ namespace LearnOnline.API.Migrations
                             PartId = 1,
                             TotalScore = 100
                         });
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("LearnOnline.Models.Information", b =>
@@ -610,6 +630,13 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Part");
                 });
 
+            modelBuilder.Entity("LearnOnline.Models.Image", b =>
+                {
+                    b.HasOne("LearnOnline.Models.Entities.Part", null)
+                        .WithMany("Images")
+                        .HasForeignKey("PartId");
+                });
+
             modelBuilder.Entity("LearnOnline.Models.New", b =>
                 {
                     b.HasOne("LearnOnline.Models.User", "User")
@@ -686,6 +713,8 @@ namespace LearnOnline.API.Migrations
             modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
                 {
                     b.Navigation("Historys");
+
+                    b.Navigation("Images");
 
                     b.Navigation("Questions");
                 });
