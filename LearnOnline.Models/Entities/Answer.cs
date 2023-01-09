@@ -5,11 +5,10 @@ namespace LearnOnline.Models.Entities
     public class Answer
     {
         [Key]
-        public string Id { get; set; }
-        public int PartId { get; set; }
+        public int Id { get; set; }
+        public int QuestionId { get; set; }
+        public string Title { get; set; }
         public string Content { get; set; }
-
-        public bool CorrectAnswer { get; set; }
-        public Part Part { get; set; }
+        public Question Question { get; set; }
     }
 }

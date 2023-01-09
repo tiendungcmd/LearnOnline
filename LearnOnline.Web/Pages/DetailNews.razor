@@ -1,6 +1,25 @@
 ﻿@page "/new/{id:int}"
-<h3>DetailNews</h3>
+
+@using System.Linq
+@using LearnOnline.Models
+@inject INewService NewService
+@inject HttpClient _client
+<h3>NewDetails</h3>
+<div class="container ">
+    <img src="../image/@newItem?.Image" style="height:500px;width:500px;margin-left: 25%;" alt="">
+    <div class="name"><b>@newItem?.Title</b></div>
+    <div class="name">@newItem?.Description</div>
+</div>
 
 @code {
-
+    private static List<New> News = new List<New>();
+    private New newItem = null;
+    [Parameter]
+    public int Id { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        var result = await NewService.GetNewById(Id);
+        newItem = result.Data;
+        var x = 1;
+    }
 }

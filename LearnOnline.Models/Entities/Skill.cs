@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LearnOnline.Models.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LearnOnline.Models

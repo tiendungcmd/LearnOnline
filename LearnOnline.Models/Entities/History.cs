@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LearnOnline.Models.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LearnOnline.Models

@@ -8,7 +8,7 @@
     <h2>TIN TỨC NỔI BẬT</h2>
 
     <ul id="list-products">
-        @foreach (var item in News)
+        @foreach (var item in NewService.News)
         {
             <div class="item">
                  <a href="/new/@item.Id">
@@ -33,8 +33,6 @@
                 </div>
 
                 <div class="name">@item.Title</div>
-               
-                <div class="price">Đọc tiếp</div>
             </div>
         }
         <div class="item">
@@ -134,8 +132,6 @@
             <div class="desc">Mô Tả Ngắn....</div>
             <div class="price">Đọc tiếp</div>
         </div>
-
-
     </ul>
 </div>
 <div id="wp-products">
@@ -608,8 +604,8 @@
     private static List<New> News = new List<New>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<New>>>("api/New");
-        if (response != null && response.Data != null)
-            News = response.Data;
+        // var data = (await NewService.GetNews()).Data;
+         await NewService.GetNews();
+        
     }
 }

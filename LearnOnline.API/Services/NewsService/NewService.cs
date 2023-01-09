@@ -2,6 +2,7 @@
 using LearnOnline.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LearnOnline.API.Services.NewsService
 {
@@ -14,11 +15,11 @@ namespace LearnOnline.API.Services.NewsService
             _learnOnlineDbContext = learnOnlineDbContext;
         }
 
-        public ServiceResponse<New> GetNew(int id)
+        public async Task<ServiceResponse<New>> GetNew(int id)
         {
             var response = new ServiceResponse<New>
             {
-                Data = _learnOnlineDbContext.News.FirstOrDefault(x => x.Id == id)
+                Data =await _learnOnlineDbContext.News.FindAsync(id)
             };
             return response;
         }

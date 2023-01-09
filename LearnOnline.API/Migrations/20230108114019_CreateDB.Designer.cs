@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnOnline.API.Migrations
 {
     [DbContext(typeof(LearnOnlineDbContext))]
-    [Migration("20230105204242_CreateDB")]
+    [Migration("20230108114019_CreateDB")]
     partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,29 +43,185 @@ namespace LearnOnline.API.Migrations
                         new
                         {
                             Id = 1,
-                            CategoryName = "acb"
+                            CategoryName = "Unit"
                         });
                 });
 
             modelBuilder.Entity("LearnOnline.Models.Entities.Answer", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("CorrectAnswer")
-                        .HasColumnType("bit");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answer");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "invented by children.",
+                            QuestionId = 1,
+                            Title = "A"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "made by a lens maker.",
+                            QuestionId = 1,
+                            Title = "B"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "a reflective telescope.",
+                            QuestionId = 1,
+                            Title = "C"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "quite a complex piece of equipment.",
+                            QuestionId = 1,
+                            Title = "D"
+                        });
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Record")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Style")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("Parts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Image = "UNIT1.PNG",
+                            LevelId = 1,
+                            Note = "\r\n                A story is told that around 400 years ago some children were fooling around in an eye glass shop. They noticed that when they placed lenses one on top of the other, they were able to see a considerable distance. They played around with the concept for a while, experimenting with what happened when they varied the distance between the lenses. Hans Lippershey, the Dutch lens maker who eventually applied for the first telescope patent, credits children as having been his motivation for the invention of the first telescope.\r\n\r\n                The first telescopes built in the early 1600s were very primitive inventions allowing the user to see around 3-times further than the naked eye. It was not too long however, until Italian astronomer Galileo heard about the invention ‘that through use of correctly-positioned lenses, allowed people to see things a long way away’. The tools used in the manufacturing of the first refracting telescope was all Galileo needed to know and within 24 hours he had developed a better one. In fact, the process of improvements Galileo made on Lippershey’s telescope were quite dramatic. Whereas the original version had a magnification of 3, the new telescope had a magnification of around 30. Galileo achieved these extraordinary results by figuring out the combination of the positions of the lenses and also by making his own lenses which were of better quality. Although he originally thought they were stars, the better quality lenses – and some scientific analysis – enabled him to eventually use his telescopes to see the moons of Jupiter. Galileo’s refracting telescopes – so-called due to the way they handled the light that passed through them – were the standard at that time.\r\n\r\n                Some 70 years later, British scientist Isaac Newton, explored the way a prism refracts 1 white light into an array of colors. He recognised that a lens was a circular prism and that the separation of colors limited the effectiveness of the telescopes in use at the time. Newton created a Reflective Telescope, one that used a dish-shaped or parabolic mirror to collect light and concentrate the image before it was visible in the eyepiece. Thus, lenses used for magnification in telescopes were replaced by mirrors. Mirrors have since been the standard for telescopes. In fact, according to telescope researcher Dr. Carl Addams, the basic designs of telescopes have not changed much in the last 100 years. What has changed however, is the way technology has been used to improve them. For example, the larger telescopes in the world today are around 10 metres in diameter and the mirrors placed within them are so finely polished that even at the microscopic level there are no scratches or bumps on them at all. To achieve such a flawless surface requires a very expensive process that operates with the utmost precision.\r\n\r\n                1: The separation or change of direction of a ray of light when passed through a glass of water.\r\n\r\n                The mid 1700s, saw the discovery and production of the Achromatic telescope. This type of telescope differed from previous ones in the way it handled the different wavelengths of light. The first person who succeeded in making achromatic refracting telescopes seems to have been the Englishman, Chester Moore Hall. The telescope design used two pieces of special optical glass known as crown and flint Each side of each piece was ground and polished and then the two pieces were assembled together. Achromatic lenses bring two wavelengths – typically red and blue – into focus in the same plane. Makers of achromatic telescopes had difficulty locating disks of flint glass of suitable purity needed to construct them. In the late 1700s, prizes were offered by the French Academy of Sciences for any chemist or glass-manufacturer that could create perfect discs of optical flint glass however, no one was able to provide a large disk of suitable purity and clarity.\r\n\r\n                Currently the largest telescopes are around eight to ten metres in size. These extremely expensive and sophisticated pieces of equipment are located primarily throughout Europe and America. Dr Addams believes that the telescopes of the future will be a gigantic improvement in what is currently considered state-of-the-art. Telescopes that are 20 or 30 metres in diameter are currently being planned, and there has been a suggestion put forward by a European firm that they would like to build a 100-metre telescope. Says Addams, ‘The quality of the glass needed to build a 100 meter telescope is like building a lens the size of a football field and having the largest bump in that football field being a ten-thousandth of a human hair’. The engineering and technology required to build such a flawless reflective surface is most impressive.\r\n                ",
+                            Record = "Unit 1, Test 1.mp3",
+                            Score = 10,
+                            SkillId = 2,
+                            Title = "LOOKING IN THE TELESCOPE"
+                        });
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.Entities.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PartId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PartId");
 
-                    b.ToTable("Answer");
+                    b.ToTable("Question");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "1",
+                            PartId = 1,
+                            Result = "B"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "2",
+                            PartId = 1,
+                            Result = "B"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "3",
+                            PartId = 1,
+                            Result = "B"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "4",
+                            PartId = 1,
+                            Result = "B"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Content = "5",
+                            PartId = 1,
+                            Result = "B"
+                        });
                 });
 
             modelBuilder.Entity("LearnOnline.Models.History", b =>
@@ -236,67 +392,6 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.Models.Part", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LevelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("Record")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Style")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("LevelId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("Parts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            LevelId = 1,
-                            Record = (byte)0,
-                            Score = 0,
-                            SkillId = 1
-                        });
-                });
-
             modelBuilder.Entity("LearnOnline.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -346,6 +441,21 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 1,
                             SkillName = "Reading"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            SkillName = "Listening"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            SkillName = "Speaking"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            SkillName = "Writing"
                         });
                 });
 
@@ -442,38 +552,16 @@ namespace LearnOnline.API.Migrations
 
             modelBuilder.Entity("LearnOnline.Models.Entities.Answer", b =>
                 {
-                    b.HasOne("LearnOnline.Models.Part", "Part")
+                    b.HasOne("LearnOnline.Models.Entities.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("PartId")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Part");
+                    b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("LearnOnline.Models.History", b =>
-                {
-                    b.HasOne("LearnOnline.Models.Part", "Part")
-                        .WithMany("Historys")
-                        .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Part");
-                });
-
-            modelBuilder.Entity("LearnOnline.Models.New", b =>
-                {
-                    b.HasOne("LearnOnline.Models.User", "User")
-                        .WithMany("News")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LearnOnline.Models.Part", b =>
+            modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
                 {
                     b.HasOne("LearnOnline.Models.Category", "Category")
                         .WithMany("Parts")
@@ -498,6 +586,39 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Level");
 
                     b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.Entities.Question", b =>
+                {
+                    b.HasOne("LearnOnline.Models.Entities.Part", "Part")
+                        .WithMany("Questions")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.History", b =>
+                {
+                    b.HasOne("LearnOnline.Models.Entities.Part", "Part")
+                        .WithMany("Historys")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.New", b =>
+                {
+                    b.HasOne("LearnOnline.Models.User", "User")
+                        .WithMany("News")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LearnOnline.Models.UserHistory", b =>
@@ -562,16 +683,21 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Parts");
                 });
 
+            modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
+                {
+                    b.Navigation("Historys");
+
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("LearnOnline.Models.Entities.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
             modelBuilder.Entity("LearnOnline.Models.Level", b =>
                 {
                     b.Navigation("Parts");
-                });
-
-            modelBuilder.Entity("LearnOnline.Models.Part", b =>
-                {
-                    b.Navigation("Answers");
-
-                    b.Navigation("Historys");
                 });
 
             modelBuilder.Entity("LearnOnline.Models.Skill", b =>

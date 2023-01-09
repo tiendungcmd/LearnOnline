@@ -17,7 +17,7 @@
             <a href="">Learning</a>
         </div>
         <div class="item">
-            <a href="">Audit</a>
+            <a href="/audit">Audit</a>
         </div>
     </div>
     <UserButton />
@@ -46,8 +46,16 @@
         </a>
     </div>
 </div>
-@Body
+<div id="content">
+    @Body
+</div>
+
 <style>
+    
+    #content{
+        margin: 0px 50px 0px 50px;
+    }
+
     #header {
         width: 100%;
         padding: 0px 30px;
@@ -92,17 +100,18 @@
             margin-left: 22px;
         }
 
-</style>
-<style>
-    .media-img:hover{
-        transform:scale(1.1);
+    .media-img:hover {
+        transform: scale(1.1);
     }
-    .media-img{
-        border-radius:6px;
+
+    .media-img {
+        border-radius: 6px;
     }
+
     #banner {
         width: 100%;
         background-image: url("../image/banner.jpg");
+        background-size: cover;
         height: 463px;
         margin-top: 40px;
         display: flex;

@@ -1,6 +1,10 @@
 using LearnOnline.API.Data;
+using LearnOnline.API.Services.AnswerService;
 using LearnOnline.API.Services.AuthService;
+using LearnOnline.API.Services.HistoryService;
 using LearnOnline.API.Services.NewsService;
+using LearnOnline.API.Services.PartService;
+using LearnOnline.API.Services.QuestionService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +39,10 @@ namespace LearnOnline.API
             );
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<INewService, NewService>();
+            services.AddScoped<IHistoryService, HistoryService>();
+            services.AddScoped<IPartService, PartService>();
+            services.AddScoped<IAnswerService, AnswerService>();
+            services.AddScoped<IQuestionService, QuestionService>();
             services.AddHttpContextAccessor();
         }
 

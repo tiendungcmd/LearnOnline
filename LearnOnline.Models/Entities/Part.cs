@@ -1,8 +1,7 @@
-﻿using LearnOnline.Models.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LearnOnline.Models
+namespace LearnOnline.Models.Entities
 {
     public class Part
     {
@@ -13,10 +12,10 @@ namespace LearnOnline.Models
         public int SkillId { get; set; }
         public int LevelId { get; set; }
         public int CategoryId { get; set; }
-        public byte Record { get; set; }
+        public string Record { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
-        public ICollection<Answer> Answers { get; set; }
+        public ICollection<Question> Questions{ get; set; }
         [StringLength(255)]
         public string Style { get; set; }
         public int Score { get; set; }

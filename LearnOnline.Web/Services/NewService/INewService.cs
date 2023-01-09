@@ -6,6 +6,8 @@ namespace LearnOnline.Web.Services.NewService
 {
     public interface INewService
     {
-        public Task<ServiceResponse<List<New>>> GetNews();
+        List<New> News { get; set; }
+        public Task GetNews();
+        public Task<ServiceResponse<New>> GetNewById(int id);
     }
 }

@@ -16,11 +16,18 @@ namespace LearnOnline.Web.Services.NewService
             _httpClient = httpClient;
         }
 
+        public List<New> News { get; set; } = new List<New>();
 
-        public async Task<ServiceResponse<List<New>>> GetNews()
+        public async Task<ServiceResponse<New>> GetNewById(int id)
+        {
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<New>>($"api/New/id?id={id}");
+            return response;
+        }
+
+        public async Task GetNews()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<New>>>("api/New");
-            return response;
+            News = response.Data;
         }
     }
 }

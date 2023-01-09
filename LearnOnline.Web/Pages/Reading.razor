@@ -1,0 +1,68 @@
+﻿@page "/audit/reading"
+@using LearnOnline.Models
+@using LearnOnline.Models.Entities
+@inject IPartService partService
+@inject HttpClient _httpClient
+<h3>Reading</h3>
+
+<div>
+    <div id="nav">
+        <p>Dạng bài</p>
+        <a href="/audit/listening">January Reading Practice Test 1</a>
+        <br />
+        <a href="/audit/listening">January Reading Practice Test 1</a><br />
+        <a href="/audit/listening">January Reading Practice Test 2</a><br />
+        <a href="/audit/listening">March Reading Practice Test 1</a><br />
+    </div>
+
+    <div id="section">
+        @foreach (var item in Parts)
+        {
+            <p>@item.Title</p>
+            @* <img src="../image/@item.Image" style="height:auto;width:auto" alt="">*@
+
+            <audio controls>
+                <source src="../audio/@item.Record">
+            </audio>
+
+
+        }
+    </div>
+</div>
+
+<style>
+    #nav {
+        line-height: 30px;
+        background-color: #eeeeee;
+        height: 300px;
+        width: 25%;
+        float: left;
+        padding: 5px;
+    }
+
+    #section {
+        width: 65%;
+        float: left;
+        padding: 10px;
+    }
+</style>
+@code {
+    int count = 5;
+    string value = "answer.Result";
+    AnswerDto answer = new AnswerDto();
+    private static List<Part> Parts = new List<Part>();
+    private static List<Answer> Answers = new List<Answer>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await partService.GetParts();
+        Parts = response.Data;
+        var partId = 1;
+        var answer = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Answer>>>($"api/Answer/{partId}");
+        Answers = answer.Data;
+    }
+    async Task Handle()
+    {
+
+    }
+}
+

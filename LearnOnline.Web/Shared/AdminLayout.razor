@@ -1,0 +1,40 @@
+﻿@inherits LayoutComponentBase
+<link href="../admin/styles.css" rel="stylesheet" />
+<link href="../admin/custom.css" rel="stylesheet" />
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <a role="button" class="nav-link" href="/admin">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Part
+                    </a>
+                    <a role="button" class="nav-link" href="/admin/new">
+                        <div class="sb-nav-link-icon"><i class="fa fa-store"></i></div>
+                        News
+                    </a>
+                    <a role="button" class="nav-link" href="/admin/User">
+                        <div class="sb-nav-link-icon"><i class="fa fa-users"></i></div>
+                        User
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                @Body
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+

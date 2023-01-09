@@ -1,0 +1,85 @@
+﻿@page "/admin/CreatePart"
+@layout AdminLayout
+@using LearnOnline.Models
+@using System.IO
+@inject HttpClient client
+
+<EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-0">
+        <label for="title">Title</label>
+        <InputText id="title" @bind-Value="partDto.Title" class="form-control"></InputText>
+    </div>
+    <div class="mb-0">
+        <label for="record">Image</label>
+        <InputFile OnChange="HandleSelection" multiple  class="form-control"/>
+    </div>
+    <div class="mb-0">
+        <label for="imageUrl">Score</label>
+        <InputNumber id="imageUrl" @bind-Value="partDto.Score" class="form-control"></InputNumber>
+    </div>
+    <div class="mb-0">
+        <label for="record">Record</label>
+        <InputFile OnChange="HandleSelection" multiple  class="form-control"/>
+    </div>
+    <hr />
+    <p>Đáp Án</p>
+    <div class="col-3">
+        <label for="imageUrl">Câu hỏi 1</label>
+        <InputText id="question1" @bind-Value="partDto.Question1" class="form-control"></InputText>
+        <label for="imageUrl">Đáp án</label>
+        <InputText id="result1" @bind-Value="partDto.Result1" class="form-control"></InputText>
+    </div>
+    <div class="col-3">
+        <label for="imageUrl">Câu hỏi 2</label>
+        <InputText id="question2" @bind-Value="partDto.Question2" class="form-control"></InputText>
+        <label for="imageUrl">Đáp án</label>
+        <InputText id="result2" @bind-Value="partDto.Result2" class="form-control"></InputText>
+    </div>
+    <div class="col-3">
+        <label for="imageUrl">Câu hỏi 3</label>
+        <InputText id="question3" @bind-Value="partDto.Question3" class="form-control"></InputText>
+        <label for="imageUrl">Đáp án</label>
+        <InputText id="result3" @bind-Value="partDto.Result3" class="form-control"></InputText>
+    </div>
+    <div class="col-3">
+        <label for="imageUrl">Câu hỏi 4</label>
+        <InputText id="question4" @bind-Value="partDto.Question4" class="form-control"></InputText>
+        <label for="imageUrl">Đáp án</label>
+        <InputText id="result4" @bind-Value="partDto.Result4" class="form-control"></InputText>
+    </div>
+    <div class="col-3">
+        <label for="imageUrl">Câu hỏi 5</label>
+        <InputText id="question5" @bind-Value="partDto.Question5" class="form-control"></InputText>
+        <label for="imageUrl">Đáp án</label>
+        <InputText id="result5" @bind-Value="partDto.Result5" class="form-control"></InputText>
+    </div>
+
+    <button type="submit" class="btn btn-primary float-end">@btnText</button>
+    <ValidationSummary></ValidationSummary>
+</EditForm>
+
+@code {
+    string btnText = "Add";
+    private static PartDto partDto = new PartDto();
+   
+    async Task HandleSelection()
+    {
+
+    }
+    async void AddOrUpdatePart()
+    {
+
+        //if (product.IsNew)
+        //{
+        //    var result = await ProductService.CreateProduct(product);
+        //    NavigationManager.NavigateTo($"admin/product/{result.Id}");
+        //}
+        //else
+        //{
+        //    product.IsNew = false;
+        //    product = await ProductService.UpdateProduct(product);
+        //    NavigationManager.NavigateTo($"admin/product/{product.Id}", true);
+        //}
+    }
+}

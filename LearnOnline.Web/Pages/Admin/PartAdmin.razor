@@ -1,0 +1,60 @@
+﻿@layout AdminLayout
+@page "/admin"
+@using LearnOnline.Models
+@using LearnOnline.Models.Entities
+@inject IPartService partService
+@inject HttpClient _httpClient
+@inject NavigationManager NavigationManager
+<button class="btn btn-primary float-end" @onclick="CreatePart">
+    <i class="oi oi-plus"></i> Add new product
+</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Question</th>
+            <th>Category</th>
+            <th>Answer</th>
+            <th>Visible</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Parts)
+        {
+            <tr>
+                <td>
+                     <img src="../image/@item.Image" style="height:200px;width:auto" alt="">
+                </td>
+                <td>@item.Title</td>
+                <td>
+                </td>
+                <td>@item.Score </td>
+               
+                <td></td>
+                <td>
+                    <button class="btn btn-primary" >
+                        <i class="oi oi-pencil"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    private static List<Part> Parts = new List<Part>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await partService.GetParts();
+        Parts = response.Data;
+        var partId = 1;
+    }
+    void CreatePart()
+    {
+        NavigationManager.NavigateTo("admin/CreatePart");
+    }
+     void EditProduct(int productId)
+    {
+         NavigationManager.NavigateTo("admin/CreatePart");
+    }
+ }
+

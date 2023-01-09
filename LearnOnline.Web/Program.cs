@@ -1,14 +1,11 @@
 using LearnOnline.Web.Service;
 using LearnOnline.Web.Services.AuthService;
 using LearnOnline.Web.Services.NewService;
+using LearnOnline.Web.Services.PartService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LearnOnline.Web
@@ -23,6 +20,7 @@ namespace LearnOnline.Web
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44330/") });
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<INewService, NewService>();
+            builder.Services.AddScoped<IPartService, PartService>();
             await builder.Build().RunAsync();
         }
     }

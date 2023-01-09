@@ -1,26 +1,30 @@
 ﻿@page "/new"
 @using LearnOnline.Models
 @inject HttpClient _httpClient;
+@inject INewService NewService;
 <h3>New</h3>
 <ul id="list-products">
-    @foreach (var item in News)
+    @foreach (var item in NewService.News)
     {
         <div class="item">
-             <a href="/new/@item.Id">
-             <img class="media-img" src="../image/@item.Image" style="height:100px;width:200px" alt="">
-            </a>>
+            <a href="/new/@item.Id">
+                <img class="media-img" src="../image/@item.Image" style="height:100px;width:200px" alt="">
+            </a>
             <div class="name">@item.Title</div>
-            <div class="price">Xem</div>
+            <a href="/new/@item.Id">
+                <div class="price">Xem</div>
+            </a>
+           
         </div>
     }
 </ul>
 @code {
+
     private static List<New> News = new List<New>();
+
     protected override async Task OnInitializedAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<New>>>("api/New");
-        if (response != null && response.Data != null)
-            News = response.Data;
-        
+        //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<New>>>("api/New");
+        await NewService.GetNews();
     }
 }
