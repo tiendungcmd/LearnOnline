@@ -1,9 +1,10 @@
-﻿@page "/audit/reading2"
+﻿@page "/audit/listening"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
-@inject IPartService partService
+@using LearnOnline.Web.Services.CategoryService
+@inject ICategoryService CategoryService
 @inject HttpClient _httpClient
-<h3>Reading</h3>
+
 
 <div>
     <div id="nav">
@@ -14,14 +15,14 @@
         <a href="/audit/reading">Test Reading</a>
     </div>
     <div id="section">
-        @foreach (var item in Parts)
+        <h3>Danh sách Test</h3>
+        @foreach (var item in Categories)
         {
-                <p>@item.Title</p>
-            @* <img src="../image/@item.Image" style="height:auto;width:auto" alt="">*@
-
-                <audio controls>
-                    <source src="../audio/@item.Record">
-                </audio>
+                <div>
+                    <a href="/audit/listening/@item.Id">
+                    @item.CategoryName
+                    </a>
+                </div>
         }
     </div>
 </div>
@@ -43,22 +44,19 @@
     }
 </style>
 @code {
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+    int partId = 1;
     int count = 5;
     string value = "answer.Result";
     AnswerDto answer = new AnswerDto();
     private static List<Part> Parts = new List<Part>();
     private static List<Answer> Answers = new List<Answer>();
+    private static List<Category> Categories = new List<Category>();
+
     protected override async Task OnInitializedAsync()
     {
-        var response = await partService.GetParts();
-        Parts = response.Data;
-        var partId = 1;
-        var answer = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Answer>>>($"api/Answer/{partId}");
-        Answers = answer.Data;
-    }
-    async Task Handle()
-    {
-
+        var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
+        Categories = response;
     }
 }
-

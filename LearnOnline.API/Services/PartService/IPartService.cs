@@ -8,7 +8,7 @@ namespace LearnOnline.API.Services.PartService
     public interface IPartService
     {
         ServiceResponse<List<Part>> GetParts();
-        ServiceResponse<Part> GetPartById(int partId);
+        ServiceResponse<List<Part>> GetPartById(int categoryId);
         Task<ServiceResponse<Part>> CreatePart(Part part);
         Task<ServiceResponse<Part>> UpdatePart(Part part);
         Task<ServiceResponse<Part>> DeletePart(Part part);

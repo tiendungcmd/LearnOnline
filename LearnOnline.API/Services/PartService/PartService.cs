@@ -30,12 +30,12 @@ namespace LearnOnline.API.Services.PartService
         {
             throw new System.NotImplementedException();
         }
-
-        public ServiceResponse<Part> GetPartById(int partId)
+        //get by id category
+        public ServiceResponse<List<Part>> GetPartById(int categoryId)
         {
-            return new ServiceResponse<Part>()
+            return new ServiceResponse<List<Part>>()
             {
-                Data = _onlineDbContext.Parts.FirstOrDefault(x => x.Id == partId)
+                Data = _onlineDbContext.Parts.Where(x => x.CategoryId == categoryId).ToList()
             };
         }
 

@@ -28,9 +28,9 @@ namespace LearnOnline.API.Controllers
             return Ok(resulst);
         }
         [HttpGet("PartId")]
-        public ActionResult<ServiceResponse<List<Part>>> GetByPartId()
+        public ActionResult<ServiceResponse<List<Part>>> GetByPartId(int PartId)
         {
-            var resulst = _partService.GetParts();
+            var resulst = _partService.GetPartById(PartId);
             return Ok(resulst);
         }
 

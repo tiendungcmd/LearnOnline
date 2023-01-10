@@ -1,5 +1,6 @@
 using LearnOnline.Web.Service;
 using LearnOnline.Web.Services.AuthService;
+using LearnOnline.Web.Services.CategoryService;
 using LearnOnline.Web.Services.NewService;
 using LearnOnline.Web.Services.PartService;
 using LearnOnline.Web.Services.Upload;
@@ -23,6 +24,7 @@ namespace LearnOnline.Web
             builder.Services.AddScoped<INewService, NewService>();
             builder.Services.AddScoped<IPartService, PartService>();
             builder.Services.AddScoped<IFileUpload, FileUpload>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             await builder.Build().RunAsync();
         }
     }

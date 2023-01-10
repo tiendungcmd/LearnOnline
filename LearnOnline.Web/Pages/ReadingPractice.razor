@@ -1,16 +1,17 @@
-﻿@page "/audit/listening1"
+﻿@page "/audit/reading/{id:int}"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
 @inject IPartService partService
 @inject HttpClient _httpClient
-<h3>Listening</h3>
+@inject NavigationManager NavigationManager
 
 <div>
     <div id="nav">
-        <p>Dạng bài</p>
-        <a href="/audit/listening">Unit 1</a>
+        <a href="/new">Tin tức mới nhất</a>
         <br />
-
+        <a href="/audit/listening">Test Listening</a>
+        <br />
+        <a href="/audit/reading">Test Reading</a>
     </div>
 
     <div id="section">
@@ -18,12 +19,9 @@
         {
             <p>@item.Title</p>
             <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
-
-            <audio controls>
-                <source src="../audio/@item.Record">
-            </audio>
-
+            <img src="../image/@item.Image1" style="height:auto;width:auto" alt="">
         }
+
         <EditForm Model="answer" OnValidSubmit="Handle">
             <DataAnnotationsValidator />
 
@@ -42,11 +40,16 @@
             <div class="mb-3">
                 <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-3" placeholder="5" />
             </div>
-            <button type="submit" class="btn btn-primary">Nộp Bài</button>
+            <div>
+                <button type="submit" class="btn btn-primary">Chek</button>
+                <a class="btn btn-primary" href="/audit/reading">Quay Lại</a>
+            </div>
+
             <div class="@messageCssClass">
                 <span>@message</span>
             </div>
         </EditForm>
+
     </div>
 </div>
 
@@ -69,26 +72,30 @@
 @code {
     string message = string.Empty;
     string messageCssClass = string.Empty;
-    int partId = 1;
+    string record = string.Empty;
+    string image = string.Empty;
     int count = 5;
-    string value = "answer.Result";
+    [Parameter]
+    public int Id { get; set; }
     AnswerDto answer = new AnswerDto();
+    private static Part parts = new Part();
     private static List<Part> Parts = new List<Part>();
     private static List<Answer> Answers = new List<Answer>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await partService.GetParts();
-        Parts = response.Data;
-
-        var partId = 1;
-        var answer = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Answer>>>($"api/Answer/{partId}");
-        Answers = answer.Data;
+        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");
+        var x = response.Data;
+        Parts = x.Where(x => x.SkillId == 1).ToList();
+    }
+    async Task HandleBack()
+    {
+        NavigationManager.NavigateTo("/audit/reading");
     }
     async Task Handle()
     {
         var result = 0;
         var x = answer;
-        var answers = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Question>>>($"api/Question/{partId}");
+        var answers = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Question>>>($"api/Question/{Id}");
         if (answer.Result1.ToLower() != "" && answers.Data[0].Result.ToLower().Contains(answer.Result1.ToLower()))
         {
             result++;
