@@ -1,52 +1,107 @@
-﻿@page "/audit/listening1"
+﻿@page "/audit/listening1/{id:int}"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
 @inject IPartService partService
 @inject HttpClient _httpClient
-<h3>Listening</h3>
+@inject NavigationManager NavigationManager
 
 <div>
     <div id="nav">
-        <p>Dạng bài</p>
-        <a href="/audit/listening">Unit 1</a>
+        <a href="/new">Tin tức mới nhất</a>
         <br />
-
+        <a href="/audit/listening">Test Listening</a>
+        <br />
+        <a href="/audit/reading">Test Reading</a>
     </div>
 
     <div id="section">
-        @foreach (var item in Parts)
-        {
-            <p>@item.Title</p>
-            <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
+        <div class="row">
+            <div class="col ">
+                @*  @foreach (var item in Parts)
+                    {
+                    <div class="row">
+                    <h2>@item.Title</h2>
+                    <audio controls>
+                    <source src="../audio/@item.Record">
+                    </audio>
+                    </div>
+                    <div class="col">
+                    <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
+                    </div>
+                    }*@
+                <div class="row ">
+                    <div class="title">
+                        <h2>UNIT 1</h2>
+                    </div>
 
-            <audio controls>
-                <source src="../audio/@item.Record">
-            </audio>
+                    <div class="audi">
+                        <audio controls>
+                            <source src="../audio/1.mp3">
+                        </audio>
+                    </div>
+                    <hr />
+                </div>
+                <div class="col content">
+                    <img src="../image/1.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/2.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/3.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/4.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/5.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/6.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/7.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/8.PNG" style="height:auto;width:auto" alt="">
+                    <img src="../image/9.PNG" style="height:auto;width:auto" alt="">
+                </div>
+            </div>
+            <div class="MenuAnswer">
+                <div>
+                    <h1>Đáp án</h1>
+                </div>
 
-        }
-        <EditForm Model="answer" OnValidSubmit="Handle">
-            <DataAnnotationsValidator />
+                <EditForm Model="answer" OnValidSubmit="Handle">
+                    <DataAnnotationsValidator />
+                    <div class="answer">
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-6" placeholder="1" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-6 " placeholder="2" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-6 " placeholder="3" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-6 " placeholder="4" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-6" placeholder="5" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-6" placeholder="6" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-6 " placeholder="7" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-6 " placeholder="8" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-6 " placeholder="4" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-6" placeholder="5" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Chek</button>
+                        <br />
+                        <button class="btn btn-primary" href="/audit/listening">Quay Lại</button>
+                        <div class="@messageCssClass">
+                            <span>@message</span>
+                        </div>
+                    </div>
 
-            <div class="mb-3">
-                <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-3" placeholder="1" />
+                </EditForm>
             </div>
-            <div class="mb-3">
-                <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-3 " placeholder="2" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-3 " placeholder="3" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-3 " placeholder="4" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-3" placeholder="5" />
-            </div>
-            <button type="submit" class="btn btn-primary">Nộp Bài</button>
-            <div class="@messageCssClass">
-                <span>@message</span>
-            </div>
-        </EditForm>
+        </div>
     </div>
 </div>
 
@@ -55,9 +110,27 @@
         line-height: 30px;
         background-color: #eeeeee;
         height: 300px;
-        width: 25%;
+        width: 17%;
         float: left;
         padding: 5px;
+    }
+
+    .check {
+    }
+
+    .audi {
+        margin-left: 45%
+    }
+
+    .title {
+        margin-left: 10%
+    }
+
+    .content {
+        height: 800px;
+        width: 90%;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     #section {
@@ -65,30 +138,51 @@
         float: left;
         padding: 10px;
     }
+
+    .answer {
+        width: 200px;
+        height: 400px;
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 10%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .MenuAnswer {
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 13%;
+    }
 </style>
 @code {
     string message = string.Empty;
     string messageCssClass = string.Empty;
-    int partId = 1;
+    string record = string.Empty;
+    string image = string.Empty;
     int count = 5;
-    string value = "answer.Result";
+    [Parameter]
+    public int Id { get; set; }
     AnswerDto answer = new AnswerDto();
+    private static Part parts = new Part();
     private static List<Part> Parts = new List<Part>();
-    private static List<Answer> Answers = new List<Answer>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await partService.GetParts();
-        Parts = response.Data;
-
-        var partId = 1;
-        var answer = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Answer>>>($"api/Answer/{partId}");
-        Answers = answer.Data;
+        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");
+        var x = response.Data;
+        Parts = x.Where(x => x.SkillId == 2).ToList();
+    }
+    async Task HandleBack()
+    {
+        NavigationManager.NavigateTo("/audit/listening");
     }
     async Task Handle()
     {
         var result = 0;
         var x = answer;
-        var answers = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Question>>>($"api/Question/{partId}");
+        var answers = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Question>>>($"api/Question/{Id}");
         if (answer.Result1.ToLower() != "" && answers.Data[0].Result.ToLower().Contains(answer.Result1.ToLower()))
         {
             result++;

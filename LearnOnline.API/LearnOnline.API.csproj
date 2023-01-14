@@ -12,11 +12,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Syncfusion.Licensing" Version="20.1.0.61" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LearnOnline.Models\LearnOnline.Models.csproj" />
-    <ProjectReference Include="..\LearnOnline.Web\LearnOnline.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\ImageService\" />
   </ItemGroup>
 
 </Project>

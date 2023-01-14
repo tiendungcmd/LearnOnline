@@ -1,0 +1,71 @@
+﻿@page "/admin/createReading"
+@using LearnOnline.Web
+@using LearnOnline.Web.Services
+@layout AdminLayout
+@inject UploadFile uploadFile
+
+<h3>CreateFile</h3>
+
+<InputFile OnChange="OnInputFileChange" multiple></InputFile>
+<button class="btn btn-succes" @onclick="FileUpload">save</button>
+<br>
+<label>@labelText</label>
+
+@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+{
+    <div>
+        @foreach (var img in iamgeDataUrls)
+        {
+            <img src="@img" width=150 height=150 />
+        }
+    </div>
+}
+@code {
+    string labelText = "";
+    List<string> iamgeDataUrls = new List<string>();
+    List<Image> imageList = new List<Image>();
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFileUpload();
+    }
+    async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        var format = "image/png";
+        foreach (var item in imageFiles)
+        {
+            var image = new Image();
+            // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
+            var buffer = new byte[item.Size];
+
+            await item.OpenReadStream().ReadAsync(buffer);
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            iamgeDataUrls.Add(imgUrl);
+            image.ImageName = item.Name;
+            image.Data = buffer;
+            image.PartId = 1;
+            imageList.Add(image);
+        }
+
+    }
+    public async void FileUpload()
+    {
+        foreach (var item in imageList)
+        {
+            uploadFile.SaveFile(item);
+        }
+
+
+    }
+    public async Task GetFileUpload()
+    {
+        imageList = await uploadFile.GetFile(1);
+        var format = "image/png";
+        foreach (var item in imageList)
+        {
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
+            iamgeDataUrls.Add(imgUrl);
+        }
+    }
+}

@@ -14,8 +14,7 @@ namespace LearnOnline.Models.Entities
         public int CategoryId { get; set; }
         public string Record { get; set; }
         public string Image { get; set; }
-        public string Image1 { get; set; }
-        public List<Image> Images { get; set; } = new List<Image>();
+        public ICollection<Image> Images { get; set; }
         public string Description { get; set; }
         public ICollection<Question> Questions{ get; set; }
         [StringLength(255)]

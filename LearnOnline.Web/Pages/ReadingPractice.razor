@@ -19,7 +19,6 @@
         {
             <p>@item.Title</p>
             <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
-            <img src="../image/@item.Image1" style="height:auto;width:auto" alt="">
         }
 
         <EditForm Model="answer" OnValidSubmit="Handle">
@@ -42,7 +41,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Chek</button>
-                <a class="btn btn-primary" href="/audit/reading">Quay Lại</a>
+                <a class="btn btn-primary" href="https://localhost:44388/">Quay Lại</a>
             </div>
 
             <div class="@messageCssClass">
@@ -80,7 +79,6 @@
     AnswerDto answer = new AnswerDto();
     private static Part parts = new Part();
     private static List<Part> Parts = new List<Part>();
-    private static List<Answer> Answers = new List<Answer>();
     protected override async Task OnInitializedAsync()
     {
         var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");

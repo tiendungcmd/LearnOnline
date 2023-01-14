@@ -15,43 +15,70 @@
     </div>
 
     <div id="section">
-        @foreach (var item in Parts)
-        {
-            <h2>@item.Title</h2>
-            <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
+        <div class="row">
+            <div class="col">
+                @foreach (var item in Parts)
+                {
+                    <div class="row">
+                        <h2>@item.Title</h2>
+                        <audio controls>
+                            <source src="../audio/@item.Record">
+                        </audio>
+                    </div>
+                    <div class="col">
+                        <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
+                    </div>
+                }
+            </div>
+            <div class="MenuAnswer">
+                <div>
+                    <h1>Đáp án</h1>
+                </div>
+                <div class="answer">
+                    <EditForm Model="answer" OnValidSubmit="Handle">
+                        <DataAnnotationsValidator />
 
-            <audio controls>
-                <source src="../audio/@item.Record">
-            </audio>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-6" placeholder="1" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-6 " placeholder="2" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-6 " placeholder="3" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-6 " placeholder="4" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-6" placeholder="5" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-6" placeholder="1" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-6 " placeholder="2" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-6 " placeholder="3" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-6 " placeholder="4" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-6" placeholder="5" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Chek</button>
+                        <br />
+                        <a href="/audit/listening">Quay Lại</a>
+                        <div class="@messageCssClass">
+                            <span>@message</span>
+                        </div>
+                    </EditForm>
+                </div>
 
-        }
-
-        <EditForm Model="answer" OnValidSubmit="Handle">
-            <DataAnnotationsValidator />
-
-            <div class="mb-3">
-                <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-3" placeholder="1" />
             </div>
-            <div class="mb-3">
-                <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-3 " placeholder="2" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-3 " placeholder="3" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-3 " placeholder="4" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-3" placeholder="5" />
-            </div>
-            <button type="submit" class="btn btn-primary">Chek</button>
-            <br />
-            <a href="/audit/listening">Quay Lại</a>
-            <div class="@messageCssClass">
-                <span>@message</span>
-            </div>
-        </EditForm>
-
+        </div>
     </div>
 </div>
 
@@ -60,7 +87,7 @@
         line-height: 30px;
         background-color: #eeeeee;
         height: 300px;
-        width: 25%;
+        width: 17%;
         float: left;
         padding: 5px;
     }
@@ -69,6 +96,24 @@
         width: 65%;
         float: left;
         padding: 10px;
+    }
+
+    .answer {
+        width: 200px;
+        height: 400px;
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    
+    .MenuAnswer {
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 0;
     }
 </style>
 @code {
@@ -82,7 +127,6 @@
     AnswerDto answer = new AnswerDto();
     private static Part parts = new Part();
     private static List<Part> Parts = new List<Part>();
-    private static List<Answer> Answers = new List<Answer>();
     protected override async Task OnInitializedAsync()
     {
         var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");

@@ -18,11 +18,11 @@
         <h3>Danh sách Test</h3>
         @foreach (var item in Categories)
         {
-            <div>
-                <a href="/audit/reading/@item.Id">
+                <div>
+                    <a href="/audit/reading/@item.Id">
                     @item.CategoryName
-                </a>
-            </div>
+                    </a>
+                </div>
         }
     </div>
 </div>
@@ -51,7 +51,6 @@
     string value = "answer.Result";
     AnswerDto answer = new AnswerDto();
     private static List<Part> Parts = new List<Part>();
-    private static List<Answer> Answers = new List<Answer>();
     private static List<Category> Categories = new List<Category>();
 
     protected override async Task OnInitializedAsync()

@@ -47,14 +47,11 @@
     string value = "answer.Result";
     AnswerDto answer = new AnswerDto();
     private static List<Part> Parts = new List<Part>();
-    private static List<Answer> Answers = new List<Answer>();
     protected override async Task OnInitializedAsync()
     {
         var response = await partService.GetParts();
         Parts = response.Data;
         var partId = 1;
-        var answer = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Answer>>>($"api/Answer/{partId}");
-        Answers = answer.Data;
     }
     async Task Handle()
     {

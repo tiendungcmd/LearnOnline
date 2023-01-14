@@ -45,59 +45,6 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.Models.Entities.Answer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Answer");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "invented by children.",
-                            QuestionId = 1,
-                            Title = "A"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "made by a lens maker.",
-                            QuestionId = 1,
-                            Title = "B"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "a reflective telescope.",
-                            QuestionId = 1,
-                            Title = "C"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Content = "quite a complex piece of equipment.",
-                            QuestionId = 1,
-                            Title = "D"
-                        });
-                });
-
             modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
                 {
                     b.Property<int>("Id")
@@ -261,10 +208,13 @@ namespace LearnOnline.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Data")
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PartId")
+                    b.Property<int>("PartId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -568,17 +518,6 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.Models.Entities.Answer", b =>
-                {
-                    b.HasOne("LearnOnline.Models.Entities.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-                });
-
             modelBuilder.Entity("LearnOnline.Models.Entities.Part", b =>
                 {
                     b.HasOne("LearnOnline.Models.Category", "Category")
@@ -632,7 +571,9 @@ namespace LearnOnline.API.Migrations
                 {
                     b.HasOne("LearnOnline.Models.Entities.Part", null)
                         .WithMany("Images")
-                        .HasForeignKey("PartId");
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearnOnline.Models.New", b =>
@@ -715,11 +656,6 @@ namespace LearnOnline.API.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("LearnOnline.Models.Entities.Question", b =>
-                {
-                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("LearnOnline.Models.Level", b =>

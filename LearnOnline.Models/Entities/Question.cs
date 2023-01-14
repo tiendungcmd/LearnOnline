@@ -11,6 +11,5 @@ namespace LearnOnline.Models.Entities
         public string Content { get; set; }
         public string Result { get; set; }
         public Part Part { get; set; }
-        public ICollection<Answer> Answers { get; set; }
     }
 }

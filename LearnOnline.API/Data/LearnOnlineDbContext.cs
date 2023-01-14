@@ -23,7 +23,6 @@ namespace LearnOnline.API.Data
         public DbSet<UserHistory> UserHistories { get; set; }
         public DbSet<UserInformation> UserInformations { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Answer> Answer { get; set; }
         public DbSet<Question> Question { get; set; }
         public DbSet<Image> Images { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -183,36 +182,7 @@ namespace LearnOnline.API.Data
                 Result = "B",
                 PartId = 1
             });
-            //Answer
-            modelBuilder.Entity<Answer>().HasData(new Answer
-            {
-                Id = 1,
-                QuestionId = 1,
-                Title = "A",
-                Content = "invented by children."
-            });
-
-            modelBuilder.Entity<Answer>().HasData(new Answer
-            {
-                Id = 2,
-                QuestionId = 1,
-                Title = "B",
-                Content = "made by a lens maker."
-            });
-            modelBuilder.Entity<Answer>().HasData(new Answer
-            {
-                Id = 3,
-                QuestionId = 1,
-                Title = "C",
-                Content = "a reflective telescope."
-            });
-            modelBuilder.Entity<Answer>().HasData(new Answer
-            {
-                Id = 4,
-                QuestionId = 1,
-                Title = "D",
-                Content = "quite a complex piece of equipment."
-            });
+           
             //Categories
 
             modelBuilder.Entity<UserRole>().HasData(new UserRole

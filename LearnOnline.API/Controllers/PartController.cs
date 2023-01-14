@@ -1,9 +1,7 @@
-﻿using LearnOnline.API.Services.AnswerService;
-using LearnOnline.API.Services.PartService;
+﻿using LearnOnline.API.Services.PartService;
 using LearnOnline.Models;
 using LearnOnline.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 
 namespace LearnOnline.API.Controllers
@@ -13,12 +11,10 @@ namespace LearnOnline.API.Controllers
     public class PartController : Controller
     {
         private readonly IPartService _partService;
-        private readonly IAnswerService _answerService;
 
-        public PartController(IPartService partService, IAnswerService answerService)
+        public PartController(IPartService partService)
         {
             _partService = partService;
-            _answerService = answerService;
         }
 
         [HttpGet]

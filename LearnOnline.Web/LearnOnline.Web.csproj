@@ -4,7 +4,6 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<UserSecretsId>a93825a4-a95e-4043-8aac-70406103c89c</UserSecretsId>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<None Remove="Pages\Login.razor.css" />
 		<None Remove="Pages\Register.razor.css" />
@@ -25,7 +24,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
-		<PackageReference Include="Syncfusion.Blazor.Inputs" Version="20.4.0.42" />
+		<PackageReference Include="Syncfusion.Blazor.Inputs" Version="20.1.0.61" />
+		<PackageReference Include="Syncfusion.Blazor.Themes" Version="20.4.0.43" />
+		<PackageReference Include="Syncfusion.Licensing" Version="20.1.0.61" />
 		<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>

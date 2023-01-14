@@ -1,6 +1,6 @@
 using LearnOnline.API.Data;
-using LearnOnline.API.Services.AnswerService;
 using LearnOnline.API.Services.AuthService;
+using LearnOnline.API.Services.FileUploadService;
 using LearnOnline.API.Services.HistoryService;
 using LearnOnline.API.Services.NewsService;
 using LearnOnline.API.Services.PartService;
@@ -41,8 +41,8 @@ namespace LearnOnline.API
             services.AddScoped<INewService, NewService>();
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<IPartService, PartService>();
-            services.AddScoped<IAnswerService, AnswerService>();
-            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<UploadFileService>();
+            services.AddScoped<IQuestionService, QuestionService>(); 
             services.AddHttpContextAccessor();
         }
 

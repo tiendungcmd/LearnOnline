@@ -1,0 +1,198 @@
+﻿@layout AdminLayout
+@page "/admin/question"
+<div id="wp-products">
+    <h2>Đề Bài</h2>
+    <ul id="list-products">
+        <div class="item">
+            <a href="/admin/reading">
+                <img class="media-img" src="../image/reading.jpg" style="height:100px;width:200px" alt="">
+            </a>
+            <div class="name">Reading</div>
+        </div>
+
+        <div class="item">
+            <a href="/admin/listening">
+                <img class="media-img" src="../image/listening.png" style="height:100px;width:200px" alt="">
+            </a>
+            <div class="name">Listening</div>
+        </div>
+
+        <div class="item">
+            <a href="/admin/speaking">
+                <img class="media-img" src="../image/speaking.jpg" style="height:100px;width:200px" alt="">
+            </a>
+            <div class="name">Speaking</div>
+        </div>
+
+        <div class="item">
+            <a href="/admin/writing">
+                <img class="media-img" src="../image/writing.png" style="height:100px;width:200px" alt="">
+            </a>
+            <div class="name">Writing</div>
+        </div>
+
+
+    </ul>
+</div>
+<style>
+    .media-img:hover {
+        transform: scale(1.1);
+    }
+
+    .media-img {
+        border-radius: 6px;
+    }
+    #wp-products {
+        padding-top: 50px;
+        padding-bottom: 78px;
+        padding-left: 134px;
+        padding-right: 134px;
+    }
+
+        #wp-products h2 {
+            text-align: center;
+            margin-bottom: 76px;
+            font-size: 32px;
+            color: #626a67;
+        }
+
+    #list-products {
+        display: flex;
+        list-style: none;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    #list-products .item img {
+        display: block;
+        margin: 0px auto;
+        margin-top: 17px;
+    }
+
+    #list-products .item .stars {
+        display: flex;
+        margin: 0px auto;
+        width: 50%;
+    }
+
+    #list-products .item .name {
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+        margin-top: 21px;
+    }
+
+    #list-products .item .desc {
+        text-align: center;
+        color: #626a67;
+    }
+
+    #list-products .item .price {
+        text-align: center;
+        color: #f42424;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    #menu .item {
+        margin: 0px 25px;
+    }
+
+        #menu .item a {
+            color: #626A67;
+            text-decoration: none;
+        }
+
+    #actions .item {
+        margin-left: 22px;
+    }
+
+    #list-products .item {
+        width: 290px;
+        height: 200px;
+        background: #362f2f;
+        border-radius: 10px;
+        margin-bottom: 50px;
+    }
+
+    #list-products .item img {
+        display: block;
+        margin: 0px auto;
+        margin-top: 17px;
+    }
+
+    #list-products .item .stars {
+        display: flex;
+        margin: 0px auto;
+        width: 50%;
+    }
+
+    #list-products .item .name {
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+        margin-top: 21px;
+    }
+
+    #list-products .item .desc {
+        text-align: center;
+        color: #626a67;
+    }
+
+    #list-products .item .price {
+        text-align: center;
+        color: #f42424;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .list-page .item {
+        margin: 0px 15px;
+        width: 37px;
+        height: 37px;
+        background: #362f2f;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .list-page .item a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    #list-comment .item {
+        width: 100%;
+        height: 100%;
+        background: #362f2f;
+        border-radius: 20px;
+        padding-top: 50px;
+    }
+
+    #list-comment .item .avatar {
+        text-align: center;
+        margin-top: 13px;
+    }
+
+    #list-comment .item .stars {
+        display: flex;
+        margin: 0px auto;
+        width: 50%;
+        margin-top: 32px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #list-comment .item .name {
+        text-align: center;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    #list-comment .item .text {
+        padding: 20px 50px;
+        color: #fff;
+    }
+</style>
