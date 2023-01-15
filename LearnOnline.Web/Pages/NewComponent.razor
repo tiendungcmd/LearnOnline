@@ -2,8 +2,12 @@
 @using LearnOnline.Models
 @inject HttpClient _httpClient;
 @inject INewService NewService;
-<h3>New</h3>
+
 <ul id="list-products">
+    <div class="col-12 new">
+        <h3>New</h3>
+    </div>
+
     @foreach (var item in NewService.News)
     {
         <div class="item">
@@ -14,10 +18,15 @@
             <a href="/new/@item.Id">
                 <div class="price">Xem</div>
             </a>
-           
+
         </div>
     }
 </ul>
+<style>
+    .new {
+        text-align: center;
+    }
+</style>
 @code {
 
     private static List<New> News = new List<New>();

@@ -22,6 +22,14 @@ namespace LearnOnline.API.Controllers
             var result = _learnOnlineDb.Categories.ToList();
             return result;
         }
+        [HttpPost]
+        public ActionResult<Category> CreateCategory(Category category)
+        {
+            if (category.CategoryName == null) return Ok();
+            var result = _learnOnlineDb.Categories.Add(category);
+            _learnOnlineDb.SaveChanges();
+            return Ok(result);
+        }
         [HttpGet("categoryName")]
         public ActionResult<ServiceResponse<Category>> Index(string categoryName)
         {

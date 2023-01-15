@@ -1,0 +1,45 @@
+﻿@page "/admin/CreateCategory"
+@using LearnOnline.Web
+@using LearnOnline.Web.Services
+@layout AdminLayout
+@inject HttpClient _client
+@inject NavigationManager NavigationManager
+
+<EditForm Model="category" OnValidSubmit="AddOrUpdateCategory">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="row">
+        <div class="mb-0 col-3">
+            <label for="title">Name</label>
+            <InputText id="title" @bind-Value="category.CategoryName" class="form-control"></InputText>
+        </div>
+        <div class="mb-0 col-3">
+            <label for="title">Description</label>
+            <InputText id="title" @bind-Value="category.Description" class="form-control"></InputText>
+        </div>
+    </div>
+    <hr />
+    <button type="submit" class="btn btn-primary float-end">@btnText</button>
+    <ValidationSummary></ValidationSummary>
+</EditForm>
+@code {
+    string btnText = "Add";
+    string labelText = "";
+    List<string> iamgeDataUrls = new List<string>();
+    List<Category> categories = new List<Category>();
+
+    private static Category category = new Category();
+     //private static List<Category> categories = new List<Category>();
+    protected override async Task OnInitializedAsync()
+    {
+        //await GetFileUpload();
+    }
+    async void AddOrUpdateCategory()
+    {
+        //var result = await _client.PostAsJsonAsync("api/Image/image", image);
+        //return await result.Content.ReadFromJsonAsync<ServiceResponse<Image>>();
+        await _client.PostAsJsonAsync("api/Category",category);
+        //back
+        category = new Category();
+        NavigationManager.NavigateTo("admin/category");
+    }
+}

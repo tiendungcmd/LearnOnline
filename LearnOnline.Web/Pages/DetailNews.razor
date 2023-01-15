@@ -4,13 +4,21 @@
 @using LearnOnline.Models
 @inject INewService NewService
 @inject HttpClient _client
-<h3>NewDetails</h3>
+
 <div class="container ">
+    <div class="col-12 new">
+        <div class="name"> <h3> <b>@newItem?.Title</b></h3></div>
+    </div>
+
     <img src="../image/@newItem?.Image" style="height:500px;width:500px;margin-left: 25%;" alt="">
-    <div class="name"><b>@newItem?.Title</b></div>
+
     <div class="name">@newItem?.Description</div>
 </div>
-
+<style>
+    .new {
+        text-align: center;
+    }
+</style>
 @code {
     private static List<New> News = new List<New>();
     private New newItem = null;

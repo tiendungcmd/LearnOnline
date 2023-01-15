@@ -22,19 +22,23 @@
     <tbody>
         @for (int i = 1; i <= Parts.Count; i++)
         {
-           var x = @Parts[i-1].Id;
+            var x = @Parts[i - 1].Id;
+            var cateogryId = @Parts[i - 1].CategoryId;
+            var category = categories.FirstOrDefault(s => s.Id == cateogryId);
             <tr>
                 <td>@i</td>
                 <td>@Parts[i-1].Title</td>
-                <td>Willpower</td>
+                <td>
+                    @category?.CategoryName
+                </td>
                 <td>
                     @*<div class="btn btn-primary">
                         <a href="/admin/createAnswer/@Parts[i-1].Id">
-                             <i class="oi oi-copywriting"></i>
-                            Đáp án
+                        <i class="oi oi-copywriting"></i>
+                        Đáp án
                         </a>
-                    </div>*@
-                    <button class="btn btn-primary"  @onclick="(() => DA(x))">
+                        </div>*@
+                    <button class="btn btn-primary" @onclick="(() => DA(x))">
                         <i class="oi oi-copywriting"></i>
                         Đán Án
                     </button>
@@ -49,14 +53,17 @@
     </tbody>
 </table>
 @code {
-    public int index = 1;
     private static List<Part> Parts = new List<Part>();
+    private static List<Category> categories = new List<Category>();
+
     protected override async Task OnInitializedAsync()
     {
         var response = await partService.GetParts();
         // Parts = partService.Parts;
         //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>("api/Part");
         Parts = response.Data;
+        var listCategory = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
+        categories = listCategory;
     }
     void CreatePart()
     {
