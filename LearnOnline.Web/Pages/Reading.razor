@@ -49,9 +49,9 @@
     private static List<Part> Parts = new List<Part>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await partService.GetParts();
-        Parts = response.Data;
-        var partId = 1;
+        //var response = await partService.GetParts();
+        //Parts = response.Data;
+        //var partId = 1;
     }
     async Task Handle()
     {

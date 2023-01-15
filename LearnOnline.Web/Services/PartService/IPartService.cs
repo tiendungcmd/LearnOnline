@@ -7,7 +7,9 @@ namespace LearnOnline.Web.Services.PartService
 {
     public interface IPartService
     {
-        public Task<ServiceResponse<List<Part>>> GetParts();
+        List<Part> Parts { get; set; }
+        Task<ServiceResponse<List<Part>>> GetParts();
         public Task<ServiceResponse<AnswerDto>> CheckResult(AnswerDto answerDto);
+        public Task<ServiceResponse<Part>> CreatePart(PartDto partDto);
     }
 }

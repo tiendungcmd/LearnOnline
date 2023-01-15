@@ -1,0 +1,16 @@
+﻿@layout AdminLayout
+@page "/admin/createAnswer/{id:int}"
+
+<h3>Answer</h3>
+<p>Đáp Án</p>
+<div class="col-3">
+    <label for="imageUrl">Câu hỏi 1</label>
+    <InputText id="question1"  class="form-control"></InputText>
+    <label for="imageUrl">Đáp án</label>
+    <InputText id="result1"  class="form-control"></InputText>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

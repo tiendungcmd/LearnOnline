@@ -5,34 +5,42 @@
 @inject IPartService partService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+<h3>Reading</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
     <i class="oi oi-plus"></i> Create Question
 </button>
 <table class="table">
     <thead>
         <tr>
-            <th>Question</th>
+            <th>STT</th>
+            <th>Title</th>
             <th>Category</th>
             <th>Answer</th>
-            <th>Visible</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Parts)
+        @for (int i = 1; i <= Parts.Count; i++)
         {
+           var x = @Parts[i-1].Id;
             <tr>
+                <td>@i</td>
+                <td>@Parts[i-1].Title</td>
+                <td>Willpower</td>
                 <td>
-                     <img src="../image/@item.Image" style="height:200px;width:auto" alt="">
+                    @*<div class="btn btn-primary">
+                        <a href="/admin/createAnswer/@Parts[i-1].Id">
+                             <i class="oi oi-copywriting"></i>
+                            Đáp án
+                        </a>
+                    </div>*@
+                    <button class="btn btn-primary"  @onclick="(() => DA(x))">
+                        <i class="oi oi-copywriting"></i>
+                        Đán Án
+                    </button>
                 </td>
-                <td>@item.Title</td>
                 <td>
-                </td>
-                <td>@item.Score </td>
-               
-                <td></td>
-                <td>
-                    <button class="btn btn-primary" >
+                    <button class="btn btn-primary">
                         <i class="oi oi-pencil"></i>
                     </button>
                 </td>
@@ -41,20 +49,26 @@
     </tbody>
 </table>
 @code {
+    public int index = 1;
     private static List<Part> Parts = new List<Part>();
     protected override async Task OnInitializedAsync()
     {
         var response = await partService.GetParts();
+        // Parts = partService.Parts;
+        //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>("api/Part");
         Parts = response.Data;
-        var partId = 1;
     }
     void CreatePart()
     {
-        NavigationManager.NavigateTo("admin/createFile");
+        NavigationManager.NavigateTo("admin/CreateReading");
     }
-     void EditProduct(int productId)
+    void EditProduct(int productId)
     {
-         NavigationManager.NavigateTo("admin/CreatePart");
+        NavigationManager.NavigateTo("admin/CreateReading");
+    }
+    void DA(int productId)
+    {
+        NavigationManager.NavigateTo($"admin/createAnswer/{productId}");
     }
  }
 

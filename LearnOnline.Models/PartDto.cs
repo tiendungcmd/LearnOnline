@@ -5,6 +5,10 @@
         public string Title { get; set; }
         public string Record { get; set; }
         public int Score { get; set; }
+        public int CategoryId { get; set; }
+        public int SkillId { get; set; }
+        public int LevelId { get; set; }
+        public string Description { get; set; }
         public string ImageName { get; set; }
         public string Question1 { get; set; }
         public string Question2 { get; set; }
