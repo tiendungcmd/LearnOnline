@@ -31,6 +31,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Controller\" />
+		<Folder Include="Pages\Admin\Category\" />
 		<Folder Include="Services\HistoryService\" />
 		<Folder Include="Services\AnswerService\" />
 		<Folder Include="wwwroot\js\" />

@@ -15,7 +15,7 @@
             <th>STT</th>
             <th>Title</th>
             <th>Name</th>
-            <th>Image</th>
+            <th>Action</th>
             <th></th>
         </tr>
     </thead>
@@ -26,9 +26,9 @@
             <tr>
                 <td>@i</td>
                 <td>@categories[i-1].CategoryName</td>
-                <td>Willpower</td>
+                <td>@categories[i-1].Description</td>
                 <td>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" @onclick="(() => EditCategory(x))">
                         <i class="oi oi-pencil"></i>
                     </button>
                 </td>
@@ -43,6 +43,10 @@
     {
         //var response = await partService.GetParts();
         // Parts = partService.Parts;
+        await GetData();
+    }
+    async Task GetData()
+    {
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = response;
     }
@@ -50,13 +54,16 @@
     {
         NavigationManager.NavigateTo("admin/CreateCategory");
     }
-    void EditProduct(int productId)
+    void EditCategory(int categoryId)
     {
-        NavigationManager.NavigateTo("admin/CreateReading");
+        NavigationManager.NavigateTo($"admin/EditCategory/{categoryId}");
     }
-    void DA(int productId)
-    {
-        NavigationManager.NavigateTo($"admin/createAnswer/{productId}");
-    }
+    //async Task DeleteCate(int categoryId)
+    //{
+    //    await _httpClient.DeleteAsync($"api/Category/{categoryId}");
+    //    categories = new List<Category>();
+    //    NavigationManager.NavigateTo("admin/category");
+    //    GetData();
+    //}
  }
 
