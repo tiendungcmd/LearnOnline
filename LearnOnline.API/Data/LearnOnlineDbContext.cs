@@ -123,7 +123,6 @@ namespace LearnOnline.API.Data
                 SkillId = 2,
                 LevelId = 1,
                 Image = "UNIT1.PNG",
-                Record = "Unit 1, Test 1.mp3",
                 Score = 10,
                 Note = @"
                 A story is told that around 400 years ago some children were fooling around in an eye glass shop. They noticed that when they placed lenses one on top of the other, they were able to see a considerable distance. They played around with the concept for a while, experimenting with what happened when they varied the distance between the lenses. Hans Lippershey, the Dutch lens maker who eventually applied for the first telescope patent, credits children as having been his motivation for the invention of the first telescope.
@@ -214,7 +213,7 @@ namespace LearnOnline.API.Data
             modelBuilder.Entity<Category>().HasData(new Category
             {
                 Id = 1,
-                CategoryName = "Unit"
+                CategoryName = "Đề thi tháng 1 năm 2023"
             });
             //Skill - reading -listening
             modelBuilder.Entity<Skill>().HasData(new Skill

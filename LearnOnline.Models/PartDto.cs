@@ -2,8 +2,9 @@
 {
     public class PartDto
     {
+        public int Id { get; set; }
         public string Title { get; set; }
-        public string Record { get; set; }
+        public byte[] Record { get; set; }
         public int Score { get; set; }
         public int CategoryId { get; set; }
         public int SkillId { get; set; }

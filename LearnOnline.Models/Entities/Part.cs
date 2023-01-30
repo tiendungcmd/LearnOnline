@@ -12,7 +12,7 @@ namespace LearnOnline.Models.Entities
         public int SkillId { get; set; }
         public int LevelId { get; set; }
         public int CategoryId { get; set; }
-        public string Record { get; set; }
+        public byte[] Record { get; set; }
         public string Image { get; set; }
         public ICollection<Image> Images { get; set; }
         public string Description { get; set; }

@@ -1,0 +1,144 @@
+﻿@page "/audit/speaking/{id:int}"
+@using LearnOnline.Models
+@using LearnOnline.Models.Entities
+@using LearnOnline.Web.Services
+@inject IPartService partService
+@inject HttpClient _httpClient
+@inject NavigationManager NavigationManager
+@inject UploadFile uploadFile
+
+<div>
+    <div id="section">
+        <div class="row">
+            <div class="col ">
+                <div class="row ">
+                    <div class="title">
+                        <h2>@partDto.Title</h2>
+                    </div>
+                    @if (audioDataUrls != null)
+                    {
+                        <div>
+                            @foreach (var img in audioDataUrls)
+                            {
+                                <audio controls="controls" autobuffer="autobuffer">
+                                    <source src="@img">
+                                </audio>
+                            }
+                        </div>
+                    }
+                    @*<div class="audi">
+                        <audio controls="controls" autobuffer="autobuffer">
+                        <source src="@record">
+                        </audio>
+                        </div>*@
+                    <hr />
+                </div>
+                <div class="col content">
+                    @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+                    {
+                        <div>
+                            @foreach (var img in iamgeDataUrls)
+                            {
+                                <img src="@img" style="height:auto;width:auto" />
+                            }
+                        </div>
+                    }
+                    @* <img src="../image/1.PNG" style="height:auto;width:auto" alt="">*@
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    #nav {
+        line-height: 30px;
+        background-color: #eeeeee;
+        height: 300px;
+        width: 17%;
+        float: left;
+        padding: 5px;
+    }
+
+    .check {
+    }
+
+    .audi {
+        margin-left: 45%
+    }
+
+    .title {
+        margin-left: 10%
+    }
+
+    .content {
+        height: 100%;
+        width: 90%;
+    }
+
+    #section {
+        margin-left: 350px;
+        width: 65%;
+        float: left;
+        padding: 10px;
+    }
+
+    .answer {
+        width: 200px;
+        height: 400px;
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 10%;
+    }
+
+    .MenuAnswer {
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 13%;
+    }
+</style>
+@code {
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+    string record = string.Empty;
+    string image = string.Empty;
+    int count = 40;
+    [Parameter]
+    public int Id { get; set; }
+    AnswerDto answerDto = new AnswerDto();
+    private static PartDto partDto = new PartDto();
+    private static List<Part> Parts = new List<Part>();
+
+    List<Image> imageList = new List<Image>();
+    List<string> audioDataUrls = new List<string>();
+    List<string> iamgeDataUrls = new List<string>();
+    protected override async Task OnInitializedAsync()
+    {
+        var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
+        partDto = partDtoac;
+        if (partDto.Record != null)
+        {
+            //audio
+            var formatAudio = "audio/mpeg";
+            var audioUrl = $"data:{formatAudio};base64,{Convert.ToBase64String(partDto.Record)}";
+            audioDataUrls.Add(audioUrl);
+        }
+
+        imageList = await uploadFile.GetFile(Id);
+        //image
+        var format = "image/png";
+        foreach (var item in imageList)
+        {
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
+            iamgeDataUrls.Add(imgUrl);
+        }
+    }
+    async Task HandleBack()
+    {
+        NavigationManager.NavigateTo("/audit/listening");
+    }
+}

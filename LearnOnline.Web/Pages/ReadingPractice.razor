@@ -1,54 +1,191 @@
 ﻿@page "/audit/reading/{id:int}"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
+@using LearnOnline.Web.Services
 @inject IPartService partService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+@inject UploadFile uploadFile
 
 <div>
-    <div id="nav">
-        <a href="/new">Tin tức mới nhất</a>
-        <br />
-        <a href="/audit/listening">Test Listening</a>
-        <br />
-        <a href="/audit/reading">Test Reading</a>
-    </div>
-
     <div id="section">
-        @foreach (var item in Parts)
-        {
-            <p>@item.Title</p>
-            <img src="../image/@item.Image" style="height:auto;width:auto" alt="">
-        }
+        <div class="row">
+            <div class="col ">
+                <div class="row ">
+                    <div class="title">
+                        <h2>@partDto.Title</h2>
+                    </div>
+                    @if (audioDataUrls != null)
+                    {
+                        <div>
+                            @foreach (var img in audioDataUrls)
+                            {
+                                <audio controls="controls" autobuffer="autobuffer">
+                                    <source src="@img">
+                                </audio>
+                            }
+                        </div>
+                    }
+                    @*<div class="audi">
+                        <audio controls="controls" autobuffer="autobuffer">
+                        <source src="@record">
+                        </audio>
+                        </div>*@
+                    <hr />
+                </div>
+                <div class="col content">
+                    @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+                    {
+                        <div>
+                            @foreach (var img in iamgeDataUrls)
+                            {
+                                <img src="@img" style="height:auto;width:auto" />
+                            }
+                        </div>
+                    }
+                    @* <img src="../image/1.PNG" style="height:auto;width:auto" alt="">*@
 
-        <EditForm Model="answer" OnValidSubmit="Handle">
-            <DataAnnotationsValidator />
+                </div>
+            </div>
+            <div class="MenuAnswer">
+                <div>
+                    <h1>Đáp án</h1>
+                </div>
 
-            <div class="mb-3">
-                <InputText id="result1" @bind-Value="answer.Result1" class="form-control col-3" placeholder="1" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result2" @bind-Value="answer.Result2" class="form-control col-3 " placeholder="2" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result3" @bind-Value="answer.Result3" class="form-control col-3 " placeholder="3" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result4" @bind-Value="answer.Result4" class="form-control col-3 " placeholder="4" />
-            </div>
-            <div class="mb-3">
-                <InputText id="result5" @bind-Value="answer.Result5" class="form-control col-3" placeholder="5" />
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Chek</button>
-                <a class="btn btn-primary" href="https://localhost:44388/">Quay Lại</a>
-            </div>
+                <EditForm Model="answerDto" OnValidSubmit="Handle">
+                    <DataAnnotationsValidator />
+                    <div class="answer">
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result1" class="form-control col-6" placeholder="1" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result2" class="form-control col-6 " placeholder="2" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result3" class="form-control col-6 " placeholder="3" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result4" class="form-control col-6 " placeholder="4" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result5" class="form-control col-6" placeholder="5" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result6" class="form-control col-6" placeholder="6" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result7" class="form-control col-6 " placeholder="7" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result8" class="form-control col-6 " placeholder="8" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result9" class="form-control col-6 " placeholder="9" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result10" class="form-control col-6" placeholder="10" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result11" class="form-control col-6" placeholder="11" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result12" class="form-control col-6 " placeholder="12" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result13" class="form-control col-6 " placeholder="13" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result14" class="form-control col-6 " placeholder="14" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result15" class="form-control col-6" placeholder="15" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result16" class="form-control col-6" placeholder="16" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result17" class="form-control col-6 " placeholder="17" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result18" class="form-control col-6 " placeholder="18" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result19" class="form-control col-6 " placeholder="19" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result20" class="form-control col-6" placeholder="20" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result21" class="form-control col-6" placeholder="21" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result22" class="form-control col-6 " placeholder="22" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result23" class="form-control col-6 " placeholder="23" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result24" class="form-control col-6 " placeholder="24" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result25" class="form-control col-6" placeholder="25" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result26" class="form-control col-6" placeholder="26" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result27" class="form-control col-6 " placeholder="27" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result28" class="form-control col-6 " placeholder="28" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result29" class="form-control col-6 " placeholder="29" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result30" class="form-control col-6" placeholder="30" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result31" class="form-control col-6" placeholder="31" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result32" class="form-control col-6 " placeholder="32" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result33" class="form-control col-6 " placeholder="33" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result34" class="form-control col-6 " placeholder="34" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result35" class="form-control col-6" placeholder="35" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result1" @bind-Value="answerDto.Result36" class="form-control col-6" placeholder="36" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result2" @bind-Value="answerDto.Result37" class="form-control col-6 " placeholder="37" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result3" @bind-Value="answerDto.Result38" class="form-control col-6 " placeholder="38" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result4" @bind-Value="answerDto.Result39" class="form-control col-6 " placeholder="39" />
+                        </div>
+                        <div class="mb-3">
+                            <InputText id="result5" @bind-Value="answerDto.Result40" class="form-control col-6" placeholder="40" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <br />
+                        <button class="btn btn-primary" href="/audit/listening">return</button>
+                        <div class="@messageCssClass">
+                            <span>@message</span>
+                        </div>
+                    </div>
 
-            <div class="@messageCssClass">
-                <span>@message</span>
+                </EditForm>
             </div>
-        </EditForm>
-
+        </div>
     </div>
 </div>
 
@@ -57,15 +194,52 @@
         line-height: 30px;
         background-color: #eeeeee;
         height: 300px;
-        width: 25%;
+        width: 17%;
         float: left;
         padding: 5px;
     }
 
+    .check {
+    }
+
+    .audi {
+        margin-left: 45%
+    }
+
+    .title {
+        margin-left: 10%
+    }
+
+    .content {
+        height: 800px;
+        width: 90%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
     #section {
+        margin-left: 150px;
         width: 65%;
         float: left;
         padding: 10px;
+    }
+
+    .answer {
+        width: 200px;
+        height: 400px;
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 10%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .MenuAnswer {
+        position: fixed;
+        float: right;
+        top: 10;
+        right: 13%;
     }
 </style>
 @code {
@@ -73,50 +247,214 @@
     string messageCssClass = string.Empty;
     string record = string.Empty;
     string image = string.Empty;
-    int count = 5;
+    int count = 40;
     [Parameter]
     public int Id { get; set; }
-    AnswerDto answer = new AnswerDto();
-    private static Part parts = new Part();
+    AnswerDto answerDto = new AnswerDto();
+    private static PartDto partDto = new PartDto();
     private static List<Part> Parts = new List<Part>();
+
+    List<Image> imageList = new List<Image>();
+    List<string> audioDataUrls = new List<string>();
+    List<string> iamgeDataUrls = new List<string>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");
-        var x = response.Data;
-        Parts = x.Where(x => x.SkillId == 1).ToList();
+        var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
+        partDto = partDtoac;
+        if (partDto.Record != null)
+        {
+            //audio
+            var formatAudio = "audio/mpeg";
+            var audioUrl = $"data:{formatAudio};base64,{Convert.ToBase64String(partDto.Record)}";
+            audioDataUrls.Add(audioUrl);
+        }
+
+        imageList = await uploadFile.GetFile(Id);
+        //image
+        var format = "image/png";
+        foreach (var item in imageList)
+        {
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
+            iamgeDataUrls.Add(imgUrl);
+        }
     }
     async Task HandleBack()
     {
-        NavigationManager.NavigateTo("/audit/reading");
+        NavigationManager.NavigateTo("/audit/listening");
     }
     async Task Handle()
     {
-        var result = 0;
-        var x = answer;
-        var answers = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Question>>>($"api/Question/{Id}");
-        if (answer.Result1.ToLower() != "" && answers.Data[0].Result.ToLower().Contains(answer.Result1.ToLower()))
-        {
-            result++;
-        }
-        if (answer.Result2.ToLower() != "" && answers.Data[1].Result.ToLower().Contains(answer.Result2.ToLower()))
-        {
-            result++;
-        }
-        if (answer.Result3.ToLower() != "" && answers.Data[2].Result.ToLower().Contains(answer.Result3.ToLower()))
-        {
-            result++;
-        }
-        if (answer.Result4.ToLower() != "" && answers.Data[3].Result.ToLower().Contains(answer.Result4.ToLower()))
-        {
-            result++;
+        var result = await checkAnswer(answerDto);
 
-        }
-        if (answer.Result5.ToLower() != "" && answers.Data[4].Result.ToLower().Contains(answer.Result5.ToLower()))
-        {
-            result++;
-        }
         message = "Kết quả:" + result + "/" + $"{count}";
-        result = 0;
+        //result = 0;
+    }
+    async Task<int> checkAnswer(AnswerDto answerDto)
+    {
+        var result = 0;
+        //var x = answer;
+        var answers = await _httpClient.GetFromJsonAsync<AnswerDto>($"api/Question/{Id}");
+        if (answerDto.Result1.ToLower() != "" && answers.Result1.ToLower().Contains(answerDto.Result1.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result2.ToLower() != "" && answers.Result2.ToLower().Contains(answerDto.Result2.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result3.ToLower() != "" && answers.Result3.ToLower().Contains(answerDto.Result3.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result4.ToLower() != "" && answers.Result4.ToLower().Contains(answerDto.Result4.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result5.ToLower() != "" && answers.Result5.ToLower().Contains(answerDto.Result5.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result6.ToLower() != "" && answers.Result6.ToLower().Contains(answerDto.Result6.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result7.ToLower() != "" && answers.Result7.ToLower().Contains(answerDto.Result7.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result8.ToLower() != "" && answers.Result8.ToLower().Contains(answerDto.Result8.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result9.ToLower() != "" && answers.Result9.ToLower().Contains(answerDto.Result9.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result10.ToLower() != "" && answers.Result10.ToLower().Contains(answerDto.Result10.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result11.ToLower() != "" && answers.Result11.ToLower().Contains(answerDto.Result11.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result12.ToLower() != "" && answers.Result12.ToLower().Contains(answerDto.Result12.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result13.ToLower() != "" && answers.Result13.ToLower().Contains(answerDto.Result13.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result14.ToLower() != "" && answers.Result14.ToLower().Contains(answerDto.Result14.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result15.ToLower() != "" && answers.Result15.ToLower().Contains(answerDto.Result15.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result16.ToLower() != "" && answers.Result16.ToLower().Contains(answerDto.Result16.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result17.ToLower() != "" && answers.Result17.ToLower().Contains(answerDto.Result17.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result18.ToLower() != "" && answers.Result18.ToLower().Contains(answerDto.Result18.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result19.ToLower() != "" && answers.Result19.ToLower().Contains(answerDto.Result19.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result20.ToLower() != "" && answers.Result20.ToLower().Contains(answerDto.Result20.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result21.ToLower() != "" && answers.Result21.ToLower().Contains(answerDto.Result21.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result22.ToLower() != "" && answers.Result22.ToLower().Contains(answerDto.Result22.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result23.ToLower() != "" && answers.Result23.ToLower().Contains(answerDto.Result23.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result24.ToLower() != "" && answers.Result24.ToLower().Contains(answerDto.Result24.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result25.ToLower() != "" && answers.Result25.ToLower().Contains(answerDto.Result25.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result26.ToLower() != "" && answers.Result26.ToLower().Contains(answerDto.Result26.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result27.ToLower() != "" && answers.Result27.ToLower().Contains(answerDto.Result27.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result28.ToLower() != "" && answers.Result28.ToLower().Contains(answerDto.Result28.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result29.ToLower() != "" && answers.Result29.ToLower().Contains(answerDto.Result29.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result30.ToLower() != "" && answers.Result30.ToLower().Contains(answerDto.Result30.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result31.ToLower() != "" && answers.Result31.ToLower().Contains(answerDto.Result31.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result32.ToLower() != "" && answers.Result32.ToLower().Contains(answerDto.Result32.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result33.ToLower() != "" && answers.Result33.ToLower().Contains(answerDto.Result33.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result34.ToLower() != "" && answers.Result34.ToLower().Contains(answerDto.Result34.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result35.ToLower() != "" && answers.Result35.ToLower().Contains(answerDto.Result35.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result36.ToLower() != "" && answers.Result36.ToLower().Contains(answerDto.Result36.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result37.ToLower() != "" && answers.Result37.ToLower().Contains(answerDto.Result37.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result38.ToLower() != "" && answers.Result38.ToLower().Contains(answerDto.Result38.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result39.ToLower() != "" && answers.Result39.ToLower().Contains(answerDto.Result39.ToLower()))
+        {
+            result++;
+        }
+        if (answerDto.Result40.ToLower() != "" && answers.Result40.ToLower().Contains(answerDto.Result40.ToLower()))
+        {
+            result++;
+        }
 
+        return result;
     }
 }

@@ -26,39 +26,51 @@ namespace LearnOnline.API.Controllers
         {
             var resulst = _partService.GetParts();
             return resulst;
-            //var result = _learnOnlineDb.Parts.ToList();
-            //return Ok(new ServiceResponse<List<Part>>
-            //{
-            //    Data = result
-            //}); 
         }
         [HttpGet("PartId")]
-        public ActionResult<ServiceResponse<List<Part>>> GetByPartId(int PartId)
+        public ActionResult<ServiceResponse<PartDto>> GetByPartId(int PartId)
         {
-            var resulst = _partService.GetPartById(PartId);
-            return Ok(resulst);
+            var partDto = new PartDto();
+            var resulst = _learnOnlineDb.Parts.FirstOrDefault(x => x.Id == PartId);
+            partDto.Title = resulst.Title;
+            partDto.CategoryId = resulst.CategoryId;
+            partDto.Record = resulst.Record;
+            partDto.SkillId = resulst.SkillId;
+            return Ok(partDto);
         }
         [HttpPost]
         public ActionResult<ServiceResponse<Part>> CreatePart(PartDto request)
         {
             var part = new Part();
+
             part.CategoryId = request.CategoryId;
             part.Title = request.Title;
             part.Description = request.Description;
             part.SkillId = request.SkillId;
             part.LevelId = 1;
-            _learnOnlineDb.Parts.Add(part);
+            part.Record = request.Record;
+            if (request.Id != 0)
+            {
+                part.Id = request.Id;
+                _learnOnlineDb.Parts.Update(part);
+            }
+            else
+            {
+                _learnOnlineDb.Parts.Add(part);
+            }
             _learnOnlineDb.SaveChanges();
             return Ok(new ServiceResponse<Part>
             {
                 Data = part
             });
         }
-        //[HttpGet("check")]
-        //public ActionResult<ServiceResponse<AnswerDto>> CheckResult(AnswerDto answerDto)
-        //{
-        //    var response = _answerService.CheckResult(answerDto);
-        //    return Ok(response);
-        //}
+        [HttpDelete("{Id}")]
+        public ActionResult DeletePart(int Id)
+        {
+            var part = _learnOnlineDb.Parts.FirstOrDefault(x => x.Id == Id);
+            _learnOnlineDb.Parts.Remove(part);
+            _learnOnlineDb.SaveChanges();
+            return Ok();
+        }
     }
 }

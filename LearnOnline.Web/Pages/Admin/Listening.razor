@@ -1,11 +1,11 @@
 ﻿@layout AdminLayout
-@page "/admin/reading"
+@page "/admin/listening"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
 @inject IPartService partService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
-<h3>Reading</h3>
+<h3>Listening</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
     <i class="oi oi-plus"></i> Create Question
 </button>
@@ -32,12 +32,6 @@
                     @category?.CategoryName
                 </td>
                 <td>
-                    @*<div class="btn btn-primary">
-                        <a href="/admin/createAnswer/@Parts[i-1].Id">
-                        <i class="oi oi-copywriting"></i>
-                        Đáp án
-                        </a>
-                        </div>*@
                     <button class="btn btn-primary" @onclick="(() => DA(x))">
                         <i class="oi oi-copywriting"></i>
                         Đán Án
@@ -47,9 +41,6 @@
                     <button class="btn btn-primary" @onclick="(() => EditProduct(x))">
                         <i class="oi oi-pencil"></i>
                     </button>
-                    @*<button class="btn btn-primary" >
-                        <i class="oi oi-pencil"></i>
-                    </button>*@
                 </td>
             </tr>
         }
@@ -65,18 +56,18 @@
         // Parts = partService.Parts;
         //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>("api/Part");
         Parts = response.Data;
-        //get list reading
-        Parts = Parts.Where(x => x.SkillId == 1).ToList();
+        //get list listening
+        Parts = Parts.Where(x => x.SkillId == 2).ToList();
         var listCategory = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = listCategory;
     }
     void CreatePart()
     {
-        NavigationManager.NavigateTo("admin/CreateReading");
+        NavigationManager.NavigateTo("admin/createListening");
     }
     void EditProduct(int productId)
     {
-        NavigationManager.NavigateTo($"admin/EditReading/{productId}");
+        NavigationManager.NavigateTo($"admin/EditListening/{productId}");
     }
     void DA(int productId)
     {

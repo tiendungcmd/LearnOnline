@@ -1,0 +1,108 @@
+﻿@page "/admin/CreateWriting"
+@using LearnOnline.Web
+@using LearnOnline.Web.Services
+@layout AdminLayout
+@inject UploadFile uploadFile
+@inject IPartService partService
+@inject NavigationManager NavigationManager
+@inject HttpClient _httpClient
+<h3>Create Writing</h3>
+<EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="row">
+        <div class="mb-0 col-3">
+            <label for="title">Title</label>
+            <InputText id="title" @bind-Value="partDto.Title" class="form-control"></InputText>
+        </div>
+        <div class="mb-0 col-3">
+            <label for="title">Category</label>
+            <select class="form-select" aria-label="Default select example" @bind="partDto.CategoryId">
+                <option selected>Open this select menu</option>
+                @foreach (var item in categories)
+                {
+                    <option value="@item.Id">@item.CategoryName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <hr />
+    <label for="title">Question</label>
+    <button type="submit" class="btn btn-primary float-end">@btnText</button>
+    <ValidationSummary></ValidationSummary>
+</EditForm>
+
+<InputFile OnChange="OnInputFileChange" multiple></InputFile>
+<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
+<br>
+<label>@labelText</label>
+
+@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+{
+    <div>
+        @foreach (var img in iamgeDataUrls)
+        {
+            <img src="@img" width=auto height=auto />
+        }
+    </div>
+}
+@code {
+    string btnText = "Add";
+    string labelText = "";
+    List<string> iamgeDataUrls = new List<string>();
+    List<Image> imageList = new List<Image>();
+
+    private static PartDto partDto = new PartDto();
+    private static List<Category> categories = new List<Category>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
+        categories = response;
+    }
+    async void AddOrUpdatePart()
+    {
+        partDto.SkillId = 4;
+        var part = await partService.CreatePart(partDto);
+        foreach (var item in imageList)
+        {
+            item.PartId = part.Data.Id;
+            uploadFile.SaveFile(item);
+        }
+
+        //back
+        NavigationManager.NavigateTo("admin/writing");
+    }
+    async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        var format = "image/png";
+        foreach (var item in imageFiles)
+        {
+            var image = new Image();
+            // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
+            var buffer = new byte[item.Size];
+
+            await item.OpenReadStream(1572864000).ReadAsync(buffer);
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            iamgeDataUrls.Add(imgUrl);
+            image.ImageName = item.Name;
+            image.Data = buffer;
+            image.PartId = 1;
+            imageList.Add(image);
+        }
+    }
+    public async void DeleteImage()
+    {
+        iamgeDataUrls = new List<string>();
+    }
+    public async Task GetFileUpload()
+    {
+        imageList = await uploadFile.GetFile(1);
+        var format = "image/png";
+        foreach (var item in imageList)
+        {
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
+            iamgeDataUrls.Add(imgUrl);
+        }
+    }
+}

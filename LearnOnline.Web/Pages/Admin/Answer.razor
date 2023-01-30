@@ -1,267 +1,225 @@
-﻿@page "/admin/createAnswer1"
+﻿@page "/admin/createAnswer/{id:int}"
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
 @layout AdminLayout
 @inject UploadFile uploadFile
 @inject IPartService partService
 @inject NavigationManager NavigationManager
+@inject HttpClient _client
 
-<EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
+<EditForm Model="answerDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <h2>Đáp án: Early history of salt</h2>
-    
+
     <hr />
     <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 1</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result1" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 2</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result2" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 3</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result3" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 4</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result4" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 5</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result5" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
     <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 6</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result6" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 7</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result7" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 8</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result8" class="form-control" placeholder="Đáp án"></InputText>
         </div>
-         <div class="mb-0 col-2">
+        <div class="mb-0 col-2">
             <label for="title">Câu 9</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result9" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 10</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result10" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
     <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 11</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result11" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 12</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result12" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 13</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result13" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 14</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result14" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 15</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result15" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
-     <div class="row">
+    <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 16</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result16" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 17</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result17" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 18</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result18" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 19</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result19" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 20</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result20" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
-     <div class="row">
+    <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 21</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result21" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 22</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result22" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 23</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result23" class="form-control" placeholder="Đáp án"></InputText>
         </div>
-         <div class="mb-0 col-2">
+        <div class="mb-0 col-2">
             <label for="title">Câu 24</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result24" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 25</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result25" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
-     <div class="row">
+    <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 26</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result26" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 27</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result27" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 28</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result28" class="form-control" placeholder="Đáp án"></InputText>
         </div>
-         <div class="mb-0 col-2">
+        <div class="mb-0 col-2">
             <label for="title">Câu 29</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result29" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 30</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result30" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
-     <div class="row">
+    <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 31</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result31" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 32</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result32" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 33</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result33" class="form-control" placeholder="Đáp án"></InputText>
         </div>
-         <div class="mb-0 col-2">
+        <div class="mb-0 col-2">
             <label for="title">Câu 34</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result34" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 35</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result35" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
-     <div class="row">
+    <div class="row">
         <div class="mb-0 col-2">
             <label for="title">Câu 36</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result36" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 37</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result37" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 38</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result38" class="form-control" placeholder="Đáp án"></InputText>
         </div>
-         <div class="mb-0 col-2">
+        <div class="mb-0 col-2">
             <label for="title">Câu 39</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result39" class="form-control" placeholder="Đáp án"></InputText>
         </div>
         <div class="mb-0 col-2">
             <label for="title">Câu 40</label>
-            <InputText id="title" @bind-Value="partDto.Description" class="form-control" placeholder="Đáp án"></InputText>
+            <InputText id="title" @bind-Value="answerDto.Result40" class="form-control" placeholder="Đáp án"></InputText>
         </div>
     </div>
     <hr />
     <button type="submit" class="btn btn-primary float-end">@btnText</button>
     <ValidationSummary></ValidationSummary>
 </EditForm>
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
-    <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" width=auto height=auto />
-        }
-    </div>
-}
 @code {
-    string btnText = "Add";
+    [Parameter]
+    public int Id { get; set; }
+    string btnText = "Save";
     string labelText = "";
-    List<string> iamgeDataUrls = new List<string>();
-    List<Image> imageList = new List<Image>();
 
-    private static PartDto partDto = new PartDto();
+    //private static List<Category> a = new List<Category>();
+
+    private static AnswerDto answerDto = new AnswerDto();
     protected override async Task OnInitializedAsync()
     {
-        //await GetFileUpload();
+        var response = await _client.GetFromJsonAsync<AnswerDto>($"api/Question/{Id}");
+        answerDto = response;
     }
     async void AddOrUpdatePart()
     {
-        partDto.SkillId = 1;
-        partDto.CategoryId = 1;
-        var part = await partService.CreatePart(partDto);
-        foreach (var item in imageList)
+        answerDto.PartId = Id;
+        await _client.PostAsJsonAsync("api/Question", answerDto);
+
+        var partDtoac = await _client.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
+        if (partDtoac.SkillId == 1)
         {
-            item.PartId = part.Data.Id;
-            uploadFile.SaveFile(item);
+            NavigationManager.NavigateTo("admin/reading");
         }
-
-        //back
-        NavigationManager.NavigateTo("admin/reading");
-    }
-    async Task OnInputFileChange(InputFileChangeEventArgs e)
-    {
-        var imageFiles = e.GetMultipleFiles();
-        var format = "image/png";
-        foreach (var item in imageFiles)
+        else
         {
-            var image = new Image();
-            // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
-            var buffer = new byte[item.Size];
-
-            await item.OpenReadStream(1572864000).ReadAsync(buffer);
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-
-            iamgeDataUrls.Add(imgUrl);
-            image.ImageName = item.Name;
-            image.Data = buffer;
-            image.PartId = 1;
-            imageList.Add(image);
+            NavigationManager.NavigateTo("admin/listening");
         }
     }
-    public async void FileUpload()
-    {
-        foreach (var item in imageList)
-        {
-            uploadFile.SaveFile(item);
-        }
 
-
-    }
-    public async Task GetFileUpload()
-    {
-        imageList = await uploadFile.GetFile(1);
-        var format = "image/png";
-        foreach (var item in imageList)
-        {
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
-            iamgeDataUrls.Add(imgUrl);
-        }
-    }
 }

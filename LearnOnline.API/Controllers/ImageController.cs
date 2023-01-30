@@ -19,6 +19,17 @@ namespace LearnOnline.API.Controllers
         [HttpPost("image")]
         public ActionResult<ServiceResponse<int>> SaveImage(Image image)
         {
+
+            //var listImg = _learnOnlineDbContext.Images.Where(x => x.PartId == image.PartId).ToList();
+            //if (listImg.Count > 0)
+            //{
+            //    foreach (var img in listImg)
+            //    {
+            //        _learnOnlineDbContext.Images.Remove(img);
+            //        _learnOnlineDbContext.SaveChanges();
+            //    }
+            //}
+            image.Id = 0;
             _learnOnlineDbContext.Images.Add(image);
             var response = _learnOnlineDbContext.SaveChanges();
             return Ok(response);
@@ -28,6 +39,22 @@ namespace LearnOnline.API.Controllers
         {
             var response = _learnOnlineDbContext.Images.Where(x => x.PartId == partId);
             return Ok(response);
+        }
+        [HttpDelete("{Id}")]
+        public ActionResult<ServiceResponse<int>> DeleteImage(int Id)
+        {
+
+            var listImg = _learnOnlineDbContext.Images.Where(x => x.PartId == Id).ToList();
+            if (listImg.Count > 0)
+            {
+                foreach (var img in listImg)
+                {
+                    _learnOnlineDbContext.Images.Remove(img);
+                    _learnOnlineDbContext.SaveChanges();
+                }
+            }
+           // var response = _learnOnlineDbContext.SaveChanges();
+            return Ok(1);
         }
     }
 }

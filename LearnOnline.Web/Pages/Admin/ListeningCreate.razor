@@ -1,12 +1,14 @@
-﻿@page "/admin/createReading"
+﻿@page "/admin/createListening"
+@using LearnOnline.Models.Entities
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
+@using LearnOnline.Models
 @layout AdminLayout
 @inject UploadFile uploadFile
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
-<h3>Create Question</h3>
+<h3>Create Listening</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="row">
@@ -25,17 +27,31 @@
             </select>
         </div>
     </div>
+
     <hr />
     <label for="title">Question</label>
     <button type="submit" class="btn btn-primary float-end">@btnText</button>
     <ValidationSummary></ValidationSummary>
 </EditForm>
-
+<label>Audio</label>
+<InputFile OnChange="OnInputFileChangeMp3" multiple></InputFile>
+<br>
+<label>Image</label>
 <InputFile OnChange="OnInputFileChange" multiple></InputFile>
 <button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
 <br>
 <label>@labelText</label>
-
+@if (audioDataUrls != null)
+{
+    <div>
+        @foreach (var img in audioDataUrls)
+        {
+            <audio controls="controls" autobuffer="autobuffer">
+                <source src="@img">
+            </audio>
+        }
+    </div>
+}
 @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
 {
     <div>
@@ -49,7 +65,10 @@
     string btnText = "Add";
     string labelText = "";
     List<string> iamgeDataUrls = new List<string>();
+    List<string> audioDataUrls = new List<string>();
+
     List<Image> imageList = new List<Image>();
+    AudioModel audio = new AudioModel();
 
     private static PartDto partDto = new PartDto();
     private static List<Category> categories = new List<Category>();
@@ -60,7 +79,8 @@
     }
     async void AddOrUpdatePart()
     {
-        partDto.SkillId = 1;
+        partDto.SkillId = 2;
+        partDto.Record = audio.Data;
         var part = await partService.CreatePart(partDto);
         foreach (var item in imageList)
         {
@@ -69,7 +89,26 @@
         }
 
         //back
-        NavigationManager.NavigateTo("admin/reading");
+        NavigationManager.NavigateTo("admin/listening");
+    }
+    async Task OnInputFileChangeMp3(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        var format = "audio/mpeg";
+        foreach (var item in imageFiles)
+        {
+            var image = new Image();
+            var buffer = new byte[item.Size];
+            await item.OpenReadStream(1572864000).ReadAsync(buffer);
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            audioDataUrls.Add(imgUrl);
+            audio.Data = buffer;
+            image.ImageName = item.Name;
+            image.Data = buffer;
+            image.PartId = 1;
+            imageList.Add(image);
+        }
     }
     async Task OnInputFileChange(InputFileChangeEventArgs e)
     {

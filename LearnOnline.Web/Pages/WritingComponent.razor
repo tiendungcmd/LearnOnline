@@ -1,4 +1,4 @@
-﻿@page "/audit/reading"
+﻿@page "/audit/writing"
 @using LearnOnline.Models
 @using LearnOnline.Models.Entities
 @using LearnOnline.Web.Services.CategoryService
@@ -8,13 +8,13 @@
 
 
 <div id="wp-products">
-    <h2>Danh sách bài test kĩ năng Reading</h2>
+    <h2>Danh sách bài test kĩ năng Writing</h2>
     <ul id="list-products">
         @foreach (var item in Parts)
         {
             <div class="item">
-                <a href="/audit/reading/@item.Id">
-                    <img class="media-img" src="../image/reading.jpg" style="height:100px;width:200px" alt="">
+                <a href="/audit/speaking/@item.Id">
+                    <img class="media-img" src="../image/speaking.jpg" style="height:100px;width:200px" alt="">
                 </a>
                 <div class="name">@item.Title</div>
             </div>
@@ -53,16 +53,20 @@
     int count = 5;
     string value = "answer.Result";
     AnswerDto answer = new AnswerDto();
-    private static List<Part> Parts = new List<Part>();
+    private static List<Part>
+    Parts = new List<Part>
+        ();
 
-    private static List<Category> Categories = new List<Category>();
+    private static List<Category>
+        Categories = new List<Category>
+            ();
 
     protected override async Task OnInitializedAsync()
     {
         var responsePart = await partService.GetParts();
         Parts = responsePart.Data;
-        //get list listening
-        Parts = Parts.Where(x => x.SkillId == 1).ToList();
+        //get list speaking
+        Parts = Parts.Where(x => x.SkillId == 4).ToList();
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         Categories = response;
     }

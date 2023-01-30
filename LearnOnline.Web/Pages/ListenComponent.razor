@@ -4,27 +4,22 @@
 @using LearnOnline.Web.Services.CategoryService
 @inject ICategoryService CategoryService
 @inject HttpClient _httpClient
+@inject IPartService partService
 
 
-<div>
-    <div id="nav">
-        <a href="/new">Tin tức mới nhất</a>
-        <br />
-        <a href="/audit/listening">Test Listening</a>
-        <br />
-        <a href="/audit/reading">Test Reading</a>
-    </div>
-    <div id="section">
-        <h3>Danh sách Test</h3>
-        @foreach (var item in Categories)
+<div id="wp-products">
+    <h2>Danh sách bài test kĩ năng Listening</h2>
+    <ul id="list-products">
+        @foreach (var item in Parts)
         {
-                <div>
-                    <a href="/audit/listening1/@item.Id">
-                    @item.CategoryName
-                    </a>
-                </div>
+            <div class="item">
+                <a href="/audit/listening/@item.Id">
+                    <img class="media-img" src="../image/listening.png" style="height:100px;width:200px" alt="">
+                </a>
+                <div class="name">@item.Title</div>
+            </div>
         }
-    </div>
+    </ul>
 </div>
 
 <style>
@@ -42,6 +37,14 @@
         float: left;
         padding: 10px;
     }
+
+    #list-products .item {
+        width: 290px;
+        height: 200px !important;
+        background: #362f2f;
+        border-radius: 10px;
+        margin-bottom: 50px;
+    }
 </style>
 @code {
     string message = string.Empty;
@@ -51,11 +54,15 @@
     string value = "answer.Result";
     AnswerDto answer = new AnswerDto();
     private static List<Part> Parts = new List<Part>();
-  
+
     private static List<Category> Categories = new List<Category>();
 
     protected override async Task OnInitializedAsync()
     {
+        var responsePart = await partService.GetParts();
+        Parts = responsePart.Data;
+        //get list listening
+        Parts = Parts.Where(x => x.SkillId == 2).ToList();
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         Categories = response;
     }
