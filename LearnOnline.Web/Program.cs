@@ -25,7 +25,6 @@ namespace LearnOnline.Web
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<INewService, NewService>();
             builder.Services.AddScoped<IPartService, PartService>();
-            builder.Services.AddScoped<IUploadAudio, UploadAudio>();
             builder.Services.AddScoped<UploadFile>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
           //  builder.Services.AddSyncfusionBlazor();
