@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Syncfusion.Blazor;
+//using Syncfusion.Blazor;
 namespace LearnOnline.Web
 {
     public class Program
@@ -28,7 +28,7 @@ namespace LearnOnline.Web
             builder.Services.AddScoped<IUploadAudio, UploadAudio>();
             builder.Services.AddScoped<UploadFile>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddSyncfusionBlazor();
+          //  builder.Services.AddSyncfusionBlazor();
             await builder.Build().RunAsync();
         }
     }
