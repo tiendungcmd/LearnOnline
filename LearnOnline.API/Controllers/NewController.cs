@@ -21,16 +21,41 @@ namespace LearnOnline.API.Controllers
             _dbContext = dbContext;
         }
         [HttpGet]
-        public ActionResult<ServiceResponse<List<New>>> GetNews()
+        public ActionResult<List<New>> GetNew()
         {
-            var result = _newService.GetNews();
+            var result = _dbContext.News.ToList();
+            return result;
+        }
+        //[HttpGet("id")]
+        //public async Task<ActionResult<ServiceResponse<New>>> GetNewsById(int id)
+        //{
+        //    var result = await _newService.GetNew(id);
+        //    return Ok(result);
+        //}
+        [HttpGet("id")]
+        public ActionResult<Category> GetbyId(int id)
+        {
+            var result = _dbContext.News.FirstOrDefault(x => x.Id == id);
+            var response = new ServiceResponse<New>()
+            {
+                Data = result
+            };
             return Ok(result);
         }
-        [HttpGet("id")]
-        public async Task<ActionResult<ServiceResponse<New>>> GetNewsById(int id)
+        [HttpPost]
+        public ActionResult New(New request)
         {
-            var result = await _newService.GetNew(id);
-            return Ok(result);
+            request.UserId = 8342;
+            if (request.Title == null) return Ok();
+            if (request.Id != 0)
+            {
+                _dbContext.News.Update(request);
+                _dbContext.SaveChanges();
+                return Ok();
+            }
+            _dbContext.News.Add(request);
+            _dbContext.SaveChanges();
+            return Ok();
         }
     }
 }

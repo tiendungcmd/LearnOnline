@@ -53,7 +53,7 @@ namespace LearnOnline.API.Data
                 "Đứng ở cương vị là nhà tài trợ vàng, IELTS Fighter cảm thấy vô cùng vui mừng khi thấy tinh thần nhiệt huyết và sự nghiêm túc," +
                 " nhanh nhạy của các bạn trẻ hiện nay, khi sớm theo đuổi sự phát triển toàn diện cho bản thân, đến với sự kiện với lòng ham học hỏi " +
                 "và tinh thần cầu tiến, muốn trở nên xuất sắc hơn mỗi ngày.",
-                Image = "new1.jpg",
+               // Image = "new1.jpg",
                 UserId = 8342
             });
 
@@ -66,7 +66,7 @@ namespace LearnOnline.API.Data
                 "Workshop “Học IELTS Listening hiệu quả” tại cơ sở 44 Trần Quốc Hoàn và 22 Nguyễn Hoàng. " +
                 "Ngoài các buổi học bổ trợ chuyên sâu về Listening thì những buổi chia sẻ kinh nghiệm của thầy cô giỏi, các học viên điểm cao đi trước " +
                 "là bí kíp giúp học viên tại IELTS Fighter luôn dành được điểm Listening cao trong bài thi IELTS.",
-                Image = "new2.jpg",
+               // Image = "new2.jpg",
                 UserId = 8342
             });
 
@@ -81,7 +81,7 @@ namespace LearnOnline.API.Data
                 " lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, " +
                 "Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại," +
                 " Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                Image = "new3.jpg",
+               /// Image = "new3.jpg",
                 UserId = 8342
             });
 
@@ -96,7 +96,7 @@ namespace LearnOnline.API.Data
                " lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, " +
                "Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại," +
                " Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                Image = "new3.jpg",
+               // Image = "new3.jpg",
                 UserId = 8342
             });
 
@@ -111,7 +111,7 @@ namespace LearnOnline.API.Data
                " lan tỏa đam mê với ngoại ngữ này cho các bạn trẻ Việt Nam. Tính đến hiện tại, IELTS Fighter Here and There đã đặt chân đến hàng loạt các trường Cấp 2, " +
                "Cấp 3, Đại học ở nhiều tỉnh thành như: Trường THPT Tân Phong, trường Chuyên THPT Nguyễn Huệ, THPT Nguyễn Hữu Cầu, Đại học Ngoại thương, Đại học Thương Mại," +
                " Đại học Nông Nghiệp... Danh sách ấy vẫn liên tục được nối dài.",
-                Image = "new3.jpg",
+                //Image = "new3.jpg",
                 UserId = 8342
             });
 

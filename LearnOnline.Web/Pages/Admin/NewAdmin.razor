@@ -7,31 +7,28 @@
 @inject NavigationManager NavigationManager
 <h3>NewAdmin</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
-    <i class="oi oi-plus"></i> Create new 
+    <i class="oi oi-plus"></i> Create new
 </button>
 <table class="table">
     <thead>
         <tr>
-            <th>Question</th>
             <th>Category</th>
+            <th>Image</th>
             <th>Description</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in News)
         {
+            var x = @item.Id;
             <tr>
-                <td>
-                     <img src="../image/@item.Image" style="height:200px;width:auto" alt="">
-                </td>
                 <td>@item.Title</td>
                 <td>
+                    <img src="@item.Image" style="height:200px;width:auto" alt="">
                 </td>
                 <td>@item.Description </td>
-               
-                <td></td>
                 <td>
-                    <button class="btn btn-primary" >
+                    <button class="btn btn-primary" @onclick="(() => EditProduct(x))">
                         <i class="oi oi-pencil"></i>
                     </button>
                 </td>
@@ -40,19 +37,44 @@
     </tbody>
 </table>
 @code {
-    private static List<New> News = new List<New>();
+    private static List<New> Response = new List<New>();
+    private static List<NewDTo> News = new List<NewDTo>();
+    string change(byte[] a)
+    {
+        var format = "image/png";
+        return $"data:{format};base64,{Convert.ToBase64String(a)}";
+    }
     protected override async Task OnInitializedAsync()
     {
-        await newService.GetNews();
-        News = newService.News;
+        News = new List<NewDTo>();
+        var response = await _httpClient.GetFromJsonAsync<List<New>>("api/New");
+        Response = response;
+        var format = "image/png";
+        foreach (var item in Response)
+        {
+            var newImage = new NewDTo();
+            newImage.Id = item.Id;
+            newImage.Title = item.Title;
+            newImage.Description = item.Description;
+            if (item.Image != null)
+            {
+                newImage.Image = $"data:{format};base64,{Convert.ToBase64String(item.Image)}";
+            }
+            else
+            {
+                newImage.Image = "";
+            }
+
+            News.Add(newImage);
+        }
         var partId = 1;
     }
     void CreatePart()
     {
-        NavigationManager.NavigateTo("admin/CreatePart");
+        NavigationManager.NavigateTo("admin/newCreate");
     }
-     void EditProduct(int productId)
+    void EditProduct(int productId)
     {
-         NavigationManager.NavigateTo("admin/CreatePart");
+        NavigationManager.NavigateTo($"admin/newEdit/{productId}");
     }
  }

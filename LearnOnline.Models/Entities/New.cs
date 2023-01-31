@@ -10,7 +10,7 @@ namespace LearnOnline.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Note { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public string Spelling { get; set; }
         public string  Topic { get; set; }
         public User User { get; set; }
