@@ -23,9 +23,12 @@
 
     </div>
     <hr />
-    <label for="title">Question</label>
-    <button type="submit" class="btn btn-primary float-end">Add</button>
+    <button type="submit" class="btn btn-primary ">Add</button>
     <ValidationSummary></ValidationSummary>
+    <a class="btn btn-danger" @onclick="(() => DeleteCate(newDto.Id))">
+        <i class="oi oi-copywriting"></i>
+        Delete
+    </a>
 </EditForm>
 
 <InputFile OnChange="OnInputFileChange" multiple></InputFile>
@@ -69,12 +72,13 @@
     }
     async Task AddOrUpdatePart()
     {
-       // newDto.Image = imageRequest.Data;
+        // newDto.Image = imageRequest.Data;
         var request = new New();
         request.Id = newDto.Id;
         request.Title = newDto.Title;
         request.Description = newDto.Description;
         request.Image = imageRequest.Data;
+        request.Topic = "1";
         var x = await _httpClient.PostAsJsonAsync("api/New", request);
         //back
         NavigationManager.NavigateTo("admin/new");
@@ -113,5 +117,10 @@
             var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
             iamgeDataUrls.Add(imgUrl);
         }
+    }
+    async void DeleteCate(int id)
+    {
+        await _httpClient.DeleteAsync($"api/new/{id}");
+        NavigationManager.NavigateTo("admin/new");
     }
 }

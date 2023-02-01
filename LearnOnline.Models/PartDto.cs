@@ -1,10 +1,16 @@
-﻿namespace LearnOnline.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LearnOnline.Models
 {
     public class PartDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public byte[] Record { get; set; }
+        [Column(TypeName = "ntext")]
+        [MaxLength]
+        public string Style { get; set; }
         public int Score { get; set; }
         public int CategoryId { get; set; }
         public int SkillId { get; set; }

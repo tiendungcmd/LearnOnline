@@ -26,11 +26,6 @@
                             }
                         </div>
                     }
-                    @*<div class="audi">
-                        <audio controls="controls" autobuffer="autobuffer">
-                        <source src="@record">
-                        </audio>
-                        </div>*@
                     <hr />
                 </div>
                 <div class="col content">
@@ -177,12 +172,10 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <br />
-                        <button class="btn btn-primary" href="/audit/listening">return</button>
-                        <div class="@messageCssClass">
-                            <span>@message</span>
-                        </div>
                     </div>
-
+                    <div id="ketqua" class="@messageCssClass">
+                        <span>@message</span>
+                    </div>
                 </EditForm>
             </div>
         </div>
@@ -190,6 +183,11 @@
 </div>
 
 <style>
+    #ketqua {
+        margin-top: 425px;
+        position: fixed;
+    }
+
     #nav {
         line-height: 30px;
         background-color: #eeeeee;

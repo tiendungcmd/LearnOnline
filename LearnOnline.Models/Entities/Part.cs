@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearnOnline.Models.Entities
 {
@@ -17,7 +18,8 @@ namespace LearnOnline.Models.Entities
         public ICollection<Image> Images { get; set; }
         public string Description { get; set; }
         public ICollection<Question> Questions{ get; set; }
-        [StringLength(255)]
+        [Column(TypeName = "ntext")]
+        [MaxLength]
         public string Style { get; set; }
         public int Score { get; set; }
         public string Note { get; set; }

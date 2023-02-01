@@ -56,7 +56,9 @@
     async Task AddOrUpdatePart()
     {
         newDto.Image = imageRequest.Data;
-       var x =  await _httpClient.PostAsJsonAsync("api/New", newDto);
+        //new topic 1
+        newDto.Topic = "1";
+        var x =  await _httpClient.PostAsJsonAsync("api/New", newDto);
         //back
         NavigationManager.NavigateTo("admin/new");
     }

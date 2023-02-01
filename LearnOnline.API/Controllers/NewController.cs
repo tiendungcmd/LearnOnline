@@ -20,18 +20,12 @@ namespace LearnOnline.API.Controllers
             _newService = newService;
             _dbContext = dbContext;
         }
-        [HttpGet]
-        public ActionResult<List<New>> GetNew()
+        [HttpGet("topic")]
+        public ActionResult<List<New>> GetNew(int topic)
         {
-            var result = _dbContext.News.ToList();
+            var result = _dbContext.News.Where(x => x.Topic == topic.ToString()).ToList();
             return result;
         }
-        //[HttpGet("id")]
-        //public async Task<ActionResult<ServiceResponse<New>>> GetNewsById(int id)
-        //{
-        //    var result = await _newService.GetNew(id);
-        //    return Ok(result);
-        //}
         [HttpGet("id")]
         public ActionResult<Category> GetbyId(int id)
         {
@@ -54,6 +48,14 @@ namespace LearnOnline.API.Controllers
                 return Ok();
             }
             _dbContext.News.Add(request);
+            _dbContext.SaveChanges();
+            return Ok();
+        }
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCategory(int id)
+        {
+            var news = _dbContext.News.FirstOrDefault(x => x.Id == id);
+            _dbContext.News.Remove(news);
             _dbContext.SaveChanges();
             return Ok();
         }

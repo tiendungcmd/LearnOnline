@@ -1,0 +1,82 @@
+﻿@layout AdminLayout
+@page "/admin/learn"
+@using LearnOnline.Models
+@using LearnOnline.Models.Entities
+@inject INewService newService
+@inject HttpClient _httpClient
+@inject NavigationManager NavigationManager
+<h3>Learning</h3>
+<button class="btn btn-primary float-end" @onclick="CreatePart">
+    <i class="oi oi-plus"></i> Create new
+</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Image</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in News)
+        {
+            var x = @item.Id;
+            <tr>
+                <td>@item.Title</td>
+                <td>
+                    <img src="@item.Image" style="height:200px;width:auto" alt="">
+                </td>
+                <td>@item.Description </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="(() => EditProduct(x))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    private static List<New> Response = new List<New>();
+    private static List<NewDTo> News = new List<NewDTo>();
+    string change(byte[] a)
+    {
+        var format = "image/png";
+        return $"data:{format};base64,{Convert.ToBase64String(a)}";
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        News = new List<NewDTo>();
+
+        //learning =2 
+        var response = await _httpClient.GetFromJsonAsync<List<New>>($"api/New/topic?topic={2}");
+       // var response = await _httpClient.GetFromJsonAsync<List<New>>("api/New");
+        Response = response;
+        var format = "image/png";
+        foreach (var item in Response)
+        {
+            var newImage = new NewDTo();
+            newImage.Id = item.Id;
+            newImage.Title = item.Title;
+            newImage.Description = item.Description;
+            if (item.Image != null)
+            {
+                newImage.Image = $"data:{format};base64,{Convert.ToBase64String(item.Image)}";
+            }
+            else
+            {
+                newImage.Image = "";
+            }
+
+            News.Add(newImage);
+        }
+    }
+    void CreatePart()
+    {
+        NavigationManager.NavigateTo("admin/learnCreate");
+    }
+    void EditProduct(int productId)
+    {
+        NavigationManager.NavigateTo($"admin/learnEdit/{productId}");
+    }
+ }

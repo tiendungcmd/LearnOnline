@@ -6,6 +6,7 @@
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
+@inject IJSRuntime JSRuntime
 <h3>Create Writing</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -26,7 +27,8 @@
         </div>
     </div>
     <hr />
-    <label for="title">Question</label>
+    <label for="title">Question</label
+     @*<div @ref="@divEditorElement" />*@
     <button type="submit" class="btn btn-primary float-end">@btnText</button>
     <ValidationSummary></ValidationSummary>
 </EditForm>
@@ -46,6 +48,7 @@
     </div>
 }
 @code {
+     private ElementReference divEditorElement;
     string btnText = "Add";
     string labelText = "";
     List<string> iamgeDataUrls = new List<string>();
@@ -53,6 +56,14 @@
 
     private static PartDto partDto = new PartDto();
     private static List<Category> categories = new List<Category>();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");

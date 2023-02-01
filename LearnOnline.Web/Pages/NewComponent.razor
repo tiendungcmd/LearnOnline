@@ -5,7 +5,7 @@
 
 <ul id="list-products">
     <div class="col-12 new">
-        <h3>New</h3>
+        <h3>Tin tức</h3>
     </div>
 
     @foreach (var item in News)
@@ -29,18 +29,13 @@
 </style>
 @code {
 
-     private static List<New> Response = new List<New>();
+    private static List<New> Response = new List<New>();
     private static List<NewDTo> News = new List<NewDTo>();
 
     protected override async Task OnInitializedAsync()
     {
-        //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<New>>>("api/New");
-        //await NewService.GetNews();
         News = new List<NewDTo>();
-        //get new in home page
-        // var data = (await NewService.GetNews()).Data;
-        //await NewService.GetNews();
-        var response = await _httpClient.GetFromJsonAsync<List<New>>("api/New");
+        var response = await _httpClient.GetFromJsonAsync<List<New>>($"api/New/topic?topic={1}");
         Response = response;
         var format = "image/png";
         foreach (var item in Response)

@@ -12,7 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Category</th>
+            <th>Title</th>
             <th>Image</th>
             <th>Description</th>
         </tr>
@@ -47,7 +47,8 @@
     protected override async Task OnInitializedAsync()
     {
         News = new List<NewDTo>();
-        var response = await _httpClient.GetFromJsonAsync<List<New>>("api/New");
+         //var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
+        var response = await _httpClient.GetFromJsonAsync<List<New>>($"api/New/topic?topic={1}");
         Response = response;
         var format = "image/png";
         foreach (var item in Response)
@@ -67,7 +68,8 @@
 
             News.Add(newImage);
         }
-        var partId = 1;
+        //learning
+     //   News = News.Where(x => x.Topic == "2").ToList();
     }
     void CreatePart()
     {

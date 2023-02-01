@@ -1,0 +1,101 @@
+﻿@page "/admin/learnCreate"
+@using LearnOnline.Web
+@using LearnOnline.Web.Services
+@layout AdminLayout
+@inject UploadFile uploadFile
+@inject IPartService partService
+@inject NavigationManager NavigationManager
+@inject HttpClient _httpClient
+<h3>Create Writing</h3>
+<EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="row">
+        <div class="mb-0 col-3">
+            <label for="title">Title</label>
+            <InputText id="title" @bind-Value="newDto.Title" class="form-control"></InputText>
+        </div>
+        <div class="mb-0 col-12">
+            <label for="title">Description</label>
+            <InputTextArea id="description" @bind-Value="newDto.Description" class="form-control" rows="5">
+
+            </InputTextArea>
+        </div>
+
+    </div>
+    <hr />
+    <label for="title">Question</label>
+    <button type="submit" class="btn btn-primary float-end">@btnText</button>
+    <ValidationSummary></ValidationSummary>
+</EditForm>
+
+<InputFile OnChange="OnInputFileChange" multiple></InputFile>
+<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
+<br>
+<label>@labelText</label>
+
+@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+{
+    <div>
+        @foreach (var img in iamgeDataUrls)
+        {
+            <img src="@img" style="height:200px;width:200px" />
+        }
+    </div>
+}
+@code {
+    string btnText = "Add";
+    string labelText = "";
+    List<string> iamgeDataUrls = new List<string>();
+    List<Image> imageList = new List<Image>();
+    Image imageRequest = new Image();
+    private static New newDto = new New();
+    private static List<Category> categories = new List<Category>();
+    protected override async Task OnInitializedAsync()
+    {
+    }
+    async Task AddOrUpdatePart()
+    {
+
+        newDto.Image = imageRequest.Data;
+        //learn topic 2
+        newDto.Topic = "2";
+        var x = await _httpClient.PostAsJsonAsync("api/New", newDto);
+        //back
+        NavigationManager.NavigateTo("admin/learn");
+    }
+    async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        var format = "image/png";
+        foreach (var item in imageFiles)
+        {
+            var image = new Image();
+            // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
+            var buffer = new byte[item.Size];
+
+            await item.OpenReadStream(1572864000).ReadAsync(buffer);
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            iamgeDataUrls.Add(imgUrl);
+            imageRequest.Data = buffer;
+            image.ImageName = item.Name;
+            image.Data = buffer;
+            image.PartId = 1;
+            imageList.Add(image);
+        }
+    }
+    public async void DeleteImage()
+    {
+        iamgeDataUrls = new List<string>();
+    }
+    public async Task GetFileUpload()
+    {
+        imageList = await uploadFile.GetFile(1);
+        var format = "image/png";
+        foreach (var item in imageList)
+        {
+            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
+            iamgeDataUrls.Add(imgUrl);
+        }
+    }
+}

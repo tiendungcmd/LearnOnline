@@ -1,6 +1,8 @@
 ﻿@page "/admin/EditWriting/{id:int}"
+@using Blazored.TextEditor
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
+@using Blazored.LocalStorage
 @layout AdminLayout
 @inject UploadFile uploadFile
 @inject IPartService partService
@@ -24,14 +26,29 @@
                 }
             </select>
         </div>
+
     </div>
     <hr />
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                Html Text Editor
+            </div>
+            <div class="card-body mb-5" style="height:200px;">
+
+                <BlazoredTextEditor @ref=QuillHtml Placeholder="write somthing...">
+                </BlazoredTextEditor>
+
+            </div>
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary">@btnText</button>
     <ValidationSummary></ValidationSummary>
     <a class="btn btn-danger" @onclick="(() => DeleteCate(partDto.Id))">
         <i class="oi oi-copywriting"></i>
         Delete
     </a>
+
 </EditForm>
 
 <InputFile OnChange="OnInputFileChange" multiple></InputFile>
@@ -49,6 +66,7 @@
     </div>
 }
 @code {
+    private BlazoredTextEditor QuillHtml;
     [Parameter]
     public int Id { get; set; }
     string btnText = "Edit";
