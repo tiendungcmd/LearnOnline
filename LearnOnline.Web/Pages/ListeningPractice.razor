@@ -6,6 +6,12 @@
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
 @inject UploadFile uploadFile
+@inject IJSRuntime JSRuntime
+@using System.Text;
+
+<div style="display:none">
+    <div @ref="@divEditorElement" />
+</div>
 
 <div>
     <div id="section">
@@ -34,22 +40,13 @@
                     <hr />
                 </div>
                 <div class="col content">
-                    @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-                    {
-                        <div>
-                            @foreach (var img in iamgeDataUrls)
-                            {
-                                <img src="@img" style="height:auto;width:auto" />
-                            }
-                        </div>
-                    }
-                    @* <img src="../image/1.PNG" style="height:auto;width:auto" alt="">*@
+                    @((MarkupString)@EditorHTMLContent)
 
                 </div>
             </div>
             <div class="MenuAnswer">
                 <div>
-                    <h1>Đáp án</h1>
+                    <h1>Phiếu trả lờ</h1>
                 </div>
 
                 <EditForm Model="answerDto" OnValidSubmit="Handle">
@@ -246,6 +243,9 @@
     }
 </style>
 @code {
+    private string EditorHTMLContent;
+    private ElementReference divEditorElement;
+
     string message = string.Empty;
     string messageCssClass = string.Empty;
     string record = string.Empty;
@@ -260,6 +260,15 @@
     List<Image> imageList = new List<Image>();
     List<string> audioDataUrls = new List<string>();
     List<string> iamgeDataUrls = new List<string>();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
         var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
@@ -272,14 +281,14 @@
             audioDataUrls.Add(audioUrl);
         }
 
-        imageList = await uploadFile.GetFile(Id);
-        //image
-        var format = "image/png";
-        foreach (var item in imageList)
-        {
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
-            iamgeDataUrls.Add(imgUrl);
-        }
+        //show data but hidden
+        // newDto.Description = $"data:{format};base64,{Convert.ToBase64String(response.Description)}";
+        var des = Encoding.UTF8.GetString(partDtoac.Description, 0, partDtoac.Description.Length);
+        var QuillDelta = await JSRuntime.InvokeAsync<object>(
+        "QuillFunctions.setContent", divEditorElement, des);
+
+        EditorHTMLContent = await JSRuntime.InvokeAsync<string>(
+          "QuillFunctions.getQuillHTML", divEditorElement);
     }
     async Task HandleBack()
     {
