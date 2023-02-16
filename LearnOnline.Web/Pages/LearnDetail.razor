@@ -1,10 +1,14 @@
 ﻿@page "/learn/{id:int}"
-
+@using System.Text;
 @using System.Linq
 @using LearnOnline.Models
 @inject INewService NewService
 @inject HttpClient _client
+@inject IJSRuntime JSRuntime
 
+<div style="display:none">
+    <div @ref="@divEditorElement" />
+</div>
 <div class="container ">
     <div class="col-12 new">
         <div class="name"> <h3> <b>@newDto?.Title</b></h3></div>
@@ -20,7 +24,7 @@
         </div>
     }
 
-    <div class="name">@newDto?.Description</div>
+    <div class="name"> @((MarkupString)@EditorHTMLContent)</div>
 </div>
 <style>
     .new {
@@ -30,6 +34,8 @@
 @code {
     [Parameter]
     public int Id { get; set; }
+    private string EditorHTMLContent;
+    private ElementReference divEditorElement;
 
     List<string> iamgeDataUrls = new List<string>();
     List<Image> imageList = new List<Image>();
@@ -37,6 +43,14 @@
     private static NewDTo newDto = new NewDTo();
     private static List<Category> categories = new List<Category>();
     private static List<New> Response = new List<New>();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnParametersSetAsync()
     {
         var newImage = new NewDTo();
@@ -44,12 +58,16 @@
         var response = await _client.GetFromJsonAsync<New>($"api/New/id?id={Id}");
         newDto.Id = response.Id;
         newDto.Title = response.Title;
-        //newDto.Description = response.Description;
-
+        //show data but hidden
+        var des = Encoding.UTF8.GetString(response.Description, 0, response.Description.Length);
+        var QuillDelta = await JSRuntime.InvokeAsync<object>(
+        "QuillFunctions.setContent", divEditorElement, des);
         if (response.Image != null)
         {
             newImage.Image = $"data:{format};base64,{Convert.ToBase64String(response.Image)}";
             iamgeDataUrls.Add(newImage.Image);
         }
+        EditorHTMLContent = await JSRuntime.InvokeAsync<string>(
+           "QuillFunctions.getQuillHTML", divEditorElement);
     }
 }

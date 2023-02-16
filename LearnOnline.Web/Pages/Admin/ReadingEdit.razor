@@ -1,12 +1,14 @@
 ﻿@page "/admin/EditReading/{id:int}"
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
+@using System.Text
 @layout AdminLayout
 @inject UploadFile uploadFile
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
-<h3>Create Question</h3>
+@inject IJSRuntime JSRuntime
+<h3>Edit Question</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="row">
@@ -24,31 +26,22 @@
                 }
             </select>
         </div>
+        <div class="mb-0 col-12 p-0">
+            <label for="title">Description</label>
+        </div>
+        <div @ref="@divEditorElement" />
     </div>
     <hr />
     <button type="submit" class="btn btn-primary">@btnText</button>
     <ValidationSummary></ValidationSummary>
     <a class="btn btn-danger" @onclick="(() => DeleteCate(partDto.Id))">
-    <i class="oi oi-copywriting"></i>
-    Delete
-</a>
+        <i class="oi oi-copywriting"></i>
+        Delete
+    </a>
 </EditForm>
 
-<InputFile OnChange="OnInputFileChange" multiple></InputFile>
-<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
-<br>
-<label>@labelText</label>
-
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
-    <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" width=auto height=auto />
-        }
-    </div>
-}
 @code {
+    private ElementReference divEditorElement;
     [Parameter]
     public int Id { get; set; }
     string btnText = "Edit";
@@ -58,33 +51,41 @@
 
     private static PartDto partDto = new PartDto();
     private static List<Category> categories = new List<Category>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
-        var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
-        partDto = partDtoac;
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = response;
-        imageList = await uploadFile.GetFile(Id);
-        var format = "image/png";
-        foreach (var item in imageList)
-        {
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
-            iamgeDataUrls.Add(imgUrl);
-        }
+        var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
+        partDto.Title = partDtoac.Title;
+        partDto.CategoryId = partDtoac.CategoryId;
+
+        //show data
+        var des = Encoding.UTF8.GetString(partDtoac.Description, 0, partDtoac.Description.Length);
+        var QuillDelta = await JSRuntime.InvokeAsync<object>(
+        "QuillFunctions.setContent", divEditorElement, des);
     }
     async void AddOrUpdatePart()
     {
         //skill 1 = reading
         partDto.SkillId = 1;
         partDto.Id = Id;
+        var strSavedContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillContent", divEditorElement);
+        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+        partDto.Description = bytes;
+
         var part = await partService.CreatePart(partDto);
         //remove iamge before save image
         await _httpClient.DeleteAsync($"api/Image/{Id}");
-        foreach (var item in imageList)
-        {
-            item.PartId = part.Data.Id;
-            uploadFile.SaveFile(item);
-        }
 
         //back
         NavigationManager.NavigateTo("admin/reading");
@@ -109,24 +110,9 @@
             imageList.Add(image);
         }
     }
-    public async void DeleteImage()
-    {
-        iamgeDataUrls = new List<string>();
-        imageList = new List<Image>();
-    }
-    public async Task GetFileUpload()
-    {
-        imageList = await uploadFile.GetFile(1);
-        var format = "image/png";
-        foreach (var item in imageList)
-        {
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
-            iamgeDataUrls.Add(imgUrl);
-        }
-    }
     async void DeleteCate(int id)
     {
-       //remove iamge before save image
+        //remove iamge before save image
         await _httpClient.DeleteAsync($"api/Image/{Id}");
         await _httpClient.DeleteAsync($"api/Question/{Id}");
         await _httpClient.DeleteAsync($"api/Part/{Id}");

@@ -36,6 +36,7 @@ namespace LearnOnline.API.Controllers
             partDto.CategoryId = resulst.CategoryId;
             partDto.Record = resulst.Record;
             partDto.SkillId = resulst.SkillId;
+            partDto.Description = resulst.Description;
             return Ok(partDto);
         }
         [HttpPost]

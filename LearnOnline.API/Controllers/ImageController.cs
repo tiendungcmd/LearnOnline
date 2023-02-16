@@ -34,12 +34,12 @@ namespace LearnOnline.API.Controllers
             var response = _learnOnlineDbContext.SaveChanges();
             return Ok(response);
         }
-        [HttpGet("partId")]
-        public ActionResult<List<Image>> GetImage(int partId)
-        {
-            var response = _learnOnlineDbContext.Images.Where(x => x.PartId == partId);
-            return Ok(response);
-        }
+        //[HttpGet("partId")]
+        //public ActionResult<List<Image>> GetImage(int partId)
+        //{
+        //    var response = _learnOnlineDbContext.Images.Where(x => x.PartId == partId);
+        //    return Ok(response);
+        //}
         [HttpDelete("{Id}")]
         public ActionResult<ServiceResponse<int>> DeleteImage(int Id)
         {

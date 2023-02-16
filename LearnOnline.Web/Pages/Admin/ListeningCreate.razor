@@ -8,6 +8,9 @@
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
+@inject IJSRuntime JSRuntime
+@using System.Text;
+
 <h3>Create Listening</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -26,42 +29,33 @@
                 }
             </select>
         </div>
+        <label>Audio</label>
+        <InputFile OnChange="OnInputFileChangeMp3" multiple></InputFile>
+        <br>
+        @if (audioDataUrls != null)
+        {
+            <div>
+                @foreach (var img in audioDataUrls)
+                {
+                    <audio controls="controls" autobuffer="autobuffer">
+                        <source src="@img">
+                    </audio>
+                }
+            </div>
+        }
+        <div class="mb-0 col-12 p-0">
+            <label for="title">Description</label>
+        </div>
+        <div @ref="@divEditorElement" />
     </div>
 
     <hr />
-    <label for="title">Question</label>
     <button type="submit" class="btn btn-primary float-end">@btnText</button>
     <ValidationSummary></ValidationSummary>
 </EditForm>
-<label>Audio</label>
-<InputFile OnChange="OnInputFileChangeMp3" multiple></InputFile>
-<br>
-<label>Image</label>
-<InputFile OnChange="OnInputFileChange" multiple></InputFile>
-<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
-<br>
-<label>@labelText</label>
-@if (audioDataUrls != null)
-{
-    <div>
-        @foreach (var img in audioDataUrls)
-        {
-            <audio controls="controls" autobuffer="autobuffer">
-                <source src="@img">
-            </audio>
-        }
-    </div>
-}
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
-    <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" width=auto height=auto />
-        }
-    </div>
-}
+
 @code {
+    private ElementReference divEditorElement;
     string btnText = "Add";
     string labelText = "";
     List<string> iamgeDataUrls = new List<string>();
@@ -72,6 +66,15 @@
 
     private static PartDto partDto = new PartDto();
     private static List<Category> categories = new List<Category>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
@@ -81,6 +84,12 @@
     {
         partDto.SkillId = 2;
         partDto.Record = audio.Data;
+        //getDescreption
+        var strSavedContent = await JSRuntime.InvokeAsync<string>(
+       "QuillFunctions.getQuillContent", divEditorElement);
+        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+        partDto.Description = bytes;
+
         var part = await partService.CreatePart(partDto);
         foreach (var item in imageList)
         {

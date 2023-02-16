@@ -19,17 +19,6 @@
             // methods on later  
             new Quill(quillElement, options);
         },
-        //createQuill1: function (quillElement) {
-        //    var options = {
-        //        debug: 'info',
-        //        modules: {
-                   
-        //        },
-        //        placeholder: 'Compose an epic...',
-        //        readOnly: false,
-        //        theme: 'snow'
-        //    };
-
         getQuillHTML: function (quillControl) {
             return quillControl.__quill.root.innerHTML;
         },

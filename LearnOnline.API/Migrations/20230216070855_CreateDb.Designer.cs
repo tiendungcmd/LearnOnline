@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnOnline.API.Migrations
 {
     [DbContext(typeof(LearnOnlineDbContext))]
-    [Migration("20230208214446_CreateDB")]
-    partial class CreateDB
+    [Migration("20230216070855_CreateDb")]
+    partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,8 +57,8 @@ namespace LearnOnline.API.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Description")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");

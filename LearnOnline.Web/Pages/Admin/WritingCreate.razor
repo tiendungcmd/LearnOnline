@@ -7,6 +7,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
+@using System.Text
 <h3>Create Writing</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -25,28 +26,17 @@
                 }
             </select>
         </div>
+          <div class="mb-0 col-12 p-0">
+            <label for="title">Description</label>
+        </div>
+        <div @ref="@divEditorElement" />
     </div>
     <hr />
-    <label for="title">Question</label
-     @*<div @ref="@divEditorElement" />*@
     <button type="submit" class="btn btn-primary float-end">@btnText</button>
     <ValidationSummary></ValidationSummary>
 </EditForm>
 
-<InputFile OnChange="OnInputFileChange" multiple></InputFile>
-<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
-<br>
-<label>@labelText</label>
 
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
-    <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" width=auto height=auto />
-        }
-    </div>
-}
 @code {
      private ElementReference divEditorElement;
     string btnText = "Add";
@@ -72,6 +62,12 @@
     async void AddOrUpdatePart()
     {
         partDto.SkillId = 4;
+        //getDescreption
+        var strSavedContent = await JSRuntime.InvokeAsync<string>(
+       "QuillFunctions.getQuillContent", divEditorElement);
+        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+        partDto.Description = bytes;
+
         var part = await partService.CreatePart(partDto);
         foreach (var item in imageList)
         {

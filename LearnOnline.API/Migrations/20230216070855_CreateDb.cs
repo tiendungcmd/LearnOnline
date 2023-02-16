@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearnOnline.API.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class CreateDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -109,7 +109,7 @@ namespace LearnOnline.API.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Record = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Style = table.Column<string>(type: "ntext", nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)

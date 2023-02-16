@@ -6,6 +6,9 @@
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
+@inject IJSRuntime JSRuntime
+@using System.Text
+
 <h3>Create Question</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -24,6 +27,10 @@
                 }
             </select>
         </div>
+        <div class="mb-0 col-12 p-0">
+            <label for="title">Description</label>
+        </div>
+        <div @ref="@divEditorElement" />
     </div>
     <hr />
     <button type="submit" class="btn btn-primary">@btnText</button>
@@ -34,21 +41,22 @@
     </a>
 </EditForm>
 
-<InputFile OnChange="OnInputFileChange" multiple></InputFile>
-<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
-<br>
-<label>@labelText</label>
+@*<InputFile OnChange="OnInputFileChange" multiple></InputFile>
+    <button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
+    <br>
+    <label>@labelText</label>
 
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
+    @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+    {
     <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" width=auto height=auto />
-        }
+    @foreach (var img in iamgeDataUrls)
+    {
+    <img src="@img" width=auto height=auto />
+    }
     </div>
-}
+    }*@
 @code {
+    private ElementReference divEditorElement;
     [Parameter]
     public int Id { get; set; }
     string btnText = "Edit";
@@ -58,25 +66,38 @@
 
     private static PartDto partDto = new PartDto();
     private static List<Category> categories = new List<Category>();
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
-        partDto = partDtoac;
+        partDto.Title = partDtoac.Title;
+        partDto.CategoryId = partDtoac.CategoryId;
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = response;
-        imageList = await uploadFile.GetFile(Id);
-        var format = "image/png";
-        foreach (var item in imageList)
-        {
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
-            iamgeDataUrls.Add(imgUrl);
-        }
+        //show data
+        var des = Encoding.UTF8.GetString(partDtoac.Description, 0, partDtoac.Description.Length);
+        var QuillDelta = await JSRuntime.InvokeAsync<object>(
+        "QuillFunctions.setContent", divEditorElement, des);
     }
     async void AddOrUpdatePart()
     {
         //skill 1 = reading
         partDto.SkillId = 1;
         partDto.Id = Id;
+        var strSavedContent = await JSRuntime.InvokeAsync<string>(
+           "QuillFunctions.getQuillContent", divEditorElement);
+        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+
+        partDto.Description = bytes;
         var part = await partService.CreatePart(partDto);
         //remove iamge before save image
         await _httpClient.DeleteAsync($"api/Image/{Id}");

@@ -16,7 +16,7 @@ namespace LearnOnline.Models.Entities
         public byte[] Record { get; set; }
         public string Image { get; set; }
         public ICollection<Image> Images { get; set; }
-        public string Description { get; set; }
+        public byte[] Description { get; set; }
         public ICollection<Question> Questions{ get; set; }
         [Column(TypeName = "ntext")]
         [MaxLength]
