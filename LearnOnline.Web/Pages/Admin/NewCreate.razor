@@ -1,48 +1,48 @@
 ﻿@page "/admin/newCreate"
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
+@using System.Text;
 @layout AdminLayout
 @inject UploadFile uploadFile
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
-<h3>Create Writing</h3>
+@inject IJSRuntime JSRuntime
+<h3>Create New</h3>
 <EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="row">
-        <div class="mb-0 col-3">
+        <div class="mb-0 col-3 p-0">
             <label for="title">Title</label>
             <InputText id="title" @bind-Value="newDto.Title" class="form-control"></InputText>
         </div>
-        <div class="mb-0 col-12">
-            <label for="title">Description</label>
-            <InputTextArea id="description" @bind-Value="newDto.Description" class="form-control" rows="5">
-
-            </InputTextArea>
+        <div class="mb-0 col-12 p-0">
+            <label for="title">Image</label>
+            <InputFile OnChange="OnInputFileChange" multiple></InputFile>
+            <a class="btn btn-succes" @onclick="DeleteImage">Delete</a>
+            @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+            {
+                <div>
+                    @foreach (var img in iamgeDataUrls)
+                    {
+                        <img src="@img" style="height:200px;width:200px" />
+                    }
+                </div>
+            }
         </div>
-
+        <div class="mb-0 col-12 p-0">
+            <label for="title">Description</label>
+        </div>
+        <div @ref="@divEditorElement" />
     </div>
     <hr />
-    <label for="title">Question</label>
     <button type="submit" class="btn btn-primary float-end">@btnText</button>
     <ValidationSummary></ValidationSummary>
 </EditForm>
 
-<InputFile OnChange="OnInputFileChange" multiple></InputFile>
-<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
-<br>
-<label>@labelText</label>
 
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
-    <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" style="height:200px;width:200px" />
-        }
-    </div>
-}
 @code {
+    private ElementReference divEditorElement;
     string btnText = "Add";
     string labelText = "";
     List<string> iamgeDataUrls = new List<string>();
@@ -50,15 +50,28 @@
     Image imageRequest = new Image();
     private static New newDto = new New();
     private static List<Category> categories = new List<Category>();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
     }
     async Task AddOrUpdatePart()
     {
+
+        var strSavedContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillContent", divEditorElement);
         newDto.Image = imageRequest.Data;
+        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+        newDto.Description = bytes;
         //new topic 1
         newDto.Topic = "1";
-        var x =  await _httpClient.PostAsJsonAsync("api/New", newDto);
+        var x = await _httpClient.PostAsJsonAsync("api/New", newDto);
         //back
         NavigationManager.NavigateTo("admin/new");
     }

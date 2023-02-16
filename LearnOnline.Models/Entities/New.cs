@@ -8,7 +8,7 @@ namespace LearnOnline.Models
         public int Id { get; set; }
         [StringLength(255)]
         public string Title { get; set; }
-        public string Description { get; set; }
+        public byte[] Description { get; set; }
         public string Note { get; set; }
         public byte[] Image { get; set; }
         public string Spelling { get; set; }

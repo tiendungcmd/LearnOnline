@@ -6,6 +6,7 @@
 
 }
 <div @ref="@divEditorElement" />
+
 <br />
 <button class="btn btn-primary" @onclick="GetText">Get Text</button>
 <button class="btn btn-primary" @onclick="GetHTML">Get HTML</button>
@@ -13,21 +14,27 @@
 <br />
 <br />
 <br />
-<button class="btn btn-danger" @onclick="SaveContent">Save Content</button>
+@*<button class="btn btn-danger" @onclick="SaveContent">Save Content</button>*@
 <button class="btn btn-success" @onclick="LoadContent">Load Saved Content</button>
 <br />
 <br />
 <button class="btn btn-info" @onclick="DisableQuillEditor">Disable Editor</button>
 <br />
+<br />
+<button class="btn btn-info" @onclick="ClearQuillEditor">Clear Editor</button>
+<br />
+<div @ref="@divEditorElement1" />
 <div>
     @EditorContent
 </div>
 <div>
     @((MarkupString)@EditorHTMLContent)
 </div>
+
 @code {
     private string strSavedContent = "";
     private ElementReference divEditorElement;
+    private ElementReference divEditorElement1;
     private string EditorContent;
     private string EditorHTMLContent;
     private bool EditorEnabled = true;
@@ -37,6 +44,8 @@
         {
             await JSRuntime.InvokeAsync<string>(
                 "QuillFunctions.createQuill", divEditorElement);
+            await JSRuntime.InvokeAsync<string>(
+           "QuillFunctions.createQuill1", divEditorElement1);
         }
     }
     async Task GetText()
@@ -53,24 +62,29 @@
     }
     async Task GetEditorContent()
     {
-        EditorHTMLContent = "";
-        EditorContent = await JSRuntime.InvokeAsync<string>(
+        //EditorHTMLContent = "";
+        EditorHTMLContent = await JSRuntime.InvokeAsync<string>(
             "QuillFunctions.getQuillContent", divEditorElement);
     }
-    async Task SaveContent()
-    {
-        strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-    }
+    //async Task SaveContent()
+    //{
+    //    strSavedContent = await JSRuntime.InvokeAsync<string>(
+    //        "QuillFunctions.getQuillContent", divEditorElement);
+    //}
     async Task LoadContent()
     {
         var QuillDelta = await JSRuntime.InvokeAsync<object>(
-            "QuillFunctions.loadQuillContent", divEditorElement, "ADunz");
+            "QuillFunctions.setContent", divEditorElement1, EditorHTMLContent);
     }
     async Task DisableQuillEditor()
     {
         EditorEnabled = false;
         await JSRuntime.InvokeAsync<object>(
             "QuillFunctions.disableQuillEditor", divEditorElement);
+    }
+    async Task ClearQuillEditor()
+    {
+        await JSRuntime.InvokeAsync<object>(
+            "QuillFunctions.clear", divEditorElement);
     }
 }

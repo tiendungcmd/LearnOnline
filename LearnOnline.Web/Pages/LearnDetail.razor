@@ -44,7 +44,7 @@
         var response = await _client.GetFromJsonAsync<New>($"api/New/id?id={Id}");
         newDto.Id = response.Id;
         newDto.Title = response.Title;
-        newDto.Description = response.Description;
+        //newDto.Description = response.Description;
 
         if (response.Image != null)
         {

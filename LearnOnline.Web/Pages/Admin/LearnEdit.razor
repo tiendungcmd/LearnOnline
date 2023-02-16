@@ -63,7 +63,7 @@
         var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
         newDto.Id = response.Id;
         newDto.Title = response.Title;
-        newDto.Description = response.Description;
+        //newDto.Description = response.Description;
 
         if (response.Image != null)
         {
@@ -77,7 +77,7 @@
         var request = new New();
         request.Id = newDto.Id;
         request.Title = newDto.Title;
-        request.Description = newDto.Description;
+       // request.Description = newDto.Description;
         request.Image = imageRequest.Data;
         request.Topic = "2";
         var x = await _httpClient.PostAsJsonAsync("api/New", request);

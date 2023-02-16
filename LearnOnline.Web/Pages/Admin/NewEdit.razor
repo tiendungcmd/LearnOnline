@@ -1,26 +1,39 @@
 ﻿@page "/admin/newEdit/{id:int}"
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
+@using System.Text;
 @layout AdminLayout
 @inject UploadFile uploadFile
 @inject IPartService partService
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
+@inject IJSRuntime JSRuntime
 <h3>Create Writing</h3>
 <EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="row">
-        <div class="mb-0 col-3">
+        <div class="mb-0 col-3 p-0">
             <label for="title">Title</label>
             <InputText id="title" @bind-Value="newDto.Title" class="form-control"></InputText>
         </div>
-        <div class="mb-0 col-12">
-            <label for="title">Description</label>
-            <InputTextArea id="description" @bind-Value="newDto.Description" class="form-control" rows="5">
-
-            </InputTextArea>
+        <div class="mb-0 col-12 p-0">
+            <InputFile OnChange="OnInputFileChange" multiple></InputFile>
+            <a class="btn btn-succes" @onclick="DeleteImage">Delete</a>
+            <br>
+            @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+            {
+                <div>
+                    @foreach (var img in iamgeDataUrls)
+                    {
+                        <img src="@img" style="height:200px;width:200px" />
+                    }
+                </div>
+            }
         </div>
-
+        <div class="mb-0 col-12 p-0">
+            <label for="title">Description</label>
+        </div>
+        <div @ref="@divEditorElement" />
     </div>
     <hr />
     <button type="submit" class="btn btn-primary ">Add</button>
@@ -31,30 +44,27 @@
     </a>
 </EditForm>
 
-<InputFile OnChange="OnInputFileChange" multiple></InputFile>
-<button class="btn btn-succes" @onclick="DeleteImage">Delete</button>
-<br>
 
-@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
-{
-    <div>
-        @foreach (var img in iamgeDataUrls)
-        {
-            <img src="@img" style="height:200px;width:200px" />
-        }
-    </div>
-}
 @code {
+    private ElementReference divEditorElement;
     [Parameter]
     public int Id { get; set; }
 
     List<string> iamgeDataUrls = new List<string>();
     List<Image> imageList = new List<Image>();
     Image imageRequest = new Image();
-    private static NewDTo newDto = new NewDTo();
+    private static New newDto = new New();
     private static List<Category> categories = new List<Category>();
     private static List<New> Response = new List<New>();
     private static List<NewDTo> News = new List<NewDTo>();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         var newImage = new NewDTo();
@@ -62,8 +72,12 @@
         var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
         newDto.Id = response.Id;
         newDto.Title = response.Title;
-        newDto.Description = response.Description;
-
+        newDto.Image = response.Image;
+        //newDto.Description = response.Description;
+        //show data
+        var des = Encoding.UTF8.GetString(response.Description,0, response.Description.Length);
+        var QuillDelta = await JSRuntime.InvokeAsync<object>(
+        "QuillFunctions.setContent", divEditorElement, des);
         if (response.Image != null)
         {
             newImage.Image = $"data:{format};base64,{Convert.ToBase64String(response.Image)}";
@@ -72,13 +86,18 @@
     }
     async Task AddOrUpdatePart()
     {
+        var strSavedContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillContent", divEditorElement);
+       // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
+        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+        newDto.Description = bytes;
         // newDto.Image = imageRequest.Data;
         var request = new New();
         request.Id = newDto.Id;
         request.Title = newDto.Title;
-        request.Description = newDto.Description;
-        request.Image = imageRequest.Data;
+        request.Image = newDto.Image;
         request.Topic = "1";
+        request.Description = bytes;
         var x = await _httpClient.PostAsJsonAsync("api/New", request);
         //back
         NavigationManager.NavigateTo("admin/new");
@@ -97,6 +116,7 @@
             var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
 
             iamgeDataUrls.Add(imgUrl);
+            newDto.Image = buffer;
             imageRequest.Data = buffer;
             image.ImageName = item.Name;
             image.Data = buffer;
