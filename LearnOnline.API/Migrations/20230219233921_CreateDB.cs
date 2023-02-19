@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearnOnline.API.Migrations
 {
-    public partial class CreateDb : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -149,7 +149,8 @@ namespace LearnOnline.API.Migrations
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Spelling = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Topic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -315,14 +316,14 @@ namespace LearnOnline.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "News",
-                columns: new[] { "Id", "Description", "Image", "Note", "Spelling", "Title", "Topic", "UserId" },
+                columns: new[] { "Id", "Description", "Image", "Note", "Spelling", "Title", "Topic", "UserId", "UserName" },
                 values: new object[,]
                 {
-                    { 1, null, null, null, null, "IELTS Tranning đồng hành cùng Career Explore Program 2022", null, 8342 },
-                    { 2, null, null, null, null, "Tháng 7 “cháy” hết mình cùng các Workshop học IELTS", null, 8342 },
-                    { 3, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 },
-                    { 4, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 },
-                    { 5, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342 }
+                    { 1, null, null, null, null, "IELTS Tranning đồng hành cùng Career Explore Program 2022", null, 8342, null },
+                    { 2, null, null, null, null, "Tháng 7 “cháy” hết mình cùng các Workshop học IELTS", null, 8342, null },
+                    { 3, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342, null },
+                    { 4, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342, null },
+                    { 5, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342, null }
                 });
 
             migrationBuilder.InsertData(

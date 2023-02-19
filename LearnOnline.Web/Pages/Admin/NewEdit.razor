@@ -8,6 +8,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
+@inject Blazored.SessionStorage.ISessionStorageService session
 <h3>Edit News</h3>
 <EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -67,6 +68,14 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+
+        }
+
         var newImage = new NewDTo();
         var format = "image/png";
         var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
@@ -75,7 +84,7 @@
         newDto.Image = response.Image;
         //newDto.Description = response.Description;
         //show data
-        var des = Encoding.UTF8.GetString(response.Description,0, response.Description.Length);
+        var des = Encoding.UTF8.GetString(response.Description, 0, response.Description.Length);
         var QuillDelta = await JSRuntime.InvokeAsync<object>(
         "QuillFunctions.setContent", divEditorElement, des);
         if (response.Image != null)
@@ -86,9 +95,10 @@
     }
     async Task AddOrUpdatePart()
     {
+        var user = await session.GetItemAsync<string>("SessionUser");
         var strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-       // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
+        "QuillFunctions.getQuillContent", divEditorElement);
+        // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
         byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
         newDto.Description = bytes;
         // newDto.Image = imageRequest.Data;
@@ -98,6 +108,7 @@
         request.Image = newDto.Image;
         request.Topic = "1";
         request.Description = bytes;
+        request.UserName = user;
         var x = await _httpClient.PostAsJsonAsync("api/New", request);
         //back
         NavigationManager.NavigateTo("admin/new");

@@ -39,7 +39,9 @@ namespace LearnOnline.API.Controllers
         [HttpPost]
         public ActionResult New(New request)
         {
-            request.UserId = 8342;
+            // request.UserId = 8342;
+            var user = _dbContext.Users.FirstOrDefault(x => x.Email == request.UserName);
+            request.UserId = user.Id;
             if (request.Title == null) return Ok();
             if (request.Id != 0)
             {

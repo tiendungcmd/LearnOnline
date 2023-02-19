@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnOnline.API.Migrations
 {
     [DbContext(typeof(LearnOnlineDbContext))]
-    [Migration("20230218005227_CreateDb")]
-    partial class CreateDb
+    [Migration("20230219233921_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -322,6 +322,9 @@ namespace LearnOnline.API.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -15,6 +15,6 @@ namespace LearnOnline.Models
         public string  Topic { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-
+        public string UserName { get; set; }
     }
 }

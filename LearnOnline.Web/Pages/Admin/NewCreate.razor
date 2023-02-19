@@ -8,6 +8,8 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
+@inject Blazored.SessionStorage.ISessionStorageService session
+
 <h3>Create New</h3>
 <EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -60,17 +62,24 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
     }
     async Task AddOrUpdatePart()
     {
-
+        var user = await session.GetItemAsync<string>("SessionUser");
         var strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
+        "QuillFunctions.getQuillContent", divEditorElement);
         newDto.Image = imageRequest.Data;
         byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
         newDto.Description = bytes;
         //new topic 1
         newDto.Topic = "1";
+        newDto.UserName = user;
         var x = await _httpClient.PostAsJsonAsync("api/New", newDto);
         //back
         NavigationManager.NavigateTo("admin/new");
