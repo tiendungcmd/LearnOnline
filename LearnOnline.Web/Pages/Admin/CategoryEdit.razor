@@ -2,6 +2,7 @@
 @layout AdminLayout
 @inject HttpClient _client
 @inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService session
 <h3>EditCategory</h3>
 
 
@@ -22,9 +23,9 @@
     <button type="submit" class="btn btn-primary text-center">Edit</button>
     <ValidationSummary></ValidationSummary>
     <a class="btn btn-danger" @onclick="(() => DeleteCate(category.Id))">
-    <i class="oi oi-copywriting"></i>
-    Delete
-</a>
+        <i class="oi oi-copywriting"></i>
+        Delete
+    </a>
 </EditForm>
 
 @code {
@@ -37,6 +38,11 @@
     //private static List<Category> categories = new List<Category>();
     protected override async Task OnInitializedAsync()
     {
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
         var response = await _client.GetFromJsonAsync<Category>($"api/Category/categoryId?categoryId={Id}");
         category.Id = response.Id;
         category.CategoryName = response.CategoryName;

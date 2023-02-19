@@ -5,6 +5,8 @@
 @inject IPartService partService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService session
+
 <h3>Categories</h3>
 <button class="btn btn-primary float-end" @onclick="CreateCategory">
     <i class="oi oi-plus"></i> Create Category
@@ -25,8 +27,8 @@
             var x = @categories[i - 1].Id;
             <tr>
                 <td>@i</td>
-                <td>@categories[i-1].CategoryName</td>
-                <td>@categories[i-1].Description</td>
+                <td>@categories[i - 1].CategoryName</td>
+                <td>@categories[i - 1].Description</td>
                 <td>
                     <button class="btn btn-primary" @onclick="(() => EditCategory(x))">
                         <i class="oi oi-pencil"></i>
@@ -41,8 +43,12 @@
     private static List<Category> categories = new List<Category>();
     protected override async Task OnInitializedAsync()
     {
-        //var response = await partService.GetParts();
-        // Parts = partService.Parts;
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
         await GetData();
     }
     async Task GetData()
@@ -58,5 +64,5 @@
     {
         NavigationManager.NavigateTo($"admin/EditCategory/{categoryId}");
     }
- }
+}
 

@@ -59,7 +59,7 @@
         user = await session.GetItemAsync<string>("SessionUser");
         if (user == null)
         {
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/login");
         }
     }
 

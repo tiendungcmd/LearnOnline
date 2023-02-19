@@ -4,7 +4,7 @@
 @layout AdminLayout
 @inject HttpClient _client
 @inject NavigationManager NavigationManager
-
+@inject Blazored.SessionStorage.ISessionStorageService session
 <EditForm Model="category" OnValidSubmit="AddOrUpdateCategory">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="row">
@@ -28,16 +28,20 @@
     List<Category> categories = new List<Category>();
 
     private static Category category = new Category();
-     //private static List<Category> categories = new List<Category>();
+    //private static List<Category> categories = new List<Category>();
     protected override async Task OnInitializedAsync()
     {
-        //await GetFileUpload();
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
     }
     async void AddOrUpdateCategory()
     {
         //var result = await _client.PostAsJsonAsync("api/Image/image", image);
         //return await result.Content.ReadFromJsonAsync<ServiceResponse<Image>>();
-        await _client.PostAsJsonAsync("api/Category",category);
+        await _client.PostAsJsonAsync("api/Category", category);
         //back
         category = new Category();
         NavigationManager.NavigateTo("admin/category");

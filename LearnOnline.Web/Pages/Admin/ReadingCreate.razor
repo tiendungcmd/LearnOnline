@@ -8,6 +8,7 @@
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
 @using System.Text;
+@inject Blazored.SessionStorage.ISessionStorageService session
 
 <h3>Create Reading</h3>
 <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
@@ -57,6 +58,12 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
         var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = response;
     }

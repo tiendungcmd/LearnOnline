@@ -1,5 +1,7 @@
 ﻿@layout AdminLayout
 @page "/admin/question"
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService session
 <div id="wp-products">
     <h2>Đề Bài</h2>
     <ul id="list-products">
@@ -42,6 +44,7 @@
     .media-img {
         border-radius: 6px;
     }
+
     #wp-products {
         padding-top: 50px;
         padding-bottom: 78px;
@@ -64,36 +67,36 @@
         flex-wrap: wrap;
     }
 
-    #list-products .item img {
-        display: block;
-        margin: 0px auto;
-        margin-top: 17px;
-    }
+        #list-products .item img {
+            display: block;
+            margin: 0px auto;
+            margin-top: 17px;
+        }
 
-    #list-products .item .stars {
-        display: flex;
-        margin: 0px auto;
-        width: 50%;
-    }
+        #list-products .item .stars {
+            display: flex;
+            margin: 0px auto;
+            width: 50%;
+        }
 
-    #list-products .item .name {
-        text-align: center;
-        color: #fff;
-        font-weight: bold;
-        margin-top: 21px;
-    }
+        #list-products .item .name {
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 21px;
+        }
 
-    #list-products .item .desc {
-        text-align: center;
-        color: #626a67;
-    }
+        #list-products .item .desc {
+            text-align: center;
+            color: #626a67;
+        }
 
-    #list-products .item .price {
-        text-align: center;
-        color: #f42424;
-        font-weight: bold;
-        margin-top: 20px;
-    }
+        #list-products .item .price {
+            text-align: center;
+            color: #f42424;
+            font-weight: bold;
+            margin-top: 20px;
+        }
 
     #menu .item {
         margin: 0px 25px;
@@ -116,36 +119,36 @@
         margin-bottom: 50px;
     }
 
-    #list-products .item img {
-        display: block;
-        margin: 0px auto;
-        margin-top: 17px;
-    }
+        #list-products .item img {
+            display: block;
+            margin: 0px auto;
+            margin-top: 17px;
+        }
 
-    #list-products .item .stars {
-        display: flex;
-        margin: 0px auto;
-        width: 50%;
-    }
+        #list-products .item .stars {
+            display: flex;
+            margin: 0px auto;
+            width: 50%;
+        }
 
-    #list-products .item .name {
-        text-align: center;
-        color: #fff;
-        font-weight: bold;
-        margin-top: 21px;
-    }
+        #list-products .item .name {
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 21px;
+        }
 
-    #list-products .item .desc {
-        text-align: center;
-        color: #626a67;
-    }
+        #list-products .item .desc {
+            text-align: center;
+            color: #626a67;
+        }
 
-    #list-products .item .price {
-        text-align: center;
-        color: #f42424;
-        font-weight: bold;
-        margin-top: 20px;
-    }
+        #list-products .item .price {
+            text-align: center;
+            color: #f42424;
+            font-weight: bold;
+            margin-top: 20px;
+        }
 
     .list-page .item {
         margin: 0px 15px;
@@ -158,10 +161,10 @@
         align-items: center;
     }
 
-    .list-page .item a {
-        color: #fff;
-        text-decoration: none;
-    }
+        .list-page .item a {
+            color: #fff;
+            text-decoration: none;
+        }
 
     #list-comment .item {
         width: 100%;
@@ -171,28 +174,41 @@
         padding-top: 50px;
     }
 
-    #list-comment .item .avatar {
-        text-align: center;
-        margin-top: 13px;
-    }
+        #list-comment .item .avatar {
+            text-align: center;
+            margin-top: 13px;
+        }
 
-    #list-comment .item .stars {
-        display: flex;
-        margin: 0px auto;
-        width: 50%;
-        margin-top: 32px;
-        justify-content: center;
-        align-items: center;
-    }
+        #list-comment .item .stars {
+            display: flex;
+            margin: 0px auto;
+            width: 50%;
+            margin-top: 32px;
+            justify-content: center;
+            align-items: center;
+        }
 
-    #list-comment .item .name {
-        text-align: center;
-        font-weight: bold;
-        color: #fff;
-    }
+        #list-comment .item .name {
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+        }
 
-    #list-comment .item .text {
-        padding: 20px 50px;
-        color: #fff;
-    }
+        #list-comment .item .text {
+            padding: 20px 50px;
+            color: #fff;
+        }
 </style>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
+
+    }
+}

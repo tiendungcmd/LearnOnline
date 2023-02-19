@@ -8,115 +8,125 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
-<h3>Edit Question</h3>
-<EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="row">
-        <div class="mb-0 col-3">
-            <label for="title">Title</label>
-            <InputText id="title" @bind-Value="partDto.Title" class="form-control"></InputText>
-        </div>
-        <div class="mb-0 col-3">
-            <label for="title">Category</label>
-            <select class="form-select" aria-label="Default select example" @bind="partDto.CategoryId">
-                <option selected>Open this select menu</option>
-                @foreach (var item in categories)
-                {
-                    <option value="@item.Id">@item.CategoryName</option>
-                }
-            </select>
-        </div>
-        <div class="mb-0 col-12 p-0">
-            <label for="title">Description</label>
-        </div>
-        <div @ref="@divEditorElement" />
-    </div>
-    <hr />
-    <button type="submit" class="btn btn-primary">@btnText</button>
-    <ValidationSummary></ValidationSummary>
-    <a class="btn btn-danger" @onclick="(() => DeleteCate(partDto.Id))">
-        <i class="oi oi-copywriting"></i>
-        Delete
-    </a>
-</EditForm>
+@inject Blazored.SessionStorage.ISessionStorageService session
 
-@code {
-    private ElementReference divEditorElement;
-    [Parameter]
-    public int Id { get; set; }
-    string btnText = "Edit";
-    string labelText = "";
-    List<string> iamgeDataUrls = new List<string>();
-    List<Image> imageList = new List<Image>();
 
-    private static PartDto partDto = new PartDto();
-    private static List<Category> categories = new List<Category>();
+    <h3>Edit Question</h3>
+    <EditForm Model="partDto" OnValidSubmit="AddOrUpdatePart">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="row">
+            <div class="mb-0 col-3">
+                <label for="title">Title</label>
+                <InputText id="title" @bind-Value="partDto.Title" class="form-control"></InputText>
+            </div>
+            <div class="mb-0 col-3">
+                <label for="title">Category</label>
+                <select class="form-select" aria-label="Default select example" @bind="partDto.CategoryId">
+                    <option selected>Open this select menu</option>
+                    @foreach (var item in categories)
+                    {
+                        <option value="@item.Id">@item.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-0 col-12 p-0">
+                <label for="title">Description</label>
+            </div>
+            <div @ref="@divEditorElement" />
+        </div>
+        <hr />
+        <button type="submit" class="btn btn-primary">@btnText</button>
+        <ValidationSummary></ValidationSummary>
+        <a class="btn btn-danger" @onclick="(() => DeleteCate(partDto.Id))">
+            <i class="oi oi-copywriting"></i>
+            Delete
+        </a>
+    </EditForm>
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+    @code {
+        private ElementReference divEditorElement;
+        [Parameter]
+        public int Id { get; set; }
+        string btnText = "Edit";
+        string labelText = "";
+        List<string> iamgeDataUrls = new List<string>();
+        List<Image> imageList = new List<Image>();
+
+        private static PartDto partDto = new PartDto();
+        private static List<Category> categories = new List<Category>();
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await JSRuntime.InvokeAsync<string>(
-                "QuillFunctions.createQuill", divEditorElement);
+            if (firstRender)
+            {
+                await JSRuntime.InvokeAsync<string>(
+                    "QuillFunctions.createQuill", divEditorElement);
+            }
+        }
+        protected override async Task OnInitializedAsync()
+        {
+            //check login
+            var user = await session.GetItemAsync<string>("SessionUser");
+            if (user != "admin@gmail.com")
+            {
+                NavigationManager.NavigateTo("login");
+            }
+
+            var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
+            categories = response;
+            var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
+            partDto.Title = partDtoac.Title;
+            partDto.CategoryId = partDtoac.CategoryId;
+
+            //show data
+            var des = Encoding.UTF8.GetString(partDtoac.Description, 0, partDtoac.Description.Length);
+            var QuillDelta = await JSRuntime.InvokeAsync<object>(
+            "QuillFunctions.setContent", divEditorElement, des);
+        }
+        async void AddOrUpdatePart()
+        {
+            //skill 1 = reading
+            partDto.SkillId = 1;
+            partDto.Id = Id;
+            var strSavedContent = await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.getQuillContent", divEditorElement);
+            byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+            partDto.Description = bytes;
+
+            var part = await partService.CreatePart(partDto);
+            //remove iamge before save image
+            await _httpClient.DeleteAsync($"api/Image/{Id}");
+
+            //back
+            NavigationManager.NavigateTo("admin/reading");
+        }
+        async Task OnInputFileChange(InputFileChangeEventArgs e)
+        {
+            var imageFiles = e.GetMultipleFiles();
+            var format = "image/png";
+            foreach (var item in imageFiles)
+            {
+                var image = new Image();
+                // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
+                var buffer = new byte[item.Size];
+
+                await item.OpenReadStream(1572864000).ReadAsync(buffer);
+                var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+                iamgeDataUrls.Add(imgUrl);
+                image.ImageName = item.Name;
+                image.Data = buffer;
+                image.PartId = 1;
+                imageList.Add(image);
+            }
+        }
+        async void DeleteCate(int id)
+        {
+            //remove iamge before save image
+            await _httpClient.DeleteAsync($"api/Image/{Id}");
+            await _httpClient.DeleteAsync($"api/Question/{Id}");
+            await _httpClient.DeleteAsync($"api/Part/{Id}");
+            //back
+            NavigationManager.NavigateTo("admin/reading");
         }
     }
-    protected override async Task OnInitializedAsync()
-    {
-        var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
-        categories = response;
-        var partDtoac = await _httpClient.GetFromJsonAsync<PartDto>($"api/Part/PartId?PartId={Id}");
-        partDto.Title = partDtoac.Title;
-        partDto.CategoryId = partDtoac.CategoryId;
-
-        //show data
-        var des = Encoding.UTF8.GetString(partDtoac.Description, 0, partDtoac.Description.Length);
-        var QuillDelta = await JSRuntime.InvokeAsync<object>(
-        "QuillFunctions.setContent", divEditorElement, des);
-    }
-    async void AddOrUpdatePart()
-    {
-        //skill 1 = reading
-        partDto.SkillId = 1;
-        partDto.Id = Id;
-        var strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
-        partDto.Description = bytes;
-
-        var part = await partService.CreatePart(partDto);
-        //remove iamge before save image
-        await _httpClient.DeleteAsync($"api/Image/{Id}");
-
-        //back
-        NavigationManager.NavigateTo("admin/reading");
-    }
-    async Task OnInputFileChange(InputFileChangeEventArgs e)
-    {
-        var imageFiles = e.GetMultipleFiles();
-        var format = "image/png";
-        foreach (var item in imageFiles)
-        {
-            var image = new Image();
-            // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
-            var buffer = new byte[item.Size];
-
-            await item.OpenReadStream(1572864000).ReadAsync(buffer);
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-
-            iamgeDataUrls.Add(imgUrl);
-            image.ImageName = item.Name;
-            image.Data = buffer;
-            image.PartId = 1;
-            imageList.Add(image);
-        }
-    }
-    async void DeleteCate(int id)
-    {
-        //remove iamge before save image
-        await _httpClient.DeleteAsync($"api/Image/{Id}");
-        await _httpClient.DeleteAsync($"api/Question/{Id}");
-        await _httpClient.DeleteAsync($"api/Part/{Id}");
-        //back
-        NavigationManager.NavigateTo("admin/reading");
-    }
-}

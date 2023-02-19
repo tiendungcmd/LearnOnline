@@ -51,10 +51,17 @@
         var result = await AuthService.Login(user);
         if (result.Success)
         {
-             await session.SetItemAsync("SessionUser", user.Email);
-             //await localStorage.SetItemAsync("SessionUser", user.Email);
+            await session.SetItemAsync("SessionUser", user.Email);
+            //await localStorage.SetItemAsync("SessionUser", user.Email);
             errorMessage = string.Empty;
-            NavigationManager.NavigateTo(returnUrl, forceLoad: true );
+            if (user.Email == "admin@gmail.com")
+            {
+                NavigationManager.NavigateTo("/admin/question", forceLoad: true);
+            }
+            else
+            {
+                NavigationManager.NavigateTo(returnUrl, forceLoad: true);
+            }
         }
         else
         {

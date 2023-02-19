@@ -5,6 +5,7 @@
 @inject INewService newService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService session
 <h3>NewAdmin</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
     <i class="oi oi-plus"></i> Create new
@@ -44,8 +45,20 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
         News = new List<NewDTo>();
-         //var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
+        //var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
         var response = await _httpClient.GetFromJsonAsync<List<New>>($"api/New/topic?topic={1}");
         Response = response;
         var format = "image/png";
@@ -67,7 +80,7 @@
             News.Add(newImage);
         }
         //learning
-     //   News = News.Where(x => x.Topic == "2").ToList();
+        //   News = News.Where(x => x.Topic == "2").ToList();
     }
     void CreatePart()
     {
@@ -77,4 +90,4 @@
     {
         NavigationManager.NavigateTo($"admin/newEdit/{productId}");
     }
- }
+}

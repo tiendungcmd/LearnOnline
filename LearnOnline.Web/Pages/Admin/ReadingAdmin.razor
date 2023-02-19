@@ -6,7 +6,6 @@
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService session
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <h3>Reading</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
@@ -30,7 +29,7 @@
             var category = categories.FirstOrDefault(s => s.Id == cateogryId);
             <tr>
                 <td>@i</td>
-                <td>@Parts[i-1].Title</td>
+                <td>@Parts[i - 1].Title</td>
                 <td>
                     @category?.CategoryName
                 </td>
@@ -65,15 +64,11 @@
     private string user1;
     protected override async Task OnInitializedAsync()
     {
-        user = await session.GetItemAsync<string>("SessionUser");
-        user1 = await localStorage.GetItemAsync<string>("SessionUser");
-        if (user != "user@gmail.com")
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
         {
-            NavigationManager.NavigateTo("/");
-        }
-        if (user1 != "user@gmail.com")
-        {
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("login");
         }
         var response = await partService.GetParts();
         // Parts = partService.Parts;
@@ -97,5 +92,5 @@
     {
         NavigationManager.NavigateTo($"admin/createAnswer/{productId}");
     }
- }
+}
 

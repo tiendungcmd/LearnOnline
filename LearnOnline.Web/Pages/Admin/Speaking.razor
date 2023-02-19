@@ -5,6 +5,7 @@
 @inject IPartService partService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService session
 <h3>Reading</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
     <i class="oi oi-plus"></i> Create Question
@@ -45,6 +46,13 @@
 
     protected override async Task OnInitializedAsync()
     {
+        //check login
+        var user = await session.GetItemAsync<string>("SessionUser");
+        if (user != "admin@gmail.com")
+        {
+            NavigationManager.NavigateTo("login");
+        }
+
         var response = await partService.GetParts();
         // Parts = partService.Parts;
         //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>("api/Part");
