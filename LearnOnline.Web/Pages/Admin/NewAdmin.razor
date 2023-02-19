@@ -51,12 +51,6 @@
         {
             NavigationManager.NavigateTo("login");
         }
-        //check login
-        var user = await session.GetItemAsync<string>("SessionUser");
-        if (user != "admin@gmail.com")
-        {
-            NavigationManager.NavigateTo("login");
-        }
         News = new List<NewDTo>();
         //var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
         var response = await _httpClient.GetFromJsonAsync<List<New>>($"api/New/topic?topic={1}");
