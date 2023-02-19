@@ -20,7 +20,6 @@ namespace LearnOnline.API.Data
         public DbSet<Part> Parts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Skill> Skills { get; set; }
-        public DbSet<UserHistory> UserHistories { get; set; }
         public DbSet<UserInformation> UserInformations { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Question> Question { get; set; }
@@ -34,7 +33,7 @@ namespace LearnOnline.API.Data
                 {
                     Id = 8342,
                     UserName = "admin",
-                    Email = "admin@gmail.com"
+                    Email = "admin@gmail.com",
                     //PassWord = hasher.HashPassword(null, "admin123"),
                 }
                 );
@@ -195,12 +194,7 @@ namespace LearnOnline.API.Data
                 Id = 4421,
                 RoleName = "admin"
             });
-            modelBuilder.Entity<UserHistory>()
-           .HasData(new UserHistory
-           {
-               UserId = 8342,
-               HistoryId = 1
-           });
+          
 
             modelBuilder.Entity<History>().HasData(new History
             {
@@ -241,8 +235,7 @@ namespace LearnOnline.API.Data
                 Id = 1,
                 LevelName = "450"
             });
-            // fluent
-            modelBuilder.Entity<UserHistory>().HasKey(t => new { t.UserId, t.HistoryId });
+          
             modelBuilder.Entity<UserInformation>().HasKey(t => new { t.UserId, t.InformationId });
             modelBuilder.Entity<UserRole>().HasKey(t => new { t.UserId, t.RoleId });
         }

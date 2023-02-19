@@ -24,7 +24,8 @@ namespace LearnOnline.API.Controllers
             var response = await _authService.Register(
                 new User
                 {
-                    Email = request.Email
+                    Email = request.Email,
+                    UserName = request.Email.Split("@")[0]
                 },
                 request.Password);
 

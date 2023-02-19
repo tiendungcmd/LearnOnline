@@ -2,7 +2,8 @@
 @using LearnOnline.Models
 @inject HttpClient _httpClient;
 @inject INewService NewService;
-
+@inject Blazored.SessionStorage.ISessionStorageService session
+@using LearnOnline.Models
 <ul id="list-products">
     <div class="col-12 new">
         <h3>Tin tức</h3>
@@ -34,9 +35,10 @@
 
     private static List<New> Response = new List<New>();
     private static List<NewDTo> News = new List<NewDTo>();
-
+    private UserLogin userLogin;
     protected override async Task OnInitializedAsync()
     {
+        var user = await session.GetItemAsync<string>("SessionUser");
         News = new List<NewDTo>();
         var response = await _httpClient.GetFromJsonAsync<List<New>>($"api/New/topic?topic={1}");
         Response = response;

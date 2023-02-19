@@ -1,26 +1,50 @@
-﻿<div class="dropdown">
+﻿@inject Blazored.SessionStorage.ISessionStorageService session
+@inject NavigationManager NavigationManager
+<div class="dropdown">
     <button @onclick="ToggleUserMenu"
             @onfocusout="HideUserMenu"
             class="btn btn-secondary dropdown-toggle user-button">
         <i class="oi oi-person"></i>
     </button>
+
     <div class="dropdown-menu dropdown-menu-right @UserMenuCssClass">
-    <a href="register" class="dropdown-item">Register</a>
-    <a href="login" class="dropdown-item">Login</a>
-</div>
+        @if (user != null)
+        {
+            <a href="history" class="dropdown-item">Profile</a>
+            <a @onclick="Logout" class="dropdown-item">Logout</a>
+        }
+        else
+        {
+            <a href="register" class="dropdown-item">Register</a>
+            <a href="login" class="dropdown-item">Login</a>
+        }
+
+    </div>
 </div>
 
 
 @code {
+    private string user;
     private bool showUserMenu = false;
 
     private string UserMenuCssClass => showUserMenu ? "show-menu" : null;
-
+    protected override async void OnInitialized()
+    {
+        user = await session.GetItemAsync<string>("SessionUser");
+        //if (user == null)
+        //{
+        //    NavigationManager.NavigateTo("/");
+        //}
+    }
     private void ToggleUserMenu()
     {
         showUserMenu = !showUserMenu;
     }
-
+    private void Logout()
+    {
+        session.ClearAsync();
+        NavigationManager.NavigateTo("/", true);
+    }
     private async Task HideUserMenu()
     {
         await Task.Delay(200);

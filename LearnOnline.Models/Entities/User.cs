@@ -10,5 +10,6 @@ namespace LearnOnline.Models
         public byte[] PasswordSalt { get; set; }
         public string Email { get; set; }
         public ICollection<New> News { get; set; }
+        public ICollection<History> History { get; set; }
     }
 }

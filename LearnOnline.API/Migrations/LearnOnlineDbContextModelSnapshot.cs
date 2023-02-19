@@ -177,15 +177,26 @@ namespace LearnOnline.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
                     b.Property<int>("PartId")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalScore")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PartId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Histories");
 
@@ -194,6 +205,7 @@ namespace LearnOnline.API.Migrations
                         {
                             Id = 1,
                             Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUser = 0,
                             PartId = 1,
                             TotalScore = 100
                         });
@@ -447,28 +459,6 @@ namespace LearnOnline.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LearnOnline.Models.UserHistory", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HistoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "HistoryId");
-
-                    b.HasIndex("HistoryId");
-
-                    b.ToTable("UserHistories");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 8342,
-                            HistoryId = 1
-                        });
-                });
-
             modelBuilder.Entity("LearnOnline.Models.UserInformation", b =>
                 {
                     b.Property<int>("UserId")
@@ -552,7 +542,13 @@ namespace LearnOnline.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LearnOnline.Models.User", "User")
+                        .WithMany("History")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Part");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LearnOnline.Models.Image", b =>
@@ -571,25 +567,6 @@ namespace LearnOnline.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LearnOnline.Models.UserHistory", b =>
-                {
-                    b.HasOne("LearnOnline.Models.History", "History")
-                        .WithMany()
-                        .HasForeignKey("HistoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LearnOnline.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("History");
 
                     b.Navigation("User");
                 });
@@ -658,6 +635,8 @@ namespace LearnOnline.API.Migrations
 
             modelBuilder.Entity("LearnOnline.Models.User", b =>
                 {
+                    b.Navigation("History");
+
                     b.Navigation("News");
                 });
 #pragma warning restore 612, 618

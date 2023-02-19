@@ -1,5 +1,7 @@
 ﻿@page "/audit"
-
+@inject Blazored.SessionStorage.ISessionStorageService session
+@using LearnOnline.Models
+@inject NavigationManager NavigationManager
 
 <ul id="list-products">
     <div class="col-12 new">
@@ -41,14 +43,24 @@
         <div class="name">Writing</div>
         <div class="price">Làm bài</div>
     </div>
-
-
 </ul>
+
+@user
 <style>
     .new {
         text-align: center;
     }
 </style>
 @code {
+    private UserLogin userLogin;
+    private string user;
+    protected override async void OnInitialized()
+    {
+        user = await session.GetItemAsync<string>("SessionUser");
+        if (user == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
 
 }

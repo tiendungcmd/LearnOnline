@@ -1,0 +1,45 @@
+﻿@layout AdminLayout
+@page "/admin/user"
+@inject HttpClient _httpClient
+@inject NavigationManager NavigationManager
+<h3>List User</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>User </th>
+            <th>Email</th>
+            <th>Action</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 1; i <= users.Count; i++)
+        {
+            var x = users[i - 1].Id;
+            <tr>
+                <td>@i</td>
+                <td>@users[i - 1].UserName</td>
+                <td>@users[i - 1].Email</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="(() => Delete(x))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    private static List<User> users = new List<User>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _httpClient.GetFromJsonAsync<List<User>>("api/User");
+        users = response;
+    }
+    async void Delete(int categoryId)
+    {
+        await _httpClient.DeleteAsync($"api/User/{categoryId}");
+        NavigationManager.NavigateTo("admin/user", true);
+    }
+}

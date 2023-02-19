@@ -1,0 +1,38 @@
+﻿@page "/history"
+@inject HttpClient _httpClient;
+@using LearnOnline.Models
+@inject Blazored.SessionStorage.ISessionStorageService session
+<h3>Hi @user ! Lịch sử của bạn</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Loại kĩ năng</th>
+            <th>Tên đề</th>
+            <th>Số điểm</th>
+            <th>Ngày giờ Test</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in historyDto)
+        {
+            <tr>
+                <td>@item.Skill</td>
+                <td>@item.PartTitle</td>
+                <td>@item.TotalScore /40</td>
+                <td>@item.Date.ToString("dd/MM/yyyy hh:mm tt")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    private string user;
+    private List<HistoryDto> historyDto = new List<HistoryDto>();
+    protected override async Task OnInitializedAsync()
+    {
+        user = await session.GetItemAsync<string>("SessionUser");
+        user = user.Split("@")[0];
+
+        var response = await _httpClient.GetFromJsonAsync<List<HistoryDto>>($"api/history/email?email={user}");
+        historyDto = response;
+    }
+}

@@ -5,6 +5,9 @@
 @inject IPartService partService
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService session
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
 <h3>Reading</h3>
 <button class="btn btn-primary float-end" @onclick="CreatePart">
     <i class="oi oi-plus"></i> Create Question
@@ -49,7 +52,7 @@
                     </button>
                     @*<button class="btn btn-primary" >
                         <i class="oi oi-pencil"></i>
-                    </button>*@
+                        </button>*@
                 </td>
             </tr>
         }
@@ -58,9 +61,20 @@
 @code {
     private static List<Part> Parts = new List<Part>();
     private static List<Category> categories = new List<Category>();
-
+    private string user;
+    private string user1;
     protected override async Task OnInitializedAsync()
     {
+        user = await session.GetItemAsync<string>("SessionUser");
+        user1 = await localStorage.GetItemAsync<string>("SessionUser");
+        if (user != "user@gmail.com")
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        if (user1 != "user@gmail.com")
+        {
+            NavigationManager.NavigateTo("/");
+        }
         var response = await partService.GetParts();
         // Parts = partService.Parts;
         //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>("api/Part");
@@ -77,7 +91,7 @@
     void EditProduct(int productId)
     {
         NavigationManager.NavigateTo($"admin/EditReading/{productId}");
-      //  NavigationManager.NavigateTo($"admin/EditReading2");
+        //  NavigationManager.NavigateTo($"admin/EditReading2");
     }
     void DA(int productId)
     {

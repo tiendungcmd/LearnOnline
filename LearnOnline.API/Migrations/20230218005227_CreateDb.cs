@@ -218,7 +218,10 @@ namespace LearnOnline.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PartId = table.Column<int>(type: "int", nullable: false),
-                    TotalScore = table.Column<int>(type: "int", nullable: false)
+                    TotalScore = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    IdUser = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -229,6 +232,12 @@ namespace LearnOnline.API.Migrations
                         principalTable: "Parts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Histories_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,30 +278,6 @@ namespace LearnOnline.API.Migrations
                         name: "FK_Question_Parts_PartId",
                         column: x => x.PartId,
                         principalTable: "Parts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserHistories",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    HistoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserHistories", x => new { x.UserId, x.HistoryId });
-                    table.ForeignKey(
-                        name: "FK_UserHistories_Histories_HistoryId",
-                        column: x => x.HistoryId,
-                        principalTable: "Histories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserHistories_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -352,8 +337,8 @@ namespace LearnOnline.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "Histories",
-                columns: new[] { "Id", "Date", "PartId", "TotalScore" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 100 });
+                columns: new[] { "Id", "Date", "Email", "IdUser", "PartId", "TotalScore", "UserId" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, 1, 100, null });
 
             migrationBuilder.InsertData(
                 table: "Question",
@@ -367,15 +352,15 @@ namespace LearnOnline.API.Migrations
                     { 5, "5", 1, "B" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "UserHistories",
-                columns: new[] { "HistoryId", "UserId" },
-                values: new object[] { 1, 8342 });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Histories_PartId",
                 table: "Histories",
                 column: "PartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Histories_UserId",
+                table: "Histories",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_PartId",
@@ -408,11 +393,6 @@ namespace LearnOnline.API.Migrations
                 column: "PartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserHistories_HistoryId",
-                table: "UserHistories",
-                column: "HistoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserInformations_InformationId",
                 table: "UserInformations",
                 column: "InformationId");
@@ -426,6 +406,9 @@ namespace LearnOnline.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Histories");
+
+            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
@@ -435,16 +418,13 @@ namespace LearnOnline.API.Migrations
                 name: "Question");
 
             migrationBuilder.DropTable(
-                name: "UserHistories");
-
-            migrationBuilder.DropTable(
                 name: "UserInformations");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "Histories");
+                name: "Parts");
 
             migrationBuilder.DropTable(
                 name: "Informations");
@@ -454,9 +434,6 @@ namespace LearnOnline.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Parts");
 
             migrationBuilder.DropTable(
                 name: "Categories");

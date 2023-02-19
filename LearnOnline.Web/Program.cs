@@ -1,3 +1,5 @@
+using Blazored.LocalStorage;
+using Blazored.SessionStorage;
 using LearnOnline.Web.Service;
 using LearnOnline.Web.Services;
 using LearnOnline.Web.Services.AuthService;
@@ -27,7 +29,9 @@ namespace LearnOnline.Web
             builder.Services.AddScoped<IPartService, PartService>();
             builder.Services.AddScoped<UploadFile>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-          //  builder.Services.AddSyncfusionBlazor();
+            builder.Services.AddBlazoredSessionStorage();
+            builder.Services.AddBlazoredLocalStorage();
+            //  builder.Services.AddSyncfusionBlazor();
             await builder.Build().RunAsync();
         }
     }
