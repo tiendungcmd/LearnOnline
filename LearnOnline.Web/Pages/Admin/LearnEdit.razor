@@ -8,6 +8,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
+@inject Blazored.SessionStorage.ISessionStorageService session
 <h3>Edit Learn</h3>
 <EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -74,7 +75,7 @@
         newDto.Image = response.Image;
         //newDto.Description = response.Description;
         //show data
-        var des = Encoding.UTF8.GetString(response.Description,0, response.Description.Length);
+        var des = Encoding.UTF8.GetString(response.Description, 0, response.Description.Length);
         var QuillDelta = await JSRuntime.InvokeAsync<object>(
         "QuillFunctions.setContent", divEditorElement, des);
         if (response.Image != null)
@@ -85,9 +86,10 @@
     }
     async Task AddOrUpdatePart()
     {
+        var user = await session.GetItemAsync<string>("SessionUser");
         var strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-       // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
+        "QuillFunctions.getQuillContent", divEditorElement);
+        // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
         byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
         newDto.Description = bytes;
         // newDto.Image = imageRequest.Data;
@@ -97,6 +99,7 @@
         request.Image = newDto.Image;
         request.Topic = "2";
         request.Description = bytes;
+        request.UserName = user;
         var x = await _httpClient.PostAsJsonAsync("api/New", request);
         //back
         NavigationManager.NavigateTo("admin/learn");
@@ -145,101 +148,101 @@
 }
 
 @*@code {
-    private ElementReference divEditorElement;
-    [Parameter]
-    public int Id { get; set; }
+        private ElementReference divEditorElement;
+        [Parameter]
+        public int Id { get; set; }
 
-    List<string> iamgeDataUrls = new List<string>();
-    List<Image> imageList = new List<Image>();
-    Image imageRequest = new Image();
-    private static New newDto = new New();
-    private static List<Category> categories = new List<Category>();
-    private static List<New> Response = new List<New>();
-    private static List<NewDTo> News = new List<NewDTo>();
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        List<string> iamgeDataUrls = new List<string>();
+        List<Image> imageList = new List<Image>();
+        Image imageRequest = new Image();
+        private static New newDto = new New();
+        private static List<Category> categories = new List<Category>();
+        private static List<New> Response = new List<New>();
+        private static List<NewDTo> News = new List<NewDTo>();
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await JSRuntime.InvokeAsync<string>(
-                "QuillFunctions.createQuill", divEditorElement);
+            if (firstRender)
+            {
+                await JSRuntime.InvokeAsync<string>(
+                    "QuillFunctions.createQuill", divEditorElement);
+            }
         }
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        var newImage = new NewDTo();
-        var format = "image/png";
-        var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
-        newDto.Id = response.Id;
-        newDto.Title = response.Title;
-        newDto.Image = response.Image;
-        //show data
-        var des = Encoding.UTF8.GetString(response.Description, 0, response.Description.Length);
-        var QuillDelta = await JSRuntime.InvokeAsync<object>(
-        "QuillFunctions.setContent", divEditorElement, des);
-        if (response.Image != null)
+        protected override async Task OnInitializedAsync()
         {
-            newImage.Image = $"data:{format};base64,{Convert.ToBase64String(response.Image)}";
-            iamgeDataUrls.Add(newImage.Image);
+            var newImage = new NewDTo();
+            var format = "image/png";
+            var response = await _httpClient.GetFromJsonAsync<New>($"api/New/id?id={Id}");
+            newDto.Id = response.Id;
+            newDto.Title = response.Title;
+            newDto.Image = response.Image;
+            //show data
+            var des = Encoding.UTF8.GetString(response.Description, 0, response.Description.Length);
+            var QuillDelta = await JSRuntime.InvokeAsync<object>(
+            "QuillFunctions.setContent", divEditorElement, des);
+            if (response.Image != null)
+            {
+                newImage.Image = $"data:{format};base64,{Convert.ToBase64String(response.Image)}";
+                iamgeDataUrls.Add(newImage.Image);
+            }
         }
-    }
-   
-    async Task AddOrUpdatePart()
-    {
-        var strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-        // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
-        byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
-        newDto.Description = bytes;
-        // newDto.Image = imageRequest.Data;
-        var request = new New();
-        request.Id = newDto.Id;
-        request.Title = newDto.Title;
-        // request.Description = newDto.Description;
-        request.Image = newDto.Image;
-        request.Topic = "2";
-        var x = await _httpClient.PostAsJsonAsync("api/New", request);
-        //back
-        NavigationManager.NavigateTo("admin/learn");
-    }
-    async Task OnInputFileChange(InputFileChangeEventArgs e)
-    {
-        var imageFiles = e.GetMultipleFiles();
-        var format = "image/png";
-        foreach (var item in imageFiles)
-        {
-            var image = new Image();
-            // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
-            var buffer = new byte[item.Size];
 
-            await item.OpenReadStream(1572864000).ReadAsync(buffer);
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-
-            iamgeDataUrls.Add(imgUrl);
-            imageRequest.Data = buffer;
-            newDto.Image = buffer;
-            image.ImageName = item.Name;
-            image.Data = buffer;
-            image.PartId = 1;
-            imageList.Add(image);
-        }
-    }
-    public async void DeleteImage()
-    {
-        iamgeDataUrls = new List<string>();
-    }
-    public async Task GetFileUpload()
-    {
-        imageList = await uploadFile.GetFile(1);
-        var format = "image/png";
-        foreach (var item in imageList)
+        async Task AddOrUpdatePart()
         {
-            var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
-            iamgeDataUrls.Add(imgUrl);
+            var strSavedContent = await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.getQuillContent", divEditorElement);
+            // byte[] bytes = Encoding.ASCII.GetBytes(strSavedContent);
+            byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
+            newDto.Description = bytes;
+            // newDto.Image = imageRequest.Data;
+            var request = new New();
+            request.Id = newDto.Id;
+            request.Title = newDto.Title;
+            // request.Description = newDto.Description;
+            request.Image = newDto.Image;
+            request.Topic = "2";
+            var x = await _httpClient.PostAsJsonAsync("api/New", request);
+            //back
+            NavigationManager.NavigateTo("admin/learn");
         }
-    }
-    async void DeleteCate(int id)
-    {
-        await _httpClient.DeleteAsync($"api/new/{id}");
-          NavigationManager.NavigateTo("admin/learn");
-    }
-}*@
+        async Task OnInputFileChange(InputFileChangeEventArgs e)
+        {
+            var imageFiles = e.GetMultipleFiles();
+            var format = "image/png";
+            foreach (var item in imageFiles)
+            {
+                var image = new Image();
+                // var resizedImageFile = await item.RequestImageFileAsync(format, 100, 100);
+                var buffer = new byte[item.Size];
+
+                await item.OpenReadStream(1572864000).ReadAsync(buffer);
+                var imgUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+                iamgeDataUrls.Add(imgUrl);
+                imageRequest.Data = buffer;
+                newDto.Image = buffer;
+                image.ImageName = item.Name;
+                image.Data = buffer;
+                image.PartId = 1;
+                imageList.Add(image);
+            }
+        }
+        public async void DeleteImage()
+        {
+            iamgeDataUrls = new List<string>();
+        }
+        public async Task GetFileUpload()
+        {
+            imageList = await uploadFile.GetFile(1);
+            var format = "image/png";
+            foreach (var item in imageList)
+            {
+                var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
+                iamgeDataUrls.Add(imgUrl);
+            }
+        }
+        async void DeleteCate(int id)
+        {
+            await _httpClient.DeleteAsync($"api/new/{id}");
+              NavigationManager.NavigateTo("admin/learn");
+        }
+    }*@

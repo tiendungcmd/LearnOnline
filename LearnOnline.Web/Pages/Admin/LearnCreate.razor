@@ -7,6 +7,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _httpClient
 @inject IJSRuntime JSRuntime
+@inject Blazored.SessionStorage.ISessionStorageService session
 @using System.Text;
 <h3>Create Learn</h3>
 <EditForm Model="newDto" OnValidSubmit="AddOrUpdatePart">
@@ -61,13 +62,15 @@
     }
     async Task AddOrUpdatePart()
     {
+        var user = await session.GetItemAsync<string>("SessionUser");
         var strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
+        "QuillFunctions.getQuillContent", divEditorElement);
         byte[] bytes = Encoding.UTF8.GetBytes(strSavedContent);
         newDto.Description = bytes;
         newDto.Image = imageRequest.Data;
         //learn topic 2
         newDto.Topic = "2";
+        newDto.UserName = user;
         var x = await _httpClient.PostAsJsonAsync("api/New", newDto);
         //back
         NavigationManager.NavigateTo("admin/learn");
