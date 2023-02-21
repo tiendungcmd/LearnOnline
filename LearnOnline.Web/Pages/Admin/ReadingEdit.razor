@@ -98,7 +98,7 @@
             await _httpClient.DeleteAsync($"api/Image/{Id}");
 
             //back
-            NavigationManager.NavigateTo("admin/reading");
+            NavigationManager.NavigateTo("admin/reading", forceLoad: true);
         }
         async Task OnInputFileChange(InputFileChangeEventArgs e)
         {

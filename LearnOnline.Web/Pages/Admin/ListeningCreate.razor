@@ -31,6 +31,7 @@
         </div>
         <label>Audio</label>
         <InputFile OnChange="OnInputFileChangeMp3" multiple></InputFile>
+        <a class="btn btn-succes" @onclick="DeleteAudio">Delete</a>
         <br>
         @if (audioDataUrls != null)
         {
@@ -98,7 +99,7 @@
         }
 
         //back
-        NavigationManager.NavigateTo("admin/listening");
+        NavigationManager.NavigateTo("admin/listening", forceLoad: true);
     }
     async Task OnInputFileChangeMp3(InputFileChangeEventArgs e)
     {
@@ -152,5 +153,9 @@
             var imgUrl = $"data:{format};base64,{Convert.ToBase64String(item.Data)}";
             iamgeDataUrls.Add(imgUrl);
         }
+    }
+    public async void DeleteAudio()
+    {
+        audioDataUrls = new List<string>();
     }
 }

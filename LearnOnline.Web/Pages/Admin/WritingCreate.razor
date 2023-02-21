@@ -76,7 +76,7 @@
         }
 
         //back
-        NavigationManager.NavigateTo("admin/writing");
+        NavigationManager.NavigateTo("admin/writing", forceLoad: true);
     }
     async Task OnInputFileChange(InputFileChangeEventArgs e)
     {

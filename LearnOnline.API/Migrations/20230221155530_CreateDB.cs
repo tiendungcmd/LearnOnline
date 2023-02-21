@@ -294,11 +294,6 @@ namespace LearnOnline.API.Migrations
                 values: new object[] { 1, null, "450", null });
 
             migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "RoleName" },
-                values: new object[] { 4421, "admin" });
-
-            migrationBuilder.InsertData(
                 table: "Skills",
                 columns: new[] { "Id", "Description", "Note", "SkillName" },
                 values: new object[,]
@@ -310,36 +305,9 @@ namespace LearnOnline.API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "PasswordHash", "PasswordSalt", "UserName" },
-                values: new object[] { 8342, "admin@gmail.com", null, null, "admin" });
-
-            migrationBuilder.InsertData(
-                table: "News",
-                columns: new[] { "Id", "Description", "Image", "Note", "Spelling", "Title", "Topic", "UserId", "UserName" },
-                values: new object[,]
-                {
-                    { 1, null, null, null, null, "IELTS Tranning đồng hành cùng Career Explore Program 2022", null, 8342, null },
-                    { 2, null, null, null, null, "Tháng 7 “cháy” hết mình cùng các Workshop học IELTS", null, 8342, null },
-                    { 3, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342, null },
-                    { 4, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342, null },
-                    { 5, null, null, null, null, "IELTS Fighter tổ chức RUNG CHUÔNG VÀNG tại nhiều trường học", null, 8342, null }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Parts",
                 columns: new[] { "Id", "CategoryId", "Description", "Image", "LevelId", "Note", "Record", "Score", "SkillId", "Style", "Title" },
-                values: new object[] { 1, 1, null, "UNIT1.PNG", 1, "\r\n                A story is told that around 400 years ago some children were fooling around in an eye glass shop. They noticed that when they placed lenses one on top of the other, they were able to see a considerable distance. They played around with the concept for a while, experimenting with what happened when they varied the distance between the lenses. Hans Lippershey, the Dutch lens maker who eventually applied for the first telescope patent, credits children as having been his motivation for the invention of the first telescope.\r\n\r\n                The first telescopes built in the early 1600s were very primitive inventions allowing the user to see around 3-times further than the naked eye. It was not too long however, until Italian astronomer Galileo heard about the invention ‘that through use of correctly-positioned lenses, allowed people to see things a long way away’. The tools used in the manufacturing of the first refracting telescope was all Galileo needed to know and within 24 hours he had developed a better one. In fact, the process of improvements Galileo made on Lippershey’s telescope were quite dramatic. Whereas the original version had a magnification of 3, the new telescope had a magnification of around 30. Galileo achieved these extraordinary results by figuring out the combination of the positions of the lenses and also by making his own lenses which were of better quality. Although he originally thought they were stars, the better quality lenses – and some scientific analysis – enabled him to eventually use his telescopes to see the moons of Jupiter. Galileo’s refracting telescopes – so-called due to the way they handled the light that passed through them – were the standard at that time.\r\n\r\n                Some 70 years later, British scientist Isaac Newton, explored the way a prism refracts 1 white light into an array of colors. He recognised that a lens was a circular prism and that the separation of colors limited the effectiveness of the telescopes in use at the time. Newton created a Reflective Telescope, one that used a dish-shaped or parabolic mirror to collect light and concentrate the image before it was visible in the eyepiece. Thus, lenses used for magnification in telescopes were replaced by mirrors. Mirrors have since been the standard for telescopes. In fact, according to telescope researcher Dr. Carl Addams, the basic designs of telescopes have not changed much in the last 100 years. What has changed however, is the way technology has been used to improve them. For example, the larger telescopes in the world today are around 10 metres in diameter and the mirrors placed within them are so finely polished that even at the microscopic level there are no scratches or bumps on them at all. To achieve such a flawless surface requires a very expensive process that operates with the utmost precision.\r\n\r\n                1: The separation or change of direction of a ray of light when passed through a glass of water.\r\n\r\n                The mid 1700s, saw the discovery and production of the Achromatic telescope. This type of telescope differed from previous ones in the way it handled the different wavelengths of light. The first person who succeeded in making achromatic refracting telescopes seems to have been the Englishman, Chester Moore Hall. The telescope design used two pieces of special optical glass known as crown and flint Each side of each piece was ground and polished and then the two pieces were assembled together. Achromatic lenses bring two wavelengths – typically red and blue – into focus in the same plane. Makers of achromatic telescopes had difficulty locating disks of flint glass of suitable purity needed to construct them. In the late 1700s, prizes were offered by the French Academy of Sciences for any chemist or glass-manufacturer that could create perfect discs of optical flint glass however, no one was able to provide a large disk of suitable purity and clarity.\r\n\r\n                Currently the largest telescopes are around eight to ten metres in size. These extremely expensive and sophisticated pieces of equipment are located primarily throughout Europe and America. Dr Addams believes that the telescopes of the future will be a gigantic improvement in what is currently considered state-of-the-art. Telescopes that are 20 or 30 metres in diameter are currently being planned, and there has been a suggestion put forward by a European firm that they would like to build a 100-metre telescope. Says Addams, ‘The quality of the glass needed to build a 100 meter telescope is like building a lens the size of a football field and having the largest bump in that football field being a ten-thousandth of a human hair’. The engineering and technology required to build such a flawless reflective surface is most impressive.\r\n                ", null, 10, 2, null, "LOOKING IN THE TELESCOPE" });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { 4421, 8342 });
-
-            migrationBuilder.InsertData(
-                table: "Histories",
-                columns: new[] { "Id", "Date", "Email", "IdUser", "PartId", "TotalScore", "UserId" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, 1, 100, null });
+                values: new object[] { 1, 1, null, "UNIT1.PNG", 1, null, null, 10, 2, null, "LOOKING IN THE TELESCOPE" });
 
             migrationBuilder.InsertData(
                 table: "Question",

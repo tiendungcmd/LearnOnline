@@ -32,12 +32,22 @@ namespace LearnOnline.API.Controllers
         {
             var partDto = new PartDto();
             var resulst = _learnOnlineDb.Parts.FirstOrDefault(x => x.Id == PartId);
-            partDto.Title = resulst.Title;
-            partDto.CategoryId = resulst.CategoryId;
-            partDto.Record = resulst.Record;
-            partDto.SkillId = resulst.SkillId;
-            partDto.Description = resulst.Description;
-            return Ok(partDto);
+            if(resulst != null)
+            {
+                partDto.Title = resulst.Title;
+                partDto.CategoryId = resulst.CategoryId;
+                partDto.Record = resulst.Record;
+                partDto.SkillId = resulst.SkillId;
+                partDto.Description = resulst.Description;
+                return Ok(partDto);
+            }
+            return BadRequest();
+        }
+        [HttpGet("SkillId")]
+        public ActionResult<List<Part>> GetByPartSkillId(int SkillId)
+        {
+            var part = _learnOnlineDb.Parts.Where(x => x.SkillId == SkillId).ToList();
+            return Ok(part);
         }
         [HttpPost]
         public ActionResult<ServiceResponse<Part>> CreatePart(PartDto request)
