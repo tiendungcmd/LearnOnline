@@ -70,10 +70,10 @@
         {
             NavigationManager.NavigateTo("login");
         }
-        var response = await _httpClient.GetFromJsonAsync<List<Part>>("api/Part/SkillId?SkillId=1");
-        Parts = response;
         var listCategory = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = listCategory;
+        var response = await _httpClient.GetFromJsonAsync<List<Part>>("api/Part/SkillId?SkillId=1");
+        Parts = response;
     }
     void CreatePart()
     {

@@ -59,11 +59,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var responsePart = await partService.GetParts();
-        Parts = responsePart.Data;
-        //get list listening
-        Parts = Parts.Where(x => x.SkillId == 2).ToList();
-        var response = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
-        Categories = response;
+        var response = await _httpClient.GetFromJsonAsync<List<Part>>("api/Part/SkillId?SkillId=2");
+        Parts = response;
+        var response2 = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
+        Categories = response2;
     }
 }

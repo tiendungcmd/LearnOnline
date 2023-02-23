@@ -41,11 +41,16 @@ namespace LearnOnline.API.Services.PartService
 
         public ServiceResponse<List<Part>> GetParts()
         {
-            return new ServiceResponse<List<Part>>()
-            {
-                Data = _onlineDbContext.Parts.ToList()
-            };
+            throw new System.NotImplementedException();
         }
+
+        //public ServiceResponse<List<Part>> GetParts()
+        //{
+        //    return new ServiceResponse<List<Part>>()
+        //    {
+        //        Data = _onlineDbContext.Parts.ToList()
+        //    };
+        //}
 
         public Task<ServiceResponse<Part>> UpdatePart(Part part)
         {

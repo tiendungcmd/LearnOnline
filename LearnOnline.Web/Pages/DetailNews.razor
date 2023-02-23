@@ -15,7 +15,7 @@
         <div class="name"> <h3> <b>@newDto?.Title</b></h3></div>
     </div>
 
-    @if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
+    @*@if (iamgeDataUrls != null && iamgeDataUrls.Count > 0)
     {
         <div>
             @foreach (var img in iamgeDataUrls)
@@ -23,7 +23,7 @@
                 <img src="@img" style="height:500px;width:500px;margin-left: 25%;" alt="" />
             }
         </div>
-    }
+    }*@
 
     <div class="name">
         @((MarkupString)@EditorHTMLContent)

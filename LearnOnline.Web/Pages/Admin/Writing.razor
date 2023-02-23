@@ -52,12 +52,9 @@
         {
             NavigationManager.NavigateTo("login");
         }
-        var response = await partService.GetParts();
-        // Parts = partService.Parts;
-        //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>("api/Part");
-        Parts = response.Data;
-        //get list speaking
-        Parts = Parts.Where(x => x.SkillId == 4).ToList();
+        var response = await _httpClient.GetFromJsonAsync<List<Part>>("api/Part/SkillId?SkillId=4");
+        Parts = response;
+
         var listCategory = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
         categories = listCategory;
     }

@@ -171,9 +171,14 @@
     private static List<Part> Parts = new List<Part>();
     protected override async Task OnInitializedAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");
-        var x = response.Data;
-        Parts = x.Where(x => x.SkillId == 2).ToList();
+        var response = await _httpClient.GetFromJsonAsync<List<Part>>("api/Part/SkillId?SkillId=2");
+        Parts = response;
+        //var listCategory = await _httpClient.GetFromJsonAsync<List<Category>>("api/Category");
+        //categories = listCategory;
+
+        //var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Part>>>($"api/Part/PartId?PartId={Id}");
+        //var x = response.Data;
+        //Parts = x.Where(x => x.SkillId == 2).ToList();
     }
     async Task HandleBack()
     {
