@@ -1,4 +1,11 @@
 ﻿@page "/admin/createAnswer/{id:int}"
+
+@using System.Data;
+@using System.IO;
+@using NPOI.XSSF.UserModel;
+@using NPOI.SS.UserModel;
+
+
 @using LearnOnline.Web
 @using LearnOnline.Web.Services
 @layout AdminLayout
@@ -7,6 +14,33 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient _client
 
+<h1>
+    Import Excel File
+</h1>
+<InputFile OnChange="@ImportExcelFile"></InputFile>
+
+<table class="table">
+    <thead>
+        @*<tr>
+                @foreach (DataColumn col in dt.Columns)
+                {
+                    <th>@col.ColumnName</th>
+                }
+            </tr>*@
+    </thead>
+    <tbody>
+        @foreach (DataRow row in dt.Rows)
+        {
+            <tr>
+                @foreach (DataColumn col in dt.Columns)
+                {
+                    <td>@col.ColumnName.ToString()</td>
+                    <td>@row[col.ColumnName].ToString()</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
 <EditForm Model="answerDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <h2>Đáp án: Early history of salt</h2>
@@ -198,6 +232,7 @@
     string btnText = "Save";
     string labelText = "";
 
+    DataTable dt = new DataTable();
     //private static List<Category> a = new List<Category>();
 
     private static AnswerDto answerDto = new AnswerDto();
@@ -205,6 +240,182 @@
     {
         var response = await _client.GetFromJsonAsync<AnswerDto>($"api/Question/{Id}");
         answerDto = response;
+    }
+    async Task ImportExcelFile(InputFileChangeEventArgs e)
+    {
+        var fileStream = e.File.OpenReadStream();
+        var ms = new MemoryStream();
+        await fileStream.CopyToAsync(ms);
+        fileStream.Close();
+        ms.Position = 0;
+
+        ISheet sheet;
+        var xsswb = new XSSFWorkbook(ms);
+
+        sheet = xsswb.GetSheetAt(0);
+        IRow hr = sheet.GetRow(0);
+        var rl = new List<string>();
+
+        int cc = hr.LastCellNum;
+        //get data cot
+        for (var i = 0; i < cc; i++)
+        {
+            ICell cell = hr.GetCell(i);
+            if (cell.ToString() == "")
+            {
+                cell.SetCellValue(0);
+            }
+            dt.Columns.Add(cell.ToString());
+        }
+        for (var i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
+        {
+            var r = sheet.GetRow(i);
+
+            for (var j = r.FirstCellNum; j < cc; j++)
+            {
+                rl.Add(r.GetCell(j).ToString());
+            }
+
+            if (rl.Count > 0)
+            {
+                dt.Rows.Add(rl.ToArray());
+            }
+            rl.Clear();
+        }
+
+        //=============
+        @foreach (DataRow row in dt.Rows)
+        {
+
+            @foreach (DataColumn col in dt.Columns)
+            {
+                var value = @col.ColumnName.ToString();
+                switch (value)
+                {
+                    case "1":
+                        answerDto.Result1 = @row[col.ColumnName].ToString();
+                        break;
+                    case "2":
+                        answerDto.Result2 = @row[col.ColumnName].ToString();
+                        break;
+                    case "3":
+                        answerDto.Result3 = @row[col.ColumnName].ToString();
+                        break;
+                    case "4":
+                        answerDto.Result4 = @row[col.ColumnName].ToString();
+                        break;
+                    case "5":
+                        answerDto.Result5 = @row[col.ColumnName].ToString();
+                        break;
+                    case "6":
+                        answerDto.Result6 = @row[col.ColumnName].ToString();
+                        break;
+                    case "7":
+                        answerDto.Result7 = @row[col.ColumnName].ToString();
+                        break;
+                    case "8":
+                        answerDto.Result8 = @row[col.ColumnName].ToString();
+                        break;
+                    case "9":
+                        answerDto.Result9 = @row[col.ColumnName].ToString();
+                        break;
+                    case "10":
+                        answerDto.Result10 = @row[col.ColumnName].ToString();
+                        break;
+                    case "11":
+                        answerDto.Result11 = @row[col.ColumnName].ToString();
+                        break;
+                    case "12":
+                        answerDto.Result12 = @row[col.ColumnName].ToString();
+                        break;
+                    case "13":
+                        answerDto.Result13 = @row[col.ColumnName].ToString();
+                        break;
+                    case "14":
+                        answerDto.Result14 = @row[col.ColumnName].ToString();
+                        break;
+                    case "15":
+                        answerDto.Result15 = @row[col.ColumnName].ToString();
+                        break;
+                    case "16":
+                        answerDto.Result16 = @row[col.ColumnName].ToString();
+                        break;
+                    case "17":
+                        answerDto.Result17 = @row[col.ColumnName].ToString();
+                        break;
+                    case "18":
+                        answerDto.Result18 = @row[col.ColumnName].ToString();
+                        break;
+                    case "19":
+                        answerDto.Result19 = @row[col.ColumnName].ToString();
+                        break;
+                    case "20":
+                        answerDto.Result20 = @row[col.ColumnName].ToString();
+                        break;
+                    case "21":
+                        answerDto.Result21 = @row[col.ColumnName].ToString();
+                        break;
+                    case "22":
+                        answerDto.Result22 = @row[col.ColumnName].ToString();
+                        break;
+                    case "23":
+                        answerDto.Result23 = @row[col.ColumnName].ToString();
+                        break;
+                    case "24":
+                        answerDto.Result24 = @row[col.ColumnName].ToString();
+                        break;
+                    case "25":
+                        answerDto.Result25 = @row[col.ColumnName].ToString();
+                        break;
+                    case "26":
+                        answerDto.Result26 = @row[col.ColumnName].ToString();
+                        break;
+                    case "27":
+                        answerDto.Result27 = @row[col.ColumnName].ToString();
+                        break;
+                    case "28":
+                        answerDto.Result28 = @row[col.ColumnName].ToString();
+                        break;
+                    case "29":
+                        answerDto.Result29 = @row[col.ColumnName].ToString();
+                        break;
+                    case "30":
+                        answerDto.Result30 = @row[col.ColumnName].ToString();
+                        break;
+                    case "31":
+                        answerDto.Result31 = @row[col.ColumnName].ToString();
+                        break;
+                    case "32":
+                        answerDto.Result32 = @row[col.ColumnName].ToString();
+                        break;
+                    case "33":
+                        answerDto.Result33 = @row[col.ColumnName].ToString();
+                        break;
+                    case "34":
+                        answerDto.Result34 = @row[col.ColumnName].ToString();
+                        break;
+                    case "35":
+                        answerDto.Result35 = @row[col.ColumnName].ToString();
+                        break;
+                    case "36":
+                        answerDto.Result36 = @row[col.ColumnName].ToString();
+                        break;
+                    case "37":
+                        answerDto.Result37 = @row[col.ColumnName].ToString();
+                        break;
+                    case "38":
+                        answerDto.Result38 = @row[col.ColumnName].ToString();
+                        break;
+                    case "39":
+                        answerDto.Result39 = @row[col.ColumnName].ToString();
+                        break;
+                    case "40":
+                        answerDto.Result40 = @row[col.ColumnName].ToString();
+                        break;
+                }
+            }
+
+        }
     }
     async void AddOrUpdatePart()
     {
