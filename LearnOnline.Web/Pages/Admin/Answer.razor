@@ -19,28 +19,6 @@
 </h1>
 <InputFile OnChange="@ImportExcelFile"></InputFile>
 
-<table class="table">
-    <thead>
-        @*<tr>
-                @foreach (DataColumn col in dt.Columns)
-                {
-                    <th>@col.ColumnName</th>
-                }
-            </tr>*@
-    </thead>
-    <tbody>
-        @foreach (DataRow row in dt.Rows)
-        {
-            <tr>
-                @foreach (DataColumn col in dt.Columns)
-                {
-                    <td>@col.ColumnName.ToString()</td>
-                    <td>@row[col.ColumnName].ToString()</td>
-                }
-            </tr>
-        }
-    </tbody>
-</table>
 <EditForm Model="answerDto" OnValidSubmit="AddOrUpdatePart">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <h2>Đáp án: Early history of salt</h2>
