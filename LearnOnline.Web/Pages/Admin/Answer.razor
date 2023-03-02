@@ -210,6 +210,7 @@
     string btnText = "Save";
     string labelText = "";
 
+    //tạo 1 datatalbe
     DataTable dt = new DataTable();
     //private static List<Category> a = new List<Category>();
 
@@ -227,9 +228,11 @@
         fileStream.Close();
         ms.Position = 0;
 
+        //khai báo sheet
         ISheet sheet;
         var xsswb = new XSSFWorkbook(ms);
 
+        //lấy sheet thứ nhất
         sheet = xsswb.GetSheetAt(0);
         IRow hr = sheet.GetRow(0);
         var rl = new List<string>();
@@ -243,6 +246,7 @@
             {
                 cell.SetCellValue(0);
             }
+
             dt.Columns.Add(cell.ToString());
         }
         for (var i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
